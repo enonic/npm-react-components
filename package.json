@@ -1,0 +1,39 @@
+{
+  "author": "Espen Norderud",
+  "bugs": {
+    "url": "https://github.com/enonic/enonic-react-components/issues"
+  },
+  "contributors": [
+    "Christian Westgaard <cwe@enonic.com>"
+  ],
+  "description": "Ready-made React4xp templates for handling XP regions, and bare-bone page/layout templates with regions supported/included",
+  "files": [
+    "LICENCE",
+    "package.json",
+    "README.md",
+    "entries/**/*.*",
+    "*.jsx"
+  ],
+  "homepage": "https://github.com/enonic/enonic-react-components",
+  "keywords" : [
+    "enonic",
+    "react",
+    "components"
+  ],
+  "license": "GPL-3.0",
+  "main": "Regions.jsx",
+  "name": "react4xp-regions",
+  "peerDependencies": {
+    "prop-types": "*",
+    "react": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:enonic/enonic-react-components.git"
+  },
+  "scripts": {
+    "clean": "rm *.tgz",
+    "prepack": "yarn clean"
+  },
+  "version": "1.1.1-SNAPSHOT"
+}
