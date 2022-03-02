@@ -20,7 +20,7 @@
     "react",
     "components"
   ],
-  "license": "GPL-3.0",
+  "license": "Apache-2.0",
   "main": "Regions.jsx",
   "name": "react4xp-regions",
   "peerDependencies": {
