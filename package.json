@@ -22,7 +22,7 @@
   ],
   "license": "Apache-2.0",
   "main": "Regions.jsx",
-  "name": "react4xp-regions",
+  "name": "@enonic/react-components",
   "peerDependencies": {
     "prop-types": "*",
     "react": "*"
@@ -32,8 +32,8 @@
     "url": "git+ssh://git@github.com:enonic/enonic-react-components.git"
   },
   "scripts": {
-    "clean": "rm *.tgz",
+    "clean": "if [ -f *.tgz ]; then rm *.tgz; fi",
     "prepack": "yarn clean"
   },
-  "version": "1.1.1-SNAPSHOT"
+  "version": "3.0.0"
 }
