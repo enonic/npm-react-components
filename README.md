@@ -1,4 +1,4 @@
-# react4xp-regions
+# Enonic React Components
 
 Supplies standard opt-in JSX components, utility entries and subcomponents for allowing react4xp to render XP parts,
 pages and layouts containing regular XP regions.
