@@ -35,5 +35,5 @@
     "clean": "if [ -f *.tgz ]; then rm *.tgz; fi",
     "prepack": "yarn clean"
   },
-  "version": "3.0.0"
+  "version": "3.0.1"
 }
