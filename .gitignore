@@ -1,2 +1,5 @@
+*.js
+*.jsx
 /node_modules/
+/types/
 /*.tgz

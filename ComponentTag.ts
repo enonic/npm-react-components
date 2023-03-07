@@ -9,6 +9,8 @@
  * @param component (mandatory object): The component data object (e.g. an item in the array content.page.regions.main.components). Must
  *      have a 'path' string attribute.
  */
-export default (component) => (component && component.path) ?
+import type {Component} from '/lib/xp/content';
+
+export default (component: Component) => (component && component.path) ?
   `\t\t\t\t\t\t\n\t\t\t\t\t\t\t<!--# COMPONENT ${component.path} -->` :
   null;

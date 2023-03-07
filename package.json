@@ -4,24 +4,32 @@
     "url": "https://github.com/enonic/enonic-react-components/issues"
   },
   "contributors": [
-    "Christian Westgaard <cwe@enonic.com>"
+    "Christian Andreas Westgaard <cwe@enonic.com>"
   ],
   "description": "Ready-made React4xp templates for handling XP regions, and bare-bone page/layout templates with regions supported/included",
+  "devDependencies": {
+    "@enonic-types/lib-content": "^7",
+    "rimraf": "^4",
+    "tslib": "^2",
+    "typescript": "^4"
+  },
   "files": [
     "LICENCE",
     "package.json",
     "README.md",
     "entries/**/*.*",
-    "*.jsx"
+    "*.jsx",
+    "*.tsx",
+    "types/*"
   ],
   "homepage": "https://github.com/enonic/enonic-react-components",
-  "keywords" : [
+  "keywords": [
     "enonic",
     "react",
     "components"
   ],
   "license": "Apache-2.0",
-  "main": "Regions.jsx",
+  "main": "index.ts",
   "name": "@enonic/react-components",
   "peerDependencies": {
     "prop-types": "*",
@@ -32,8 +40,11 @@
     "url": "git+ssh://git@github.com:enonic/enonic-react-components.git"
   },
   "scripts": {
-    "clean": "if [ -f *.tgz ]; then rm *.tgz; fi",
-    "prepack": "yarn clean"
+    "build": "npx tsc",
+    "clean": "rimraf *.js *.jsx *.tgz entries/react4xp-regions/*.jsx",
+    "prebuild": "yarn clean",
+    "prepack": "yarn build"
   },
-  "version": "3.0.1"
+  "types": "types/index.d.ts",
+  "version": "3.1.0-SNAPSHOT"
 }
