@@ -8,19 +8,19 @@ import PropTypes from 'prop-types';
 import Region from './Region';
 
 /**
- * @param regionsData (mandatory object): regions data object (e.g. content.page.regions).
- *		Keys are region names, values are region data.
- * @param names (optional string or array of strings): selects to display only one, or some specific, of the available regions in the
- *		regions data. The array defines sequence, so this can also be used to display of all regions in a specific order.
- *		If omitted, all regions are displayed in the order of Object.keys(regionsData).
- * @param tags (optional string or object): HTML tag for the region elements.
- *		If string, all regions get that tag.
- *		If object: keys are region names and values are an HTML tag string for each region.
- * @param classes (optional boolean, string or object): HTML class for each region element, added after "xp-region".
- *		If boolean, and it's true: adds a class that is the same as the name of the region
- *		If string, all regions get that same class.
- *		If object: keys are region names, values are the class name string for that region.
- * @returns An array of <Region> elements.
+ * @param {Object} regionsData - regions data object (e.g. content.page.regions).
+ *     Keys are region names, values are region data.
+ * @param {(string|string[])} [names] - selects to display only one, or some specific, of the available regions in the
+ *     regions data. The array defines sequence, so this can also be used to display of all regions in a specific order.
+ *     If omitted, all regions are displayed in the order of Object.keys(regionsData).
+ * @param {(string|Object)} [tags] - HTML tag for the region elements.
+ *     If string, all regions get that tag.
+ *     If object: keys are region names and values are an HTML tag string for each region.
+ * @param {(boolean|string|Object)} [classes] - HTML class for each region element, added after "xp-region".
+ *     If boolean, and it's true: adds a class that is the same as the name of the region
+ *     If string, all regions get that same class.
+ *     If object: keys are region names, values are the class name string for that region.
+ * @returns {Region[]} An array of <Region> elements.
  */
 const Regions = ({
 	regionsData,
