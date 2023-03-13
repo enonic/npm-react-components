@@ -6,7 +6,7 @@
  *          and insert the text with a 'dangerouslySetInnerHTML' prop.
  *      - The resulting react component MUST be server-side rendered (for now at least - this may change in later versions)!
  *
- * @param component (mandatory object): The component data object (e.g. an item in the array content.page.regions.main.components). Must
+ * @param {Object} component - The component data object (e.g. an item in the array content.page.regions.main.components). Must
  *      have a 'path' string attribute.
  */
 import type {Component} from '/lib/xp/content';

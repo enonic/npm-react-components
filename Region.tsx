@@ -8,11 +8,11 @@ import PropTypes from 'prop-types';
 import ComponentTag from './ComponentTag';
 
 /**
- * @param name (mandatory string): Region name, as defined in a part's/page's/layout's XML definition
- * @param regionData (mandatory object). data object for this specific region, from part or page or layout data
- *		(e.g. for the 'main' region in a page, regionData could be: content.page.regions.main)
- * @param tag (optional string): Sets the HTML tag for the region. If omitted, "div" is the default.
- * @param addClass (optional string): Adds an HTML class for the region, after "xp-region".
+ * @param {string} name - Region name, as defined in a part's/page's/layout's XML definition
+ * @param {Object} regionData - data object for this specific region, from part or page or layout data
+ *     (e.g. for the 'main' region in a page, regionData could be: content.page.regions.main)
+ * @param {string} [tag] - Sets the HTML tag for the region. If omitted, "div" is the default.
+ * @param {string} [addClass] - Adds an HTML class for the region, after "xp-region".
  * @returns A react4xp-representation (react component) of an XP region. Must be SERVER-SIDE-rendered by react4xp!
  */
 const Region = ({
