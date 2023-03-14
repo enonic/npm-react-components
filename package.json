@@ -46,5 +46,5 @@
     "prepack": "yarn build"
   },
   "types": "types/index.d.ts",
-  "version": "3.1.0-SNAPSHOT"
+  "version": "3.1.0"
 }
