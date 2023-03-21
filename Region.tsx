@@ -53,7 +53,7 @@ const Region = ({
 					''
 			}\t\t\t\t\t\n`,
 		}}
-	></TAG>;
+	></TAG> as React.JSX.Element;
 };
 Region.propTypes = {
 	name: PropTypes.string.isRequired,

@@ -41,7 +41,7 @@ const Page = ({
 	regionClasses?: boolean | string | Record<string, string>
 	children?: React.ReactNode
 	childrenAfterRegions?: boolean
-}) => {
+}): React.JSX.Element => {
 	return [
 		<head>
 			{title ? <title>{title}</title> : null}

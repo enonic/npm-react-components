@@ -32,7 +32,7 @@ const Regions = ({
 	names?: string | string[]
 	tags?: string | Record<string, string>
 	classes?: boolean | string | Record<string, string>
-}) => {
+}): React.JSX.Element => {
 	if (
 		!regionsData ||
 		typeof regionsData !== 'object'

@@ -43,7 +43,7 @@ const Layout = ({
 	containerClass?: string
 	children?: React.ReactNode
 	childrenAfterRegions?: boolean
-}) => {
+}): React.JSX.Element => {
 	const TAG = containerTag || 'div';
 
 	return <TAG className={containerClass}>
