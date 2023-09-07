@@ -1,8 +1,5 @@
-import type {Region as RegionType} from '/lib/xp/content';
+import type {Region as RegionType} from '@enonic-types/core';
 
-//@ts-ignore
-import React from 'react';
-//@ts-ignore
 import PropTypes from 'prop-types';
 
 import Region from './Region';
@@ -32,7 +29,7 @@ const Regions = ({
 	names?: string | string[]
 	tags?: string | Record<string, string>
 	classes?: boolean | string | Record<string, string>
-}): React.JSX.Element => {
+}): React.JSX.Element[] => {
 	if (
 		!regionsData ||
 		typeof regionsData !== 'object'

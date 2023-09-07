@@ -8,20 +8,47 @@
   ],
   "description": "Ready-made React4xp templates for handling XP regions, and bare-bone page/layout templates with regions supported/included",
   "devDependencies": {
-    "@enonic-types/lib-content": "^7",
-    "rimraf": "^4",
+    "@enonic-types/core": "^7",
+    "@swc/core": "^1",
+    "@types/react": "^18.2.21",
+    "concurrently": "^8",
+    "glob": "^10.3.4",
+    "rimraf": "^5",
     "tslib": "^2",
-    "typescript": "^4"
+    "tsup": "^7",
+    "typescript": "^5"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./ComponentTag": {
+      "import": "./dist/esm/ComponentTag.mjs",
+      "require": "./dist/cjs/ComponentTag.cjs"
+    },
+    "./Layout": {
+      "import": "./dist/esm/Layout.mjs",
+      "require": "./dist/cjs/Layout.cjs"
+    },
+    "./Page": {
+      "import": "./dist/esm/Page.mjs",
+      "require": "./dist/cjs/Page.cjs"
+    },
+    "./Region": {
+      "import": "./dist/esm/Region.mjs",
+      "require": "./dist/cjs/Region.cjs"
+    },
+    "./Regions": {
+      "import": "./dist/esm/Regions.mjs",
+      "require": "./dist/cjs/Regions.cjs"
+    }
   },
   "files": [
+    "dist",
     "LICENCE",
     "package.json",
-    "README.md",
-    "entries/**/*.*",
-    "*.jsx",
-    "*.ts",
-    "*.tsx",
-    "types/*"
+    "README.md"
   ],
   "homepage": "https://github.com/enonic/enonic-react-components",
   "keywords": [
@@ -30,22 +57,30 @@
     "components"
   ],
   "license": "Apache-2.0",
-  "main": "index.ts",
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.mjs",
   "name": "@enonic/react-components",
   "peerDependencies": {
+    "@enonic-types/core": "^7",
     "prop-types": "*",
     "react": "*"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:enonic/enonic-react-components.git"
   },
   "scripts": {
-    "build": "npx tsc",
-    "clean": "rimraf *.js *.jsx *.tgz entries/react4xp-regions/*.jsx",
-    "prebuild": "yarn clean",
-    "prepack": "yarn build"
+    "build": "concurrently -c auto -g --timings npm:build:*",
+    "build:cjs": "npx tsup -d dist/cjs",
+    "build:esm": "npx tsup -d dist/esm",
+    "clean": "rimraf dist/ *.tgz",
+    "check:types": "npx tsc --noEmit",
+    "prebuild": "npm run clean",
+    "prepack": "npm run build"
   },
-  "types": "types/index.d.ts",
-  "version": "3.1.2"
+  "type": "module",
+  "version": "4.0.0-alpha.1"
 }

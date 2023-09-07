@@ -1,11 +1,8 @@
-import type {Region as RegionType} from '/lib/xp/content';
+import type {Region as RegionType} from '@enonic-types/core';
 
-//@ts-ignore
-import React from 'react';
-//@ts-ignore
 import PropTypes from 'prop-types';
 
-import Regions from '../../Regions';
+import Regions from './Regions';
 
 /**
  * Page controller template: wraps a react rendering of a bare-bones HTML page, with regions if supplied with regions data.
@@ -41,7 +38,7 @@ const Page = ({
 	regionClasses?: boolean | string | Record<string, string>
 	children?: React.ReactNode
 	childrenAfterRegions?: boolean
-}): React.JSX.Element => {
+}): React.JSX.Element[] => {
 	return [
 		<head>
 			{title ? <title>{title}</title> : null}

@@ -1,11 +1,8 @@
-import type {Region as RegionType} from '/lib/xp/content';
+import type {Region as RegionType} from '@enonic-types/core';
 
-//@ts-ignore
-import React from 'react';
-//@ts-ignore
 import PropTypes from 'prop-types';
 
-import Regions from '../../Regions';
+import Regions from './Regions';
 
 /**
  * Layout controller template: wraps a react rendering of a bare-bones XP layout, with regions if supplied with regions data.
@@ -44,7 +41,7 @@ const Layout = ({
 	children?: React.ReactNode
 	childrenAfterRegions?: boolean
 }): React.JSX.Element => {
-	const TAG = containerTag || 'div';
+	const TAG = (containerTag || 'div') as keyof JSX.IntrinsicElements;
 
 	return <TAG className={containerClass}>
 		{!childrenAfterRegions ? children : null}

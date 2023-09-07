@@ -9,7 +9,7 @@
  * @param {Object} component - The component data object (e.g. an item in the array content.page.regions.main.components). Must
  *      have a 'path' string attribute.
  */
-import type {Component} from '/lib/xp/content';
+import type {Component} from '@enonic-types/core';
 
 export default (component: Component) => (component && component.path) ?
   `\t\t\t\t\t\t\n\t\t\t\t\t\t\t<!--# COMPONENT ${component.path} -->` :

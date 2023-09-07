@@ -1,8 +1,5 @@
-import type {Region as RegionType} from '/lib/xp/content';
+import type {Region as RegionType} from '@enonic-types/core';
 
-//@ts-ignore
-import React from 'react';
-//@ts-ignore
 import PropTypes from 'prop-types';
 
 import ComponentTag from './ComponentTag';
@@ -40,7 +37,7 @@ const Region = ({
 		throw Error(`Can't render <Region "${name}"> without a 'regionData' prop.`);
 	}
 
-	const TAG = tag || "div";
+	const TAG = (tag || "div") as keyof JSX.IntrinsicElements;
 	return <TAG
 		data-portal-region={name}
 		className={"xp-region" + (addClass ? ` ${addClass}` : '')}
