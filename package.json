@@ -9,11 +9,20 @@
   "description": "Ready-made React4xp templates for handling XP regions, and bare-bone page/layout templates with regions supported/included",
   "devDependencies": {
     "@enonic-types/core": "^7",
+    "@enonic-types/lib-portal": "^7.14.1",
+    "@jest/globals": "^29.7.0",
     "@swc/core": "^1",
+    "@testing-library/react": "^15.0.2",
     "@types/react": "^18.2.21",
     "concurrently": "^8",
     "glob": "^10.3.4",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "q-i": "^2.0.1",
+    "react-test-renderer": "^18.2.0",
     "rimraf": "^5",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "tslib": "^2",
     "tsup": "^7",
     "typescript": "^5"
@@ -42,6 +51,10 @@
     "./Regions": {
       "import": "./dist/esm/Regions.mjs",
       "require": "./dist/cjs/Regions.cjs"
+    },
+    "./RichText": {
+      "import": "./dist/esm/RichText.mjs",
+      "require": "./dist/cjs/RichText.cjs"
     }
   },
   "files": [
@@ -78,9 +91,16 @@
     "build:esm": "npx tsup -d dist/esm",
     "clean": "rimraf dist/ *.tgz",
     "check:types": "npx tsc --noEmit",
+    "cov": "npx jest --coverage --no-cache",
     "prebuild": "npm run clean",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test": "npx jest --no-cache"
   },
   "type": "module",
+  "dependencies": {
+    "domelementtype": "^2.3.0",
+    "html-react-parser": "^5.1.10",
+    "uri-js": "^4.4.1"
+  },
   "version": "4.0.0"
 }
