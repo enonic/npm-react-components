@@ -1,31 +1,16 @@
 { // https://www.typescriptlang.org/tsconfig
 	"compilerOptions": {
-		//──────────────────────────────────────────────────────────────────────
-		// Type Checking
-		//──────────────────────────────────────────────────────────────────────
-		"strictNullChecks": true,
-
-		//──────────────────────────────────────────────────────────────────────
-		// Modules
-		//──────────────────────────────────────────────────────────────────────
 		"allowUmdGlobalAccess": true,
-		//──────────────────────────────────────────────────────────────────────
-		// Emit
-		//──────────────────────────────────────────────────────────────────────
 		"declaration": false,
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
 
-		//──────────────────────────────────────────────────────────────────────
-		// Language and Environment
-		//──────────────────────────────────────────────────────────────────────
-		"jsx": "preserve",
-
-		//──────────────────────────────────────────────────────────────────────
-		// Completeness
-		//──────────────────────────────────────────────────────────────────────
 		// Even though the setting disables type checking for d.ts files,
 		// TypeScript still type checks the code you specifically
 		// refer to in your application's source code.
-		"skipLibCheck": true, // Disable type checking for node_modules
+		"skipLibCheck": true,
+
+		"strictNullChecks": true,
 	},
 	"include": [
 		"src/index.ts"
