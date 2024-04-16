@@ -14,18 +14,18 @@ import {ElementType} from 'domelementtype';
 import React from 'react';
 import {parse} from 'uri-js';
 import {
-	IMG_ATTR,
-	IMG_TAG,
+	// IMG_ATTR,
+	// IMG_TAG,
 	LINK_ATTR,
 	LINK_TAG,
 	MACRO_ATTR,
 	MACRO_TAG,
 } from '../constants';
-import {processSrcSet} from './processSrcSet'
+// import {processSrcSet} from './processSrcSet'
 // import {Link} from './Link';
 import {findLinkData} from './findLinkData';
-import {findImageData} from './findImageData';
-import {parseImageUrl} from './parseImageUrl';
+// import {findImageData} from './findImageData';
+// import {parseImageUrl} from './parseImageUrl';
 
 
 const DEBUG = false;
@@ -37,7 +37,7 @@ export function createReplacer({
 	// meta,
 	// renderMacroInEditMode = true,
 	customReplacer,
-	imageUrlFn,
+	// imageUrlFn,
 	macroRegistry,
 	pageUrlFn
 }: {
@@ -45,7 +45,7 @@ export function createReplacer({
 	// meta: MetaData
 	// renderMacroInEditMode?: boolean
 	customReplacer?: Replacer
-	imageUrlFn: typeof libPortalImageUrl
+	// imageUrlFn: typeof libPortalImageUrl
 	macroRegistry: MacroRegistry
 	pageUrlFn: typeof libPortalPageUrl
 }): (domNode: DOMNode) => ReplacerResult {
@@ -58,60 +58,60 @@ export function createReplacer({
 		const el = domNode;
 		let ref: string;
 		switch (el.tagName) {
-			case IMG_TAG:
-				DEBUG && console.debug('Image attributes:', el.attribs);
-				ref = el.attribs[IMG_ATTR];
-				// console.debug('Image ref:', ref);
-				if (ref) {
-					const imageData = findImageData({
-						images: data.images,
-						ref
-					});
-					if (imageData) {
-						// const imageId = imageData.image._id;
-						const src = el.attribs['src'];
-						// console.debug('Image src:', src);
-						const {
-							// admin,
-							background,
-							// branch,
-							filter,
-							// filename,
-							id,
-							// mode,
-							// project,
-							// host,
-							params,
-							// port,
-							quality,
-							scale,
-							// scheme,
-							type,
-							// versionKey
-						} = parseImageUrl({imageUrl: src})
-						if (src) {
-							el.attribs['src'] = imageUrlFn({
-								background,
-								id,
-								filter,
-								// format,
-								params,
-								quality,
-								scale,
-								type,
-							});
-						}
+			// case IMG_TAG:
+			// 	DEBUG && console.debug('Image attributes:', el.attribs);
+			// 	ref = el.attribs[IMG_ATTR];
+			// 	// console.debug('Image ref:', ref);
+			// 	if (ref) {
+			// 		const imageData = findImageData({
+			// 			images: data.images,
+			// 			ref
+			// 		});
+			// 		if (imageData) {
+			// 			// const imageId = imageData.image._id;
+			// 			const src = el.attribs['src'];
+			// 			// console.debug('Image src:', src);
+			// 			const {
+			// 				// admin,
+			// 				background,
+			// 				// branch,
+			// 				filter,
+			// 				// filename,
+			// 				id,
+			// 				// mode,
+			// 				// project,
+			// 				// host,
+			// 				params,
+			// 				// port,
+			// 				quality,
+			// 				scale,
+			// 				// scheme,
+			// 				type,
+			// 				// versionKey
+			// 			} = parseImageUrl({imageUrl: src})
+			// 			if (src) {
+			// 				el.attribs['src'] = imageUrlFn({
+			// 					background,
+			// 					id,
+			// 					filter,
+			// 					// format,
+			// 					params,
+			// 					quality,
+			// 					scale,
+			// 					type,
+			// 				});
+			// 			}
 
-						const srcset = el.attribs['srcset'];
-						if (srcset) {
-							el.attribs['srcset'] = processSrcSet({
-								imageUrlFn,
-								srcset
-							});
-						}
-					}
-				}
-				break;
+			// 			const srcset = el.attribs['srcset'];
+			// 			if (srcset) {
+			// 				el.attribs['srcset'] = processSrcSet({
+			// 					imageUrlFn,
+			// 					srcset
+			// 				});
+			// 			}
+			// 		}
+			// 	}
+			// 	break;
 			case LINK_TAG:
 				DEBUG && console.debug('Link attributes:', el.attribs);
 				ref = el.attribs[LINK_ATTR];
