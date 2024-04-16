@@ -25,7 +25,7 @@ const FOLDER_ID = '73fb7dd4-b483-428e-968e-690ca65b11d8';
 const FOLDER_REF = '8c5593b8-fe2f-47d0-a7fa-472be74a2ae5';
 
 const ID_TO_URL = {
-	[IMG_ID]: `/admin/site/preview/richproject/draft/_/image/${IMG_ID}:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-768/example.jpg`,
+	[IMG_ID]: `/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg`,
 	[FOLDER_ID]: '/admin/site/preview/richproject/draft/mysite/myfolder'
 };
 
@@ -40,7 +40,7 @@ const processedHtml = `<p>Bla bla ukeblad<br>
 
 <p>&nbsp;</p>
 
-<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\"><img alt=\"Alt text\" src=\"/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-768/example.jpg\" style=\"width:100%\" data-image-ref=\"${IMG_REF}\">
+<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\"><img alt=\"Alt text\" src=\"/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg\" style=\"width:100%\" data-image-ref=\"${IMG_REF}\">
 <figcaption>Caption</figcaption>
 </figure>
 
@@ -118,7 +118,7 @@ describe('RichText', () => {
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p>Bla bla ukeblad<br>
 <br>
-<a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip" data-link-ref="8c5593b8-fe2f-47d0-a7fa-472be74a2ae5">link text</a>
+<a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip" data-link-ref="${FOLDER_REF}">link text</a>
 </p>
 <p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
 <p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p>
@@ -126,7 +126,7 @@ describe('RichText', () => {
 
 <p>&nbsp;</p>
 
-<figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><img alt="Alt text" src="/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-768/example.jpg" style="width: 100%;" data-image-ref="${IMG_REF}">
+<figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><img alt="Alt text" src="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg" style="width: 100%;" data-image-ref="${IMG_REF}">
 <figcaption>Caption</figcaption>
 </figure>
 
@@ -134,6 +134,26 @@ describe('RichText', () => {
 <br>
 &nbsp;</p>
 </section></div></body>`);
-
 	}); // it
+
+	it('should handle srcsets', () => {
+		const dataWithSrcSet: RichTextData = {
+			images: [{
+				"image": {
+					"_id": IMG_ID,
+				// 	"_path": "/mysite/example.jpg"
+				},
+				ref: IMG_REF,
+				// style: null
+			}],
+			links: [],
+			macros: [],
+			processedHtml: `<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\"><img alt=\"Alt text\" src=\"/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg\" style=\"width:100%\" srcset=\"/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-2048/example.jpg 2048w,/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-1024/example.jpg 1024w\" sizes=\"juhu\" data-image-ref=\"${IMG_REF}\">\n<figcaption>Caption</figcaption>\n</figure>`
+		}
+		const html = render(<RichText className='myclass' data={dataWithSrcSet} imageUrlFn={imageUrl} pageUrlFn={pageUrl}/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><img alt="Alt text" src="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg" style="width: 100%;" srcset="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-2048/example.jpg 2048w, /admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-1024/example.jpg 1024w" sizes="juhu" data-image-ref="${IMG_REF}">
+<figcaption>Caption</figcaption>
+</figure></section></div></body>`);
+	});
 }); // describe RichText
