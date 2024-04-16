@@ -1,10 +1,12 @@
 import type {PageUrlParams} from '@enonic-types/lib-portal'
 import type {
-	// Replacer,
-	RichTextData
+	MacroRegistry,
+	RichTextData,
 } from '../src/types';
 
 import {
+	beforeAll,
+	afterAll,
 	describe,
 	expect,
 	test as it
@@ -14,7 +16,8 @@ import React from 'react';
 // import renderer from 'react-test-renderer';
 import {RichText} from '../src/RichText';
 import {imageUrlFnGenerator} from '../src/RichText/imageUrlFnGenerator';
-// import {print} from 'q-i';
+import {Success} from './RichText/Success';
+import {print} from 'q-i';
 
 
 const IMG_REF = '59b78b11-3abf-4b7e-b16e-a5b1e90efcb0';
@@ -36,7 +39,6 @@ const processedHtml = `<p>Bla bla ukeblad<br>
 </p>
 <p><a href=\"mailto:email@example.com?subject=Subject\" title=\"Tooltip\">Text</a></p>
 <p><a href=\"https://www.example.com\" target=\"_blank\" title=\"Tooltip\">Text</a></p>
-<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"9d8fb674-f76f-4a50-812d-682c54e07333\">Jubalong</editor-macro></p>
 
 <p>&nbsp;</p>
 
@@ -112,6 +114,25 @@ function pageUrl({
 
 }
 
+const originalError = console.error
+beforeAll(() => {
+	console.error = (...args) => {
+		// console.debug(args);
+		if (
+			args[0] === 'Warning: validateDOMNesting(...): %s cannot appear as a descendant of <%s>.%s'
+			&& args[1] === '<div>'
+			&& args[2] === 'p'
+		) {
+			return
+		}
+		originalError.call(console, ...args)
+	}
+});
+
+afterAll(() => {
+	console.error = originalError;
+});
+
 describe('RichText', () => {
 	it('should render', () => {
 		const html = render(<RichText className='myclass' data={data} imageUrlFn={imageUrl} pageUrlFn={pageUrl}/>).baseElement;
@@ -122,7 +143,6 @@ describe('RichText', () => {
 </p>
 <p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
 <p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p>
-<p><editor-macro data-macro-name="success" data-macro-ref="9d8fb674-f76f-4a50-812d-682c54e07333">Jubalong</editor-macro></p>
 
 <p>&nbsp;</p>
 
@@ -155,5 +175,38 @@ describe('RichText', () => {
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><img alt="Alt text" src="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg" style="width: 100%;" srcset="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-2048/example.jpg 2048w, /admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-1024/example.jpg 1024w" sizes="juhu" data-image-ref="${IMG_REF}">
 <figcaption>Caption</figcaption>
 </figure></section></div></body>`);
+	});
+
+	it('should handle macros', () => {
+		const macroRegistry: MacroRegistry = {
+			'com.enonic.app.panelmacros:success': Success
+		}
+		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
+		const dataWithMacros: RichTextData = {
+			images: [],
+			links: [],
+			macros: [{
+				"ref": SUCCESS_REF,
+				"name": "success",
+				"descriptor": "com.enonic.app.panelmacros:success",
+				"config": {
+				  "success": {
+					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+					"header": "Iha",
+					"body": "Jubalong"
+				  }
+				}
+			  }],
+			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={dataWithMacros}
+			imageUrlFn={imageUrl}
+			macroRegistry={macroRegistry}
+			pageUrlFn={pageUrl}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i>&lt;strong&gt;Iha&lt;/strong&gt;Jubalong</div></p></section></div></body>`);
 	});
 }); // describe RichText

@@ -27,6 +27,12 @@ export declare interface MacroData {
     config: Record<string, MacroConfig>
 }
 
+export type MacroDescriptor = `${string}:${string}`;
+
+export declare interface MacroRegistry {
+	[key: MacroDescriptor]: (params?: any) => React.JSX.Element
+}
+
 export type Replacer = (
     domNode: DOMNode,
     data: RichTextData,
