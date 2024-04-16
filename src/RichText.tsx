@@ -19,7 +19,7 @@ export function RichText({
 	className,
 	customReplacer,
 	data,
-	imageUrlFn,
+	// imageUrlFn,
 	macroRegistry = {},
 	pageUrlFn,
 	tag = 'section'
@@ -27,7 +27,7 @@ export function RichText({
 	className?: string
 	customReplacer?: Replacer
 	data: RichTextData
-	imageUrlFn: typeof libPortalImageUrl
+	// imageUrlFn: typeof libPortalImageUrl
 	macroRegistry?: MacroRegistry
 	pageUrlFn: typeof libPortalPageUrl
 	tag?: string
@@ -40,7 +40,7 @@ export function RichText({
 					replace: createReplacer({
 						customReplacer,
 						data,
-						imageUrlFn,
+						// imageUrlFn,
 						macroRegistry,
 						pageUrlFn,
 						// renderMacroInEditMode,
