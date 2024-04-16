@@ -9,6 +9,8 @@
   "description": "Ready-made React4xp templates for handling XP regions, and bare-bone page/layout templates with regions supported/included",
   "devDependencies": {
     "@enonic-types/core": "^7",
+    "@enonic-types/lib-content": "^7.14.1",
+    "@enonic-types/lib-node": "^7.14.1",
     "@enonic-types/lib-portal": "^7.14.1",
     "@jest/globals": "^29.7.0",
     "@swc/core": "^1",

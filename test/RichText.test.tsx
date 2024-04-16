@@ -13,10 +13,13 @@ import {render} from '@testing-library/react'
 import React from 'react';
 // import renderer from 'react-test-renderer';
 import {RichText} from '../src/RichText';
+import {imageUrlFnGenerator} from '../src/RichText/imageUrlFnGenerator';
 // import {print} from 'q-i';
+
 
 const IMG_REF = '59b78b11-3abf-4b7e-b16e-a5b1e90efcb0';
 const IMG_ID = 'e9b1f92b-fa46-4e58-b41f-87dc9f1999e8'
+const IMG_VERSION_KEY = '9abf6cc6c7f565515175b33c08155b3495dcdf47';
 
 const FOLDER_ID = '73fb7dd4-b483-428e-968e-690ca65b11d8';
 const FOLDER_REF = '8c5593b8-fe2f-47d0-a7fa-472be74a2ae5';
@@ -67,6 +70,29 @@ const data: RichTextData = {
 	processedHtml
 }
 
+const imageUrl = imageUrlFnGenerator({
+	basePath: '/admin/site/preview/richproject/draft',
+	// @ts-ignore
+	getContentFn: ({key}) => {
+		if (key === IMG_ID) {
+			return {
+				_id: IMG_ID,
+				_name: 'example.jpg'
+			};
+		}
+	},
+	getNodeFn: (_id) => {
+		if (_id === IMG_ID) {
+			return {
+				_versionKey: IMG_VERSION_KEY
+			};
+		}
+	},
+	host: 'localhost',
+	port: 8080,
+	scheme: 'http'
+
+});
 
 function pageUrl({
 	id,
@@ -78,7 +104,7 @@ function pageUrl({
 	// if (type) {
 	// 	return `content:///${type}`;
 	// }
-	if (params) {
+	if (params && Object.values(params).length) {
 		const query = Object.entries(params).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
 		return `${url}?${query}`;
 	}
@@ -88,7 +114,7 @@ function pageUrl({
 
 describe('RichText', () => {
 	it('should render', () => {
-		const html = render(<RichText className='myclass' data={data} pageUrl={pageUrl}/>).baseElement;
+		const html = render(<RichText className='myclass' data={data} imageUrlFn={imageUrl} pageUrlFn={pageUrl}/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p>Bla bla ukeblad<br>
 <br>

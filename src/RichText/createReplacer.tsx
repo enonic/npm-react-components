@@ -1,4 +1,7 @@
-import type {pageUrl as libPortalPageUrl} from '@enonic-types/lib-portal'
+import type {
+	imageUrl as libPortalImageUrl,
+	pageUrl as libPortalPageUrl
+} from '@enonic-types/lib-portal';
 import type {DOMNode} from 'html-react-parser';
 import type {
 	Replacer,
@@ -17,24 +20,31 @@ import {
 	// MACRO_ATTR,
 	// MACRO_TAG,
 } from '../constants';
-// import {isContentImage} from './isContentImage';
 import {processSrcSet} from './processSrcSet'
 import {Link} from './Link';
 import {findLinkData} from './findLinkData';
 import {findImageData} from './findImageData';
+import {parseImageUrl} from './parseImageUrl';
 
+
+const DEBUG = false;
+
+
+// Replaces "matching" domNodes
 export function createReplacer({
 	data,
 	// meta,
 	// renderMacroInEditMode = true,
 	customReplacer,
-	pageUrl
+	imageUrlFn,
+	pageUrlFn
 }: {
 	data: RichTextData
 	// meta: MetaData
 	// renderMacroInEditMode?: boolean
 	customReplacer?: Replacer
-	pageUrl: typeof libPortalPageUrl
+	imageUrlFn: typeof libPortalImageUrl
+	pageUrlFn: typeof libPortalPageUrl
 }): (domNode: DOMNode) => ReplacerResult {
 	// eslint-disable-next-line react/display-name
 	return (domNode: DOMNode): ReplacerResult => {
@@ -46,6 +56,7 @@ export function createReplacer({
 		let ref: string;
 		switch (el.tagName) {
 			case IMG_TAG:
+				DEBUG && console.debug('Image attributes:', el.attribs);
 				ref = el.attribs[IMG_ATTR];
 				// console.debug('Image ref:', ref);
 				if (ref) {
@@ -54,12 +65,37 @@ export function createReplacer({
 						ref
 					});
 					if (imageData) {
-						const imageId = imageData.image._id;
+						// const imageId = imageData.image._id;
 						const src = el.attribs['src'];
 						// console.debug('Image src:', src);
+						const {
+							// admin,
+							background,
+							// branch,
+							filter,
+							// filename,
+							id,
+							// mode,
+							// project,
+							// host,
+							params,
+							// port,
+							quality,
+							scale,
+							// scheme,
+							type,
+							// versionKey
+						} = parseImageUrl({imageUrl: src})
 						if (src) {
-							el.attribs['src'] = pageUrl({
-								id: imageId
+							el.attribs['src'] = imageUrlFn({
+								background,
+								id,
+								filter,
+								// format,
+								params,
+								quality,
+								scale,
+								type,
 							});
 						}
 
@@ -93,7 +129,7 @@ export function createReplacer({
 							urlQueryParams[key] = value;
 							// TODO handle multiple values
 						});
-						const url = `${pageUrl({
+						const url = `${pageUrlFn({
 							// id: idFromUri,
 							id: linkData.content._id,
 							params: urlQueryParams
