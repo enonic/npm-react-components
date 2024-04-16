@@ -118,7 +118,7 @@ describe('RichText', () => {
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p>Bla bla ukeblad<br>
 <br>
-<a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor">link text</a>
+<a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip" data-link-ref="8c5593b8-fe2f-47d0-a7fa-472be74a2ae5">link text</a>
 </p>
 <p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
 <p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p>

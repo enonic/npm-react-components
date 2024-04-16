@@ -21,7 +21,7 @@ import {
 	// MACRO_TAG,
 } from '../constants';
 import {processSrcSet} from './processSrcSet'
-import {Link} from './Link';
+// import {Link} from './Link';
 import {findLinkData} from './findLinkData';
 import {findImageData} from './findImageData';
 import {parseImageUrl} from './parseImageUrl';
@@ -111,6 +111,7 @@ export function createReplacer({
 				}
 				break;
 			case LINK_TAG:
+				console.debug('Link attributes:', el.attribs);
 				ref = el.attribs[LINK_ATTR];
 				// console.debug('Link ref:', ref);
 				const href = el.attribs['href'];
@@ -134,11 +135,10 @@ export function createReplacer({
 							id: linkData.content._id,
 							params: urlQueryParams
 						})}${uriObj.fragment ? `#${uriObj.fragment}` : ''}`;
-
-						const textChild = el.children?.find(c => c.type === ElementType.Text);
-						const text = textChild ? (textChild as unknown as Text).data : undefined;
-
-						return <Link href={url} text={text}/>;
+						el.attribs['href'] = url;
+						// const textChild = el.children?.find(c => c.type === ElementType.Text);
+						// const text = textChild ? (textChild as unknown as Text).data : undefined;
+						// return <Link href={url} text={text}/>;
 					}
 				} // ref && href
 				break;
