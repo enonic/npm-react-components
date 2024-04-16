@@ -122,34 +122,6 @@ describe('RichText', () => {
 </figure></section></div></body>`);
 	}); // it
 
-	it('should handle links', () => {
-		const data: RichTextData = {
-			images: [],
-			links: [{
-				content: {
-					"_id": FOLDER_ID,
-				// 	"_path": "/mysite/myfolder"
-				},
-				ref: FOLDER_REF,
-				uri: `content://${FOLDER_ID}?query=key%3Dvalue&fragment=anchor`
-			}],
-			macros: [],
-			processedHtml: `<p><a href=\"/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${FOLDER_REF}\">link text</a></p>
-<p><a href=\"mailto:email@example.com?subject=Subject\" title=\"Tooltip\">Text</a></p>
-<p><a href=\"https://www.example.com\" target=\"_blank\" title=\"Tooltip\">Text</a></p>`
-		}
-		const html = render(<RichText
-			className='myclass'
-			data={data}
-			// imageUrlFn={imageUrl}
-			pageUrlFn={pageUrl}
-		/>).baseElement;
-		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip" data-link-ref="${FOLDER_REF}">link text</a></p>
-<p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
-<p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p></section></div></body>`);
-	}); // it
-
 	it('should NOT touch images with srcsets', () => {
 		const dataWithSrcSet: RichTextData = {
 			images: [{
@@ -174,6 +146,69 @@ describe('RichText', () => {
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><img alt="Alt text" src="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg" style="width: 100%;" srcset="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-2048/example.jpg 2048w,/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-1024/example.jpg 1024w" sizes="juhu" data-image-ref="${IMG_REF}">
 <figcaption>Caption</figcaption>
 </figure></section></div></body>`);
+	});
+
+	it('should NOT touch links to open or download media', () => {
+		const LINK_REF1 = '7c68ab3a-689b-45d0-9043-10067598af0c';
+		const LINK_REF2 = 'fc7ef744-02b8-4518-b3bb-50c021a54ac5';
+		const data: RichTextData = {
+			images: [],
+			links: [{
+				content: null,
+				ref: LINK_REF1,
+				uri: `media://inline/${IMG_ID}`
+			},{
+				content: null,
+				ref: LINK_REF2,
+				uri: `media://download/${IMG_ID}`
+			}],
+			macros: [],
+			processedHtml: `<p>
+	<a href=\"/admin/site/preview/richproject/draft/_/attachment/inline/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"open file tooltip\" data-link-ref=\"${LINK_REF1}\">open file text</a>
+	<a href=\"/admin/site/preview/richproject/draft/_/attachment/download/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"download file tooltip\" data-link-ref=\"${LINK_REF2}\">download file text</a>
+</p>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={data}
+			// imageUrlFn={imageUrl}
+			pageUrlFn={pageUrl}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p>
+	<a href=\"/admin/site/preview/richproject/draft/_/attachment/inline/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"open file tooltip\" data-link-ref=\"${LINK_REF1}\">open file text</a>
+	<a href=\"/admin/site/preview/richproject/draft/_/attachment/download/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"download file tooltip\" data-link-ref=\"${LINK_REF2}\">download file text</a>
+</p></section></div></body>`);
+	});
+
+	it('should handle links', () => {
+		const data: RichTextData = {
+			images: [],
+			links: [{
+				content: {
+					_id: FOLDER_ID,
+					_name: 'myfolder',
+					_path: '/mysite/myfolder',
+					type: 'base:folder'
+				},
+				ref: FOLDER_REF,
+				uri: `content://${FOLDER_ID}?query=key%3Dvalue&fragment=anchor`
+			}],
+			macros: [],
+			processedHtml: `<p><a href=\"/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${FOLDER_REF}\">link text</a></p>
+<p><a href=\"mailto:email@example.com?subject=Subject\" title=\"Tooltip\">Text</a></p>
+<p><a href=\"https://www.example.com\" target=\"_blank\" title=\"Tooltip\">Text</a></p>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={data}
+			// imageUrlFn={imageUrl}
+			pageUrlFn={pageUrl}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip" data-link-ref="${FOLDER_REF}">link text</a></p>
+<p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
+<p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p></section></div></body>`);
 	});
 
 	it('should handle macros', () => {
