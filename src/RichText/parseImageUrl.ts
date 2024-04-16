@@ -82,17 +82,22 @@ export function parseImageUrl({
 
 	let params: ImageUrlParamsParams = {};
 	if (query) {
-		 query.split('&').forEach((pair) => {
-			const [key, value] = pair.split('=');
-			params[key] = value;
+		DEBUG && console.debug('query', query);
+		query.split('&').forEach((pair) => {
+			const [key, value = ''] = pair.split('=');
+			const valueDecoded = decodeURIComponent(value);
+			// console.debug('key', key, 'value', value, 'valueDecoded', valueDecoded);
+			if (Array.isArray(params[key])) {
+				params[key].push(valueDecoded);
+			} else if (typeof params[key] !== 'undefined') {
+				params[key] = [params[key], valueDecoded];
+			} else {
+				params[key] = valueDecoded;
+			}
 		});
 	}
 
 	const {background, filter, quality, ...rest} = params;
-	const decodedParams = {};
-	Object.keys(rest).forEach((key) => {
-		decodedParams[key] = decodeURIComponent(rest[key]);
-	});
 
 	const rv = {
 		admin,
@@ -104,7 +109,7 @@ export function parseImageUrl({
 		mode,
 		project,
 		host,
-		params: decodedParams,
+		params: rest,
 		port,
 		quality: quality ? parseInt(quality, 10) : undefined,
 		scale,
