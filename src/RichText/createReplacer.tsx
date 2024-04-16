@@ -10,7 +10,7 @@ import type {
 } from '../types';
 
 import {ElementType} from 'domelementtype';
-import React from 'react';
+// import React from 'react';
 import {parse} from 'uri-js';
 import {
 	IMG_ATTR,
@@ -101,17 +101,16 @@ export function createReplacer({
 
 						const srcset = el.attribs['srcset'];
 						if (srcset) {
-							el.attribs['srcset'] = processSrcSet(//{
-								// pageUrl, // TODO
+							el.attribs['srcset'] = processSrcSet({
+								imageUrlFn,
 								srcset
-							// }
-						);
+							});
 						}
 					}
 				}
 				break;
 			case LINK_TAG:
-				console.debug('Link attributes:', el.attribs);
+				DEBUG && console.debug('Link attributes:', el.attribs);
 				ref = el.attribs[LINK_ATTR];
 				// console.debug('Link ref:', ref);
 				const href = el.attribs['href'];
