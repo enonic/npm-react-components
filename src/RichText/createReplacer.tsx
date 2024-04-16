@@ -4,21 +4,22 @@ import type {
 } from '@enonic-types/lib-portal';
 import type {DOMNode} from 'html-react-parser';
 import type {
+	MacroRegistry,
 	Replacer,
 	ReplacerResult,
 	RichTextData
 } from '../types';
 
 import {ElementType} from 'domelementtype';
-// import React from 'react';
+import React from 'react';
 import {parse} from 'uri-js';
 import {
 	IMG_ATTR,
 	IMG_TAG,
 	LINK_ATTR,
 	LINK_TAG,
-	// MACRO_ATTR,
-	// MACRO_TAG,
+	MACRO_ATTR,
+	MACRO_TAG,
 } from '../constants';
 import {processSrcSet} from './processSrcSet'
 // import {Link} from './Link';
@@ -37,6 +38,7 @@ export function createReplacer({
 	// renderMacroInEditMode = true,
 	customReplacer,
 	imageUrlFn,
+	macroRegistry,
 	pageUrlFn
 }: {
 	data: RichTextData
@@ -44,6 +46,7 @@ export function createReplacer({
 	// renderMacroInEditMode?: boolean
 	customReplacer?: Replacer
 	imageUrlFn: typeof libPortalImageUrl
+	macroRegistry: MacroRegistry
 	pageUrlFn: typeof libPortalPageUrl
 }): (domNode: DOMNode) => ReplacerResult {
 	// eslint-disable-next-line react/display-name
@@ -141,13 +144,22 @@ export function createReplacer({
 					}
 				} // ref && href
 				break;
-			// case MACRO_TAG:
-			//     ref = el.attribs[MACRO_ATTR];
-			//     const macroData = ref && allData.macros.find((d) => d.ref === ref);
-			//     if (macroData) {
-			//         return <BaseMacro data={macroData} meta={meta} renderInEditMode={renderMacroInEditMode}/>;
-			//     }
-			//     break;
+			case MACRO_TAG:
+				ref = el.attribs[MACRO_ATTR];
+				const macroData = ref && data.macros.find((d) => d.ref === ref);
+				// console.debug('Macro data:', macroData);
+				if (macroData) {
+					const {descriptor, name, config} = macroData;
+					// console.debug('Macro descriptor:', descriptor, 'name', name, 'config:', config);
+					// const [appName, _macroName] = descriptor.split(':');
+					// console.debug('Macro appName:', appName, 'macroName', _macroName);
+					const props = config[name];
+					// console.debug('Macro props:', props);
+					// 	return <BaseMacro data={macroData} renderInEditMode={renderMacroInEditMode}/>;
+					const MacroComponent = macroRegistry[descriptor];
+					return <MacroComponent {...props}/>;
+				}
+				break;
 			default:
 				if (customReplacer) {
 					const result = customReplacer(

@@ -3,6 +3,7 @@ import type {
 	pageUrl as libPortalPageUrl
 } from '@enonic-types/lib-portal'
 import type {
+	MacroRegistry,
 	Replacer,
 	RichTextData
 } from './types'
@@ -19,6 +20,7 @@ export function RichText({
 	customReplacer,
 	data,
 	imageUrlFn,
+	macroRegistry = {},
 	pageUrlFn,
 	tag = 'section'
 }: {
@@ -26,6 +28,7 @@ export function RichText({
 	customReplacer?: Replacer
 	data: RichTextData
 	imageUrlFn: typeof libPortalImageUrl
+	macroRegistry?: MacroRegistry
 	pageUrlFn: typeof libPortalPageUrl
 	tag?: string
 }) {
@@ -38,6 +41,7 @@ export function RichText({
 						customReplacer,
 						data,
 						imageUrlFn,
+						macroRegistry,
 						pageUrlFn,
 						// renderMacroInEditMode,
 					})
