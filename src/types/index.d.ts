@@ -10,11 +10,23 @@ export interface ImageData {
 }
 
 export declare interface LinkData {
-    ref: string
+	ref: string
 	content: {
 		_id: string
-	}
-    // media: null
+		_name: string
+		_path: string
+		type: string
+	} | null
+	// media: { // NOTE: This is not used for now.
+	// 	content: {
+	// 		_id: string
+	// 		_name: string
+	// 		_path: string
+	// 		mediaUrl: string
+	// 		type: string
+	// 	}
+	// 	intent: 'inline' | 'download'
+	// } | null
 	uri: string
 }
 

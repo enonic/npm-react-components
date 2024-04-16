@@ -124,6 +124,17 @@ export function createReplacer({
 						ref
 					});
 					if (linkData) {
+						const {
+							content,
+							uri
+						} = linkData;
+						if (uri.startsWith('media://download/') || uri.startsWith('media://inline/')) {
+							return;
+						}
+						if (!content) {
+							console.warn('Link data has no content:', linkData);
+							return;
+						}
 						// const idFromUri = linkData.uri.split('?')[0].split('/').pop() as string;
 						const uriObj = parse(href);
 						const urlQueryParams = {};
@@ -134,7 +145,7 @@ export function createReplacer({
 						});
 						const url = `${pageUrlFn({
 							// id: idFromUri,
-							id: linkData.content._id,
+							id: content._id,
 							params: urlQueryParams
 						})}${uriObj.fragment ? `#${uriObj.fragment}` : ''}`;
 						el.attribs['href'] = url;
