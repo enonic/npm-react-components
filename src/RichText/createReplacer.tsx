@@ -1,34 +1,30 @@
-import type {
-	imageUrl as libPortalImageUrl,
-	pageUrl as libPortalPageUrl
-} from '@enonic-types/lib-portal';
 import type {DOMNode} from 'html-react-parser';
 import type {
-	MacroRegistry,
+	ImageComponent,
+	LinkComponent,
+	MacroComponent,
 	Replacer,
 	ReplacerResult,
-	RichTextData
+	RichTextData,
 } from '../types';
 
+
 import {ElementType} from 'domelementtype';
+
 import React from 'react';
-import {parse} from 'uri-js';
 import {
-	// IMG_ATTR,
-	// IMG_TAG,
+	IMG_ATTR,
+	IMG_TAG,
 	LINK_ATTR,
 	LINK_TAG,
 	MACRO_ATTR,
 	MACRO_TAG,
 } from '../constants';
-// import {processSrcSet} from './processSrcSet'
-// import {Link} from './Link';
+import {ErrorComponent} from './ErrorComponent';
+import {MediaLink} from './MediaLink';
 import {findLinkData} from './findLinkData';
-// import {findImageData} from './findImageData';
-// import {parseImageUrl} from './parseImageUrl';
-
-
-const DEBUG = false;
+import {childNodesToText} from './childNodesToText';
+import {findImageData} from './findImageData';
 
 
 // Replaces "matching" domNodes
@@ -37,91 +33,80 @@ export function createReplacer({
 	// meta,
 	// renderMacroInEditMode = true,
 	customReplacer,
-	// imageUrlFn,
-	macroRegistry,
-	pageUrlFn
+	Image,
+	Link,
+	Macro,
 }: {
 	data: RichTextData
-	// meta: MetaData
-	// renderMacroInEditMode?: boolean
 	customReplacer?: Replacer
-	// imageUrlFn: typeof libPortalImageUrl
-	macroRegistry: MacroRegistry
-	pageUrlFn: typeof libPortalPageUrl
+	Image: ImageComponent
+	Link: LinkComponent
+	Macro: MacroComponent
 }): (domNode: DOMNode) => ReplacerResult {
-	// eslint-disable-next-line react/display-name
 	return (domNode: DOMNode): ReplacerResult => {
 		if (domNode.type !== ElementType.Tag) {
 			return domNode;
 		}
 
 		const el = domNode;
-		let ref: string;
 		switch (el.tagName) {
-			// case IMG_TAG:
-			// 	DEBUG && console.debug('Image attributes:', el.attribs);
-			// 	ref = el.attribs[IMG_ATTR];
-			// 	// console.debug('Image ref:', ref);
-			// 	if (ref) {
-			// 		const imageData = findImageData({
-			// 			images: data.images,
-			// 			ref
-			// 		});
-			// 		if (imageData) {
-			// 			// const imageId = imageData.image._id;
-			// 			const src = el.attribs['src'];
-			// 			// console.debug('Image src:', src);
-			// 			const {
-			// 				// admin,
-			// 				background,
-			// 				// branch,
-			// 				filter,
-			// 				// filename,
-			// 				id,
-			// 				// mode,
-			// 				// project,
-			// 				// host,
-			// 				params,
-			// 				// port,
-			// 				quality,
-			// 				scale,
-			// 				// scheme,
-			// 				type,
-			// 				// versionKey
-			// 			} = parseImageUrl({imageUrl: src})
-			// 			if (src) {
-			// 				el.attribs['src'] = imageUrlFn({
-			// 					background,
-			// 					id,
-			// 					filter,
-			// 					// format,
-			// 					params,
-			// 					quality,
-			// 					scale,
-			// 					type,
-			// 				});
-			// 			}
-
-			// 			const srcset = el.attribs['srcset'];
-			// 			if (srcset) {
-			// 				el.attribs['srcset'] = processSrcSet({
-			// 					imageUrlFn,
-			// 					srcset
-			// 				});
-			// 			}
-			// 		}
-			// 	}
-			// 	break;
+			case IMG_TAG:
+				// console.debug('Image attributes:', el.attribs);
+				const imageRef = el.attribs[IMG_ATTR];
+				// console.debug('Image ref:', ref);
+				if (imageRef) {
+					const imageData = findImageData({
+						images: data.images,
+						imageRef
+					});
+					if (imageData) {
+						const {
+							attribs: {
+								alt,
+								sizes,
+								src,
+								srcset,
+								style
+							}
+						} = el;
+						const {
+							image,
+							style: imageStyle
+						} = imageData;
+						try {
+							return <Image
+								alt={alt}
+								image={image}
+								imageStyle={imageStyle}
+								sizes={sizes}
+								src={src}
+								srcset={srcset}
+								styleStr={style}
+							/>; // Can be null :)
+						} catch (e) {
+							return <ErrorComponent>{e.message}</ErrorComponent>;
+						}
+					}
+				}
+				break;
 			case LINK_TAG:
-				DEBUG && console.debug('Link attributes:', el.attribs);
-				ref = el.attribs[LINK_ATTR];
+				// console.debug('Link attributes:', el.attribs);
+				const {
+					attribs: {
+						href,
+						[LINK_ATTR]: linkRef,
+						target,
+						title
+					},
+					children,
+				} = el;
+				// console.debug('Link children:', children);
 				// console.debug('Link ref:', ref);
-				const href = el.attribs['href'];
 
-				if (ref && href) {
+				if (linkRef && href) {
 					const linkData = findLinkData({
+						linkRef,
 						links: data.links,
-						ref
 					});
 					if (linkData) {
 						const {
@@ -129,34 +114,35 @@ export function createReplacer({
 							uri
 						} = linkData;
 						if (uri.startsWith('media://download/') || uri.startsWith('media://inline/')) {
-							return;
+							return <MediaLink
+								children={childNodesToText(children)?.data}
+								href={href}
+								target={target}
+								title={title}
+							/>;
 						}
 						if (!content) {
 							console.warn('Link data has no content:', linkData);
-							return;
+							return null;
 						}
-						// const idFromUri = linkData.uri.split('?')[0].split('/').pop() as string;
-						const uriObj = parse(href);
-						const urlQueryParams = {};
-						uriObj.query?.split('&').forEach((pair) => {
-							const [key, value] = pair.split('=');
-							urlQueryParams[key] = value;
-							// TODO handle multiple values
-						});
-						const url = `${pageUrlFn({
-							// id: idFromUri,
-							id: content._id,
-							params: urlQueryParams
-						})}${uriObj.fragment ? `#${uriObj.fragment}` : ''}`;
-						el.attribs['href'] = url;
-						// const textChild = el.children?.find(c => c.type === ElementType.Text);
-						// const text = textChild ? (textChild as unknown as Text).data : undefined;
-						// return <Link href={url} text={text}/>;
+
+						try {
+							return <Link
+								children={childNodesToText(children)?.data}
+								content={content}
+								href={href}
+								target={target}
+								title={title}
+								uri={uri}
+							/>; // can be null :)
+						} catch (e) {
+							return <ErrorComponent>{e.message}</ErrorComponent>;
+						}
 					}
 				} // ref && href
 				break;
 			case MACRO_TAG:
-				ref = el.attribs[MACRO_ATTR];
+				const ref = el.attribs[MACRO_ATTR];
 				const macroData = ref && data.macros.find((d) => d.ref === ref);
 				// console.debug('Macro data:', macroData);
 				if (macroData) {
@@ -166,9 +152,11 @@ export function createReplacer({
 					// console.debug('Macro appName:', appName, 'macroName', _macroName);
 					const props = config[name];
 					// console.debug('Macro props:', props);
-					// 	return <BaseMacro data={macroData} renderInEditMode={renderMacroInEditMode}/>;
-					const MacroComponent = macroRegistry[descriptor];
-					return <MacroComponent {...props}/>;
+					try {
+						return <Macro descriptor={descriptor} config={props}/>; // Can be null :)
+					} catch (e) {
+						return <ErrorComponent>{e.message}</ErrorComponent>;
+					}
 				}
 				break;
 			default:
@@ -176,8 +164,6 @@ export function createReplacer({
 					const result = customReplacer(
 						domNode,
 						data,
-						// meta,
-						// renderMacroInEditMode
 					);
 					if (result) {
 						return result;

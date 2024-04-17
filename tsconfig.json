@@ -5,6 +5,10 @@
 		"esModuleInterop": true,
 		"jsx": "react-jsx",
 
+		// "lib": [
+		// 	"DOM" // This ChildNode differs from the one in domhandler npm module.
+		// ],
+
 		// Even though the setting disables type checking for d.ts files,
 		// TypeScript still type checks the code you specifically
 		// refer to in your application's source code.

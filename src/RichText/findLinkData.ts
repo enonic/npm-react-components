@@ -2,11 +2,11 @@ import type {LinkData} from '../types';
 
 
 export function findLinkData({
+	linkRef,
 	links,
-	ref
 }: {
+	linkRef: string
 	links: LinkData[]
-	ref: string
 }) {
-	return links.find(data => data.ref === ref);
+	return links.find(data => data.ref === linkRef);
 }

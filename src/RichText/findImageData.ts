@@ -2,11 +2,11 @@ import type {ImageData} from '../types';
 
 
 export function findImageData({
+	imageRef,
 	images,
-	ref
 }: {
+	imageRef: string
 	images: ImageData[]
-	ref: string
 }) {
-	return images.find(data => data.ref === ref);
+	return images.find(data => data.ref === imageRef);
 }
