@@ -1,15 +1,19 @@
+// import type {
+// 	imageUrl as libPortalImageUrl,
+// 	pageUrl as libPortalPageUrl
+// } from '@enonic-types/lib-portal';
 import type {
-	imageUrl as libPortalImageUrl,
-	pageUrl as libPortalPageUrl
-} from '@enonic-types/lib-portal'
-import type {
-	MacroRegistry,
+	ImageComponent,
+	LinkComponent,
+	MacroComponent,
 	Replacer,
-	RichTextData
+	RichTextData,
 } from './types'
 
 // Converts an HTML string to one or more React elements
 import HTMLReactParser from 'html-react-parser';
+
+import React from 'react';
 
 // Replaces "matching" domNodes
 import {createReplacer} from './RichText/createReplacer';
@@ -19,17 +23,17 @@ export function RichText({
 	className,
 	customReplacer,
 	data,
-	// imageUrlFn,
-	macroRegistry = {},
-	pageUrlFn,
+	Image,
+	Macro,
+	Link,
 	tag = 'section'
 }: {
 	className?: string
 	customReplacer?: Replacer
 	data: RichTextData
-	// imageUrlFn: typeof libPortalImageUrl
-	macroRegistry?: MacroRegistry
-	pageUrlFn: typeof libPortalPageUrl
+	Image: ImageComponent
+	Macro: MacroComponent
+	Link: LinkComponent
 	tag?: string
 }) {
 	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
@@ -40,10 +44,9 @@ export function RichText({
 					replace: createReplacer({
 						customReplacer,
 						data,
-						// imageUrlFn,
-						macroRegistry,
-						pageUrlFn,
-						// renderMacroInEditMode,
+						Image,
+						Link,
+						Macro,
 					})
 				})
 				: ''
