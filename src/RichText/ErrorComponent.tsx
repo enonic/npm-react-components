@@ -5,7 +5,7 @@ import React from 'react';
 
 
 export function ErrorComponent({
-	children
+	children,
 }: {
 	children: ReactNode
 }) {
