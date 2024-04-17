@@ -20,6 +20,7 @@ import {
 	MACRO_ATTR,
 	MACRO_TAG,
 } from '../constants';
+import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
 import {MediaLink} from './MediaLink';
 import {findLinkData} from './findLinkData';
@@ -30,8 +31,6 @@ import {findImageData} from './findImageData';
 // Replaces "matching" domNodes
 export function createReplacer({
 	data,
-	// meta,
-	// renderMacroInEditMode = true,
 	customReplacer,
 	Image,
 	Link,
@@ -73,8 +72,8 @@ export function createReplacer({
 							image,
 							style: imageStyle
 						} = imageData;
-						try {
-							return <Image
+						return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+							<Image
 								alt={alt}
 								image={image}
 								imageStyle={imageStyle}
@@ -82,10 +81,7 @@ export function createReplacer({
 								src={src}
 								srcset={srcset}
 								styleStr={style}
-							/>; // Can be null :)
-						} catch (e) {
-							return <ErrorComponent>{e.message}</ErrorComponent>;
-						}
+							/></ErrorBoundary>;
 					}
 				}
 				break;
@@ -126,18 +122,16 @@ export function createReplacer({
 							return null;
 						}
 
-						try {
-							return <Link
+						return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+							<Link
 								children={childNodesToText(children)?.data}
 								content={content}
 								href={href}
 								target={target}
 								title={title}
 								uri={uri}
-							/>; // can be null :)
-						} catch (e) {
-							return <ErrorComponent>{e.message}</ErrorComponent>;
-						}
+							/>
+						</ErrorBoundary>;
 					}
 				} // ref && href
 				break;
@@ -152,11 +146,9 @@ export function createReplacer({
 					// console.debug('Macro appName:', appName, 'macroName', _macroName);
 					const props = config[name];
 					// console.debug('Macro props:', props);
-					try {
-						return <Macro descriptor={descriptor} config={props}/>; // Can be null :)
-					} catch (e) {
-						return <ErrorComponent>{e.message}</ErrorComponent>;
-					}
+					return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+						<Macro descriptor={descriptor} config={props}/>
+					</ErrorBoundary>;
 				}
 				break;
 			default:
