@@ -23,7 +23,7 @@ export function RichText({
 	Image,
 	Macro,
 	Link,
-	tag = 'section'
+	tag
 }: {
 	className?: string
 	customReplacer?: Replacer
