@@ -2,9 +2,6 @@ import type {ImageUrlParams} from '@enonic-types/lib-portal';
 import {parse} from 'uri-js';
 
 
-const DEBUG = false;
-
-
 export interface ImageUrlParamsParams {
 	background?: string
 	filter?: string
@@ -14,12 +11,14 @@ export interface ImageUrlParamsParams {
 
 
 export function parseImageUrl({
+	debug = false,
 	imageUrl
 }: {
+	debug?: boolean
 	imageUrl: string
 }) {
 	const uriObj = parse(imageUrl);
-	DEBUG && console.debug('uriObj', uriObj);
+	debug && console.debug('uriObj', uriObj);
 	const {
 		// fragment,
 		host,
@@ -30,18 +29,18 @@ export function parseImageUrl({
 		scheme,
 		// userinfo,
 	} = uriObj;
-	DEBUG && console.debug('path', path);
+	debug && console.debug('path', path);
 
 	if (!path) {
 		throw new Error(`parseImageUrl: No path in imageUrl: ${imageUrl}!`);
 	}
 	const [pre, post] = path.split('/_/image/');
-	DEBUG && console.debug('pre', pre);
-	DEBUG && console.debug('post', post);
+	debug && console.debug('pre', pre);
+	debug && console.debug('post', post);
 
 	const pathParts = pre.split('/');
 	pathParts.shift(); // Remove first empty string
-	DEBUG && console.debug('pathParts', pathParts);
+	debug && console.debug('pathParts', pathParts);
 
 	let admin;
 	if (pathParts[0] === 'admin') {
@@ -51,10 +50,10 @@ export function parseImageUrl({
 	const mode = pathParts.shift();
 	const project = pathParts.shift();
 	const branch = pathParts.shift();
-	DEBUG && console.debug('pathParts', pathParts);
+	debug && console.debug('pathParts', pathParts);
 
 	const pagePath = pathParts.join('/');
-	DEBUG && console.debug({
+	debug && console.debug({
 		admin,
 		site,
 		mode,
@@ -65,7 +64,7 @@ export function parseImageUrl({
 
 	const [imageId, imageParams] = decodeURIComponent(post).split(':');
 	const [versionKey, scaling, filename] = imageParams.split('/');
-	DEBUG && console.debug({
+	debug && console.debug({
 		versionKey, scaling, filename
 	});
 
@@ -78,11 +77,11 @@ export function parseImageUrl({
 	} else {
 		scale = scaling;
 	}
-	DEBUG && console.debug('scale', scale);
+	debug && console.debug('scale', scale);
 
 	let params: ImageUrlParamsParams = {};
 	if (query) {
-		DEBUG && console.debug('query', query);
+		debug && console.debug('query', query);
 		query.split('&').forEach((pair) => {
 			const [key, value = ''] = pair.split('=');
 			const valueDecoded = decodeURIComponent(value);
@@ -117,6 +116,6 @@ export function parseImageUrl({
 		type: reference === 'absolute' ? 'absolute' : undefined as ImageUrlParams['type'],
 		versionKey
 	}
-	DEBUG && console.debug('parseImageUrl(%s) -> %s', {imageUrl}, rv);
+	debug && console.debug('parseImageUrl(%s) -> %s', {imageUrl}, rv);
 	return rv;
 }

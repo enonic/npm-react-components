@@ -3,7 +3,7 @@ import {
 	expect,
 	test as it
 } from '@jest/globals';
-import {parseImageUrl} from '../../src/RichText/parseImageUrl';
+import {parseImageUrl} from './parseImageUrl';
 
 
 describe('parseImageUrl', () => {
