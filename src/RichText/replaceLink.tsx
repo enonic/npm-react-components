@@ -36,12 +36,6 @@ export function replaceLink({
 	Macro: MacroComponent
 }) {
 	const {
-		links,
-	} = data;
-	if (!links || !links.length) {
-		return <ErrorComponent>Can't replace link, when there are no links in the data object!</ErrorComponent>
-	}
-	const {
 		attribs: {
 			href,
 			[LINK_ATTR]: linkRef,
@@ -50,35 +44,52 @@ export function replaceLink({
 		},
 		children,
 	} = el;
-	if (linkRef && href) {
-		const linkData = findLinkData({
-			linkRef,
-			links,
-		});
-		if (linkData) {
-			const {
-				content,
-				media,
-				uri
-			} = linkData;
-			return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-				<Link
-					content={content}
-					href={href}
-					media={media}
-					target={target}
-					title={title}
-					uri={uri}
-				>{domToReact(children as DOMNode[], {
-					replace: createReplacer({
-						customReplacer,
-						data,
-						Image,
-						Link,
-						Macro,
-					})
-				})}</Link>
-			</ErrorBoundary>;
-		} // if linkData
-	} // if ref && href
+
+	if (!linkRef) { // non-content links like mailto and external links.
+		return;
+	}
+
+	if (!href) {
+		return <ErrorComponent>Link element has no href attribute!</ErrorComponent>
+	}
+
+	const {
+		links,
+	} = data;
+	if (!links || !links.length) {
+		return <ErrorComponent>Can't replace link, when there are no links in the data object!</ErrorComponent>
+	}
+
+	const linkData = findLinkData({
+		linkRef,
+		links,
+	});
+	if (!linkData) {
+		return <ErrorComponent>Unable to find link with ref {linkRef} in links object!</ErrorComponent>
+	}
+
+	const {
+		content,
+		media,
+		uri
+	} = linkData;
+
+	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+		<Link
+			content={content}
+			href={href}
+			media={media}
+			target={target}
+			title={title}
+			uri={uri}
+		>{domToReact(children as DOMNode[], {
+			replace: createReplacer({
+				customReplacer,
+				data,
+				Image,
+				Link,
+				Macro,
+			})
+		})}</Link>
+	</ErrorBoundary>;
 }
