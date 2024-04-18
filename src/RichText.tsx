@@ -1,7 +1,3 @@
-// import type {
-// 	imageUrl as libPortalImageUrl,
-// 	pageUrl as libPortalPageUrl
-// } from '@enonic-types/lib-portal';
 import type {
 	ImageComponent,
 	LinkComponent,
@@ -9,6 +5,7 @@ import type {
 	Replacer,
 	RichTextData,
 } from './types'
+
 
 // Converts an HTML string to one or more React elements
 import HTMLReactParser from 'html-react-parser';
@@ -47,7 +44,7 @@ export function RichText({
 						Image,
 						Link,
 						Macro,
-					})
+					}),
 				})
 				: ''
 		}
