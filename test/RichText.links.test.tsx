@@ -12,6 +12,7 @@ import {
 	test as it
 } from '@jest/globals';
 import {render} from '@testing-library/react'
+import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
 import {Image} from './RichText/Image';
@@ -124,7 +125,6 @@ describe('RichText', () => {
 
 	it('should handle links', () => {
 		const data: RichTextData = {
-			images: [],
 			links: [{
 				content: {
 					_id: FOLDER_ID,
@@ -135,7 +135,6 @@ describe('RichText', () => {
 				ref: FOLDER_REF,
 				uri: `content://${FOLDER_ID}?query=key%3Dvalue&fragment=anchor`
 			}],
-			macros: [],
 			processedHtml: `<p><a href=\"/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${FOLDER_REF}\">link text</a></p>
 <p><a href=\"mailto:email@example.com?subject=Subject\" title=\"Tooltip\">Text</a></p>
 <p><a href=\"https://www.example.com\" target=\"_blank\" title=\"Tooltip\">Text</a></p>`
@@ -151,5 +150,86 @@ describe('RichText', () => {
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip">link text</a></p>
 <p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
 <p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p></section></div></body>`);
+	});
+
+	it('should show an ErrorComponent when the link element has data-link-ref but no href', () => {
+		const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
+		const data: RichTextData = {
+			images: [],
+			links: [{
+				content: {
+					_id: "73fb7dd4-b483-428e-968e-690ca65b11d8",
+					_name: "myfolder",
+					_path: "/mysite/myfolder",
+					type: "base:folder"
+				},
+				// media: null,
+				ref: linkRef,
+				uri: 'content://73fb7dd4-b483-428e-968e-690ca65b11d8?query=key%3Dvalue&fragment=anchor'
+			}],
+			macros: [],
+			processedHtml: `<a data-link-ref=\"${linkRef}\">link text</a>`
+		}
+		const html = render(<RichText
+			data={data}
+			Image={Image}
+			Link={Link}
+			Macro={Macro}
+		/>).baseElement;
+		expect(toDiffableHtml(html.outerHTML)).toBe(`
+<body>
+  <div>
+    <section>
+      <div style=\"border: 1px dotted red; color: red;\">
+        Link element has no href attribute!
+      </div>
+    </section>
+  </div>
+</body>
+`);
+	});
+
+	it('should show an ErrorComponent when the links object is missing or empty', () => {
+		const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
+		const data: RichTextData = {
+			// links: [],
+			processedHtml: `<a href=\"http://localhost:8080/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${linkRef}\">link text</a>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={data}
+			Image={Image}
+			Link={Link}
+			Macro={Macro}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Can't replace link, when there are no links in the data object!</div></section></div></body>`);
+	});
+
+	it("should show an ErrorComponent when the linkRef can't be found in the links object", () => {
+		const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
+		const data: RichTextData = {
+			links: [{
+				content: {
+					_id: "73fb7dd4-b483-428e-968e-690ca65b11d8",
+					_name: "myfolder",
+					_path: "/mysite/myfolder",
+					type: "base:folder"
+				},
+				// media: null,
+				ref: 'wrong-link-ref',
+				uri: 'content://73fb7dd4-b483-428e-968e-690ca65b11d8?query=key%3Dvalue&fragment=anchor'
+			}],
+			processedHtml: `<a href=\"http://localhost:8080/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${linkRef}\">link text</a>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={data}
+			Image={Image}
+			Link={Link}
+			Macro={Macro}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Unable to find link with ref ${linkRef} in links object!</div></section></div></body>`);
 	});
 }); // describe RichText

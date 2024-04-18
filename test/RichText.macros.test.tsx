@@ -111,4 +111,65 @@ describe('RichText', () => {
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
 	});
+
+	it('should show an ErrorComponent when the macros array is missing or empty', () => {
+		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
+		const MACRO_NAME = 'success';
+		const dataWithMacros: RichTextData = {
+			// macros: [],
+			processedHtml: `<p><editor-macro data-macro-name=\"${MACRO_NAME}\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={dataWithMacros}
+			Image={Image}
+			Macro={Macro}
+			Link={Link}
+		/>).baseElement;
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Can't replace macro, when there are no macros in the data object!</div></p></section></div></body>`);
+	});
+
+	it('should show an ErrorComponent when the macro element has not data-macro-ref atribute', () => {
+		const MACRO_NAME = 'success';
+		const dataWithMacros: RichTextData = {
+			processedHtml: `<p><editor-macro data-macro-name=\"${MACRO_NAME}\">Jubalong</editor-macro></p>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			data={dataWithMacros}
+			Image={Image}
+			Macro={Macro}
+			Link={Link}
+		/>).baseElement;
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Macro element has no data-macro-ref attribute!</div></p></section></div></body>`);
+	});
+
+	it("should show an ErrorComponent when the macroRef isn't found in the macros array", () => {
+		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
+		const dataWithMacros: RichTextData = {
+			images: [],
+			links: [],
+			macros: [{
+				"ref": 'wrong-ref',
+				"name": "success",
+				"descriptor": "com.enonic.app.panelmacros:success",
+				"config": {
+				  "success": {
+					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+					"header": "Iha",
+					"body": "Jubalong"
+				  }
+				}
+			  }],
+			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+		}
+		const html = render(<RichText
+			data={dataWithMacros}
+			Image={Image}
+			Macro={Macro}
+			Link={Link}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section><p><div style=\"border: 1px dotted red; color: red;\">Unable to find macro with ref ${SUCCESS_REF} in macros object!</div></p></section></div></body>`);
+	});
 }); // describe RichText
