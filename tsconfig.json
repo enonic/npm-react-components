@@ -1,7 +1,7 @@
 { // https://www.typescriptlang.org/tsconfig
 	"compilerOptions": {
 		"allowUmdGlobalAccess": true,
-		"declaration": false,
+		"declaration": true,
 		"esModuleInterop": true,
 		"jsx": "react-jsx",
 
@@ -17,7 +17,10 @@
 
 		"strictNullChecks": true,
 	},
-	"include": [
+	"files": [
 		"src/index.ts"
+	],
+	"include": [
+		"src/**/*.ts"
 	]
 }
