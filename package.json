@@ -58,13 +58,11 @@
       "import": "./dist/esm/Regions.mjs",
       "require": "./dist/cjs/Regions.cjs"
     },
-    "./RichText": {
-      "import": "./dist/esm/RichText.mjs",
-      "require": "./dist/cjs/RichText.cjs"
-    }
+    "./src": "./src/index.ts"
   },
   "files": [
     "dist",
+    "src",
     "LICENCE",
     "package.json",
     "README.md"
@@ -103,6 +101,7 @@
     "test": "npx jest --no-cache"
   },
   "type": "module",
+  "types": "src/types/index.d.ts",
   "version": "4.0.0-alpha.1",
   "dependencies": {
     "domelementtype": "^2.3.0",
