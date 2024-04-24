@@ -20,20 +20,20 @@ import {findLinkData} from './findLinkData';
 
 export function replaceLink({
 	createReplacer,
-	customReplacer,
 	data,
 	el,
 	Image,
 	Link,
 	Macro,
+	replacer,
 }: {
 	createReplacer: typeof CreateReplacer
-	customReplacer?: Replacer
 	data: RichTextData
 	el: Element
 	Image: ImageComponent,
 	Link: LinkComponent
 	Macro: MacroComponent
+	replacer?: Replacer
 }) {
 	const {
 		attribs: {
@@ -84,11 +84,11 @@ export function replaceLink({
 			uri={uri}
 		>{domToReact(children as DOMNode[], {
 			replace: createReplacer({
-				customReplacer,
 				data,
 				Image,
 				Link,
 				Macro,
+				replacer,
 			})
 		})}</Link>
 	</ErrorBoundary>;

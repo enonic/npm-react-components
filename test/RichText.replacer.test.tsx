@@ -19,7 +19,7 @@ import {Macro} from './RichText/Macro';
 
 
 describe('RichText', () => {
-	it('should use customReplacer to replace anything but image, link and macro', () => {
+	it('should use replacer to replace anything but image, link and macro', () => {
 		const data: RichTextData = {
 			images: [],
 			links: [],
@@ -28,7 +28,7 @@ describe('RichText', () => {
 		}
 		const html = render(<RichText
 			className='myclass'
-			customReplacer={(el, data) => {
+			replacer={(el, data) => {
 				// console.debug('el', el);
 				// console.debug('data', data);
 				if (
