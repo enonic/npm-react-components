@@ -18,19 +18,19 @@ import {createReplacer} from './RichText/createReplacer';
 
 export function RichText({
 	className,
-	customReplacer,
 	data,
 	Image,
 	Macro,
 	Link,
+	replacer,
 	tag
 }: {
 	className?: string
-	customReplacer?: Replacer
 	data: RichTextData
 	Image: ImageComponent
 	Macro: MacroComponent
 	Link: LinkComponent
+	replacer?: Replacer
 	tag?: string
 }) {
 	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
@@ -39,11 +39,11 @@ export function RichText({
 			data.processedHtml
 				? HTMLReactParser(data.processedHtml, {
 					replace: createReplacer({
-						customReplacer,
 						data,
 						Image,
 						Link,
 						Macro,
+						replacer,
 					}),
 				})
 				: ''

@@ -24,16 +24,16 @@ import {replaceMacro} from './replaceMacro';
 // Replaces "matching" domNodes
 export function createReplacer({
 	data,
-	customReplacer,
 	Image,
 	Link,
 	Macro,
+	replacer,
 }: {
 	data: RichTextData
-	customReplacer?: Replacer
 	Image: ImageComponent
 	Link: LinkComponent
 	Macro: MacroComponent
+	replacer?: Replacer
 }): (domNode: DOMNode) => ReplacerResult {
 	const {
 		images,
@@ -55,12 +55,12 @@ export function createReplacer({
 			case LINK_TAG:
 				return replaceLink({
 					createReplacer,
-					customReplacer,
 					data,
 					el,
 					Image,
 					Link,
 					Macro,
+					replacer,
 				});
 			case MACRO_TAG:
 				return replaceMacro({
@@ -69,8 +69,8 @@ export function createReplacer({
 					macros,
 				});
 			default:
-				if (customReplacer) {
-					const result = customReplacer(
+				if (replacer) {
+					const result = replacer(
 						el,
 						data,
 					);
