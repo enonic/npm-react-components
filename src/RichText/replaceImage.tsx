@@ -7,6 +7,7 @@ import type {
 
 import React from 'react';
 import {IMG_ATTR} from '../constants';
+import {cssToReactStyle} from './cssToReactStyle';
 import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
 import {findImageData} from './findImageData';
@@ -43,25 +44,21 @@ export function replaceImage({
 			alt,
 			sizes,
 			src,
-			srcset,
-			style
+			srcset: srcSet,
+			style: styleStr = ''
 		}
 	} = el;
+
+	const style = cssToReactStyle(styleStr);
 
 	const {
 		image,
 		style: imageStyle
 	} = imageData;
 
+	const imgProps = {alt, image, imageStyle, sizes, src, srcSet, style};
+
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-		<Image
-			alt={alt}
-			image={image}
-			imageStyle={imageStyle}
-			sizes={sizes}
-			src={src}
-			srcset={srcset}
-			styleStr={style}
-		/>
+		<Image {...imgProps} />
 	</ErrorBoundary>;
 }

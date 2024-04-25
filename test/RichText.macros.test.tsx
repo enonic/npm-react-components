@@ -1,7 +1,4 @@
 import type {
-	ImageComponent,
-	ImageContent,
-	LinkComponent,
 	RichTextData,
 } from '../src/types';
 
@@ -14,10 +11,9 @@ import {
 	test as it
 } from '@jest/globals';
 import {render} from '@testing-library/react'
+import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
-import {Image} from './RichText/Image';
-import {Link} from './RichText/Link';
 import {Macro} from './RichText/Macro';
 // import {print} from 'q-i';
 
@@ -54,8 +50,6 @@ describe('RichText', () => {
 	it('should handle macros', () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const dataWithMacros: RichTextData = {
-			images: [],
-			links: [],
 			macros: [{
 				"ref": SUCCESS_REF,
 				"name": "success",
@@ -73,9 +67,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			Image={Image}
 			Macro={Macro}
-			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i>&lt;strong&gt;Iha&lt;/strong&gt;Jubalong</div></p></section></div></body>`);
@@ -85,28 +77,24 @@ describe('RichText', () => {
 		const FAILURE_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const MACRO_NAME = 'failure';
 		const dataWithMacros: RichTextData = {
-			images: [],
-			links: [],
 			macros: [{
 				ref: FAILURE_REF,
 				name: MACRO_NAME,
 				descriptor: `com.enonic.app.panelmacros:${MACRO_NAME}`,
 				config: {
 					[MACRO_NAME]: {
-					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
-					"header": "Iha",
-					"body": "Jubalong"
-				  }
+						"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+						"header": "Iha",
+						"body": "Jubalong"
+					}
 				}
-			  }],
+			}],
 			processedHtml: `<p><editor-macro data-macro-name=\"${MACRO_NAME}\" data-macro-ref=\"${FAILURE_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			Image={Image}
 			Macro={Macro}
-			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
@@ -116,15 +104,13 @@ describe('RichText', () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const MACRO_NAME = 'success';
 		const dataWithMacros: RichTextData = {
-			// macros: [],
+			// macros: [], // Should be missing or empty, in this test :)
 			processedHtml: `<p><editor-macro data-macro-name=\"${MACRO_NAME}\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			Image={Image}
 			Macro={Macro}
-			Link={Link}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Can't replace macro, when there are no macros in the data object!</div></p></section></div></body>`);
 	});
@@ -137,9 +123,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			Image={Image}
 			Macro={Macro}
-			Link={Link}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Macro element has no data-macro-ref attribute!</div></p></section></div></body>`);
 	});
@@ -147,10 +131,33 @@ describe('RichText', () => {
 	it("should show an ErrorComponent when the macroRef isn't found in the macros array", () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const dataWithMacros: RichTextData = {
-			images: [],
-			links: [],
 			macros: [{
 				"ref": 'wrong-ref',
+				"name": "success",
+				"descriptor": "com.enonic.app.panelmacros:success",
+				"config": {
+					"success": {
+						"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+						"header": "Iha",
+						"body": "Jubalong"
+					}
+				}
+			}],
+			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+		}
+		const html = render(<RichText
+			data={dataWithMacros}
+			Macro={Macro}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section><p><div style=\"border: 1px dotted red; color: red;\">Unable to find macro with ref ${SUCCESS_REF} in macros object!</div></p></section></div></body>`);
+	});
+
+	it("should render a fallback Macro component, when it's not provided", () => {
+		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
+		const dataWithMacros: RichTextData = {
+			macros: [{
+				"ref": SUCCESS_REF,
 				"name": "success",
 				"descriptor": "com.enonic.app.panelmacros:success",
 				"config": {
@@ -164,12 +171,26 @@ describe('RichText', () => {
 			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText
+			className='myclass'
 			data={dataWithMacros}
-			Image={Image}
-			Macro={Macro}
-			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section><p><div style=\"border: 1px dotted red; color: red;\">Unable to find macro with ref ${SUCCESS_REF} in macros object!</div></p></section></div></body>`);
+		expect(toDiffableHtml(html.outerHTML)).toBe(`
+<body>
+  <div>
+    <section class="myclass">
+      <p>
+        <div style="border: 1px dotted orange; color: orange;">
+          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success with config {
+    "__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+    "header": "Iha",
+    "body": "Jubalong"
+}
+        </div>
+      </p>
+    </section>
+  </div>
+</body>
+`);
 	});
 }); // describe RichText

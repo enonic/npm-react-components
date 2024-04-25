@@ -1,38 +1,26 @@
-import type {
-	ImageComponent,
-	LinkComponent,
-	MacroComponent,
-	Replacer,
-	RichTextData,
-} from './types'
+import type {RichTextParams} from './types'
 
 
 // Converts an HTML string to one or more React elements
 import HTMLReactParser from 'html-react-parser';
 
-import React from 'react';
-
 // Replaces "matching" domNodes
 import {createReplacer} from './RichText/createReplacer';
+
+import {Image as ImageFallback} from './RichText/Image';
+import {Link as LinkFallback} from './RichText/Link';
+import {Macro as MacroFallback} from './RichText/Macro';
 
 
 export function RichText({
 	className,
 	data,
-	Image,
-	Macro,
-	Link,
+	Image = ImageFallback,
+	Link = LinkFallback,
+	Macro = MacroFallback,
 	replacer,
 	tag
-}: {
-	className?: string
-	data: RichTextData
-	Image: ImageComponent
-	Macro: MacroComponent
-	Link: LinkComponent
-	replacer?: Replacer
-	tag?: string
-}) {
+}: RichTextParams) {
 	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
 	return <CustomTag className={className}>
 		{

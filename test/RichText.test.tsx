@@ -11,24 +11,15 @@ import {
 import {render} from '@testing-library/react'
 import React from 'react';
 import {RichText} from '../src';
-import {Image} from './RichText/Image';
-import {Link} from './RichText/Link';
-import {Macro} from './RichText/Macro';
 
 
 describe('RichText', () => {
 	it('should support tag', () => {
 		const data: RichTextData = {
-			images: [],
-			links: [],
-			macros: [],
 			processedHtml: `<p>Some text</p>`
 		}
 		const html = render(<RichText
 			data={data}
-			Image={Image}
-			Link={Link}
-			Macro={Macro}
 			tag='article'
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><article><p>Some text</p></article></div></body>`);
@@ -40,9 +31,6 @@ describe('RichText', () => {
 
 		const html = render(<RichText
 			data={data}
-			Image={Image}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section></section></div></body>`);
 	});

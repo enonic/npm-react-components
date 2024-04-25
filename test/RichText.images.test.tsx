@@ -15,11 +15,8 @@ import {
 import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
-// import renderer from 'react-test-renderer';
 import {RichText} from '../src';
-import {Image} from './RichText/Image';
-import {Link} from './RichText/Link';
-import {Macro} from './RichText/Macro';
+import {Image} from '../src/RichText/Image';
 // import {print} from 'q-i';
 
 
@@ -75,8 +72,6 @@ describe('RichText', () => {
 				ref: IMG_REF,
 				// style: null
 			}],
-			links: [],
-			macros: [],
 			processedHtml: `<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\"><img alt=\"Alt text\" src=\"/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg\" style=\"width:100%\" data-image-ref=\"${IMG_REF}\">
 <figcaption>Caption</figcaption>
 </figure>`
@@ -85,8 +80,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={Image}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><img alt="Alt text" src="/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg" style="width: 100%;">
@@ -104,8 +97,6 @@ describe('RichText', () => {
 				ref: IMG_REF,
 				// style: null
 			}],
-			links: [],
-			macros: [],
 			processedHtml: `<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\"><img alt=\"Alt text\" src=\"/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg\" style=\"width:100%\" data-image-ref=\"${IMG_REF}\">
 <figcaption>Caption</figcaption>
 </figure>`
@@ -114,8 +105,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={ImageThatThrows}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><div style="border: 1px dotted red; color: red;">Failed to render image!</div>
@@ -130,8 +119,6 @@ describe('RichText', () => {
 				ref: IMG_REF,
 				// style: null
 			}],
-			links: [],
-			macros: [],
 			processedHtml: `<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\">
 			<img
 				alt=\"Alt text\"
@@ -147,8 +134,6 @@ describe('RichText', () => {
 		const html = render(<RichText
 			data={dataWithSrcSet}
 			Image={Image}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
@@ -182,8 +167,6 @@ describe('RichText', () => {
 				image: IMAGE,
 				ref: IMG_REF,
 			}],
-			links: [],
-			macros: [],
 			processedHtml: `<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\">
 	<img
 		alt=\"Alt text\"
@@ -197,8 +180,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={dataWithSrcSet}
 			Image={Image}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
@@ -228,7 +209,7 @@ describe('RichText', () => {
 			throw new Error('Failed to render image!');
 		};
 		const data: RichTextData = {
-			// images: [],
+			// images: [], // Should be missing :)
 			processedHtml: `<figure class=\"captioned editor-align-right editor-width-custom\" style=\"float: right; width: 50%;\"><img alt=\"Alt text\" src=\"/admin/site/preview/richproject/draft/_/image/${IMG_ID}:${IMG_VERSION_KEY}/width-768/example.jpg\" style=\"width:100%\" data-image-ref=\"${IMG_REF}\">
 <figcaption>Caption</figcaption>
 </figure>`
@@ -237,8 +218,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={ImageThatThrows}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
@@ -280,8 +259,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={ImageThatThrows}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
@@ -322,8 +299,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={ImageThatThrows}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`

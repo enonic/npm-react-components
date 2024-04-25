@@ -74,15 +74,10 @@ export function replaceLink({
 		uri
 	} = linkData;
 
+	const linkProps = {content, href, media, target, title, uri};
+
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-		<Link
-			content={content}
-			href={href}
-			media={media}
-			target={target}
-			title={title}
-			uri={uri}
-		>{domToReact(children as DOMNode[], {
+		<Link {...linkProps}>{domToReact(children as DOMNode[], {
 			replace: createReplacer({
 				data,
 				Image,

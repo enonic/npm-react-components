@@ -10,9 +10,8 @@ import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
-import {Image} from './RichText/Image';
-import {Link} from './RichText/Link';
-import {Macro} from './RichText/Macro';
+import {Image} from '../src/RichText/Image';
+import {Link} from '../src/RichText/Link';
 // import {print} from 'q-i';
 
 
@@ -45,7 +44,6 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={Image}
-			Macro={Macro}
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });

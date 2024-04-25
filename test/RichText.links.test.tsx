@@ -15,9 +15,7 @@ import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
-import {Image} from './RichText/Image';
-import {Link} from './RichText/Link';
-import {Macro} from './RichText/Macro';
+import {Link} from '../src/RichText/Link';
 // import {print} from 'q-i';
 
 
@@ -61,7 +59,6 @@ describe('RichText', () => {
 		const LINK_REF1 = '7c68ab3a-689b-45d0-9043-10067598af0c';
 		const LINK_REF2 = 'fc7ef744-02b8-4518-b3bb-50c021a54ac5';
 		const data: RichTextData = {
-			images: [],
 			links: [{
 				content: null,
 				ref: LINK_REF1,
@@ -71,7 +68,6 @@ describe('RichText', () => {
 				ref: LINK_REF2,
 				uri: `media://download/${IMG_ID}`
 			}],
-			macros: [],
 			processedHtml: `<p>
 	<a href=\"/admin/site/preview/richproject/draft/_/attachment/inline/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"open file tooltip\" data-link-ref=\"${LINK_REF1}\">open file text</a>
 	<a href=\"/admin/site/preview/richproject/draft/_/attachment/download/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"download file tooltip\" data-link-ref=\"${LINK_REF2}\">download file text</a>
@@ -80,9 +76,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			Image={Image}
 			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p>
@@ -97,7 +91,6 @@ describe('RichText', () => {
 		}
 		const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
 		const data: RichTextData = {
-			images: [],
 			links: [{
 				content: {
 					_id: "73fb7dd4-b483-428e-968e-690ca65b11d8",
@@ -109,15 +102,12 @@ describe('RichText', () => {
 				ref: linkRef,
 				uri: 'content://73fb7dd4-b483-428e-968e-690ca65b11d8?query=key%3Dvalue&fragment=anchor'
 			}],
-			macros: [],
 			processedHtml: `<a href=\"http://localhost:8080/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${linkRef}\">link text</a>`
 		}
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			Image={Image}
 			Link={LinkThatThrows}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Failed to build href!</div></section></div></body>`);
@@ -142,9 +132,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			Image={Image}
 			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip">link text</a></p>
@@ -155,7 +143,6 @@ describe('RichText', () => {
 	it('should show an ErrorComponent when the link element has data-link-ref but no href', () => {
 		const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
 		const data: RichTextData = {
-			images: [],
 			links: [{
 				content: {
 					_id: "73fb7dd4-b483-428e-968e-690ca65b11d8",
@@ -167,14 +154,11 @@ describe('RichText', () => {
 				ref: linkRef,
 				uri: 'content://73fb7dd4-b483-428e-968e-690ca65b11d8?query=key%3Dvalue&fragment=anchor'
 			}],
-			macros: [],
 			processedHtml: `<a data-link-ref=\"${linkRef}\">link text</a>`
 		}
 		const html = render(<RichText
 			data={data}
-			Image={Image}
 			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
 <body>
@@ -192,15 +176,13 @@ describe('RichText', () => {
 	it('should show an ErrorComponent when the links object is missing or empty', () => {
 		const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
 		const data: RichTextData = {
-			// links: [],
+			// links: [], // Should be missing or empty, in this test :)
 			processedHtml: `<a href=\"http://localhost:8080/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor\" target=\"_blank\" title=\"link tooltip\" data-link-ref=\"${linkRef}\">link text</a>`
 		}
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			Image={Image}
 			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Can't replace link, when there are no links in the data object!</div></section></div></body>`);
@@ -225,9 +207,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			Image={Image}
 			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Unable to find link with ref ${linkRef} in links object!</div></section></div></body>`);
