@@ -63,8 +63,8 @@ export declare interface ImageComponentParams {
 	imageStyle?: ImageStyle | null
 	sizes?: string
 	src: string
-	srcset?: string
-	styleStr?: string
+	srcSet?: string
+	style?: React.CSSProperties
 }
 
 export declare interface ImageData {
@@ -137,4 +137,14 @@ export declare interface RichTextData {
 	links?: LinkData[]
 	macros?: MacroData[]
 	images?: ImageData[]
+}
+
+export declare interface RichTextParams {
+	className?: string
+	data: RichTextData
+	Image?: ImageComponent
+	Macro?: MacroComponent
+	Link?: LinkComponent
+	replacer?: Replacer
+	tag?: string
 }

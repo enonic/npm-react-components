@@ -11,9 +11,6 @@ import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
-import {Image} from './RichText/Image';
-import {Link} from './RichText/Link';
-import {Macro} from './RichText/Macro';
 // import {print} from 'q-i';
 
 
@@ -21,9 +18,6 @@ import {Macro} from './RichText/Macro';
 describe('RichText', () => {
 	it('should use replacer to replace anything but image, link and macro', () => {
 		const data: RichTextData = {
-			images: [],
-			links: [],
-			macros: [],
 			processedHtml: `<p>Some text</p>`
 		}
 		const html = render(<RichText
@@ -40,9 +34,6 @@ describe('RichText', () => {
 				}
 			}}
 			data={data}
-			Image={Image}
-			Link={Link}
-			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
