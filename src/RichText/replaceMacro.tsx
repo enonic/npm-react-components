@@ -12,10 +12,12 @@ import {ErrorComponent} from './ErrorComponent';
 
 
 export function replaceMacro({
+	contentId,
 	el,
 	Macro,
 	macros,
 }: {
+	contentId?: string
 	el: Element
 	Macro: MacroComponent
 	macros?: MacroData[]
@@ -37,6 +39,10 @@ export function replaceMacro({
 	const {descriptor, name, config} = macroData;
 	const props = config[name];
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-		<Macro descriptor={descriptor} config={props}/>
+		<Macro
+			config={props}
+			contentId={contentId}
+			descriptor={descriptor}
+		/>
 	</ErrorBoundary>;
 }

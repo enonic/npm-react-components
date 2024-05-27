@@ -111,6 +111,7 @@ export declare type MacroComponent = (params: MacroComponentParams) => React.JSX
 
 export declare interface MacroComponentParams {
 	config: Record<string, unknown>
+	contentId?: string
 	descriptor: MacroDescriptor;
 }
 
@@ -141,6 +142,7 @@ export declare interface RichTextData {
 
 export declare interface RichTextParams {
 	className?: string
+	contentId?: string
 	data: RichTextData
 	Image?: ImageComponent
 	Macro?: MacroComponent
