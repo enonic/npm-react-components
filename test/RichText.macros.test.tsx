@@ -193,4 +193,31 @@ describe('RichText', () => {
 </body>
 `);
 	});
+
+	it('should handle contentId', () => {
+		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
+		const dataWithMacros: RichTextData = {
+			macros: [{
+				"ref": SUCCESS_REF,
+				"name": "success",
+				"descriptor": "com.enonic.app.panelmacros:success",
+				"config": {
+				  "success": {
+					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+					"header": "Iha",
+					"body": "Jubalong"
+				  }
+				}
+			  }],
+			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+		}
+		const html = render(<RichText
+			className='myclass'
+			contentId='d1e641c7-aa94-4310-b0f0-df47d60fafc6'
+			data={dataWithMacros}
+			Macro={Macro}
+		/>).baseElement;
+		// print(html.outerHTML, { maxItems: Infinity });
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div>Extra info: {\"prop\":\"value\"}</div></p></section></div></body>`);
+	});
 }); // describe RichText

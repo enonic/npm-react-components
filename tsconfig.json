@@ -6,7 +6,7 @@
 		"jsx": "react-jsx",
 
 		"lib": [
-			// "DOM", // This ChildNode differs from the one in domhandler npm module.
+			"DOM", // NOTE: This ChildNode differs from the one in domhandler npm module.
 			"ES2015"
 		],
 

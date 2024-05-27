@@ -6,6 +6,7 @@ import type {MacroComponent} from '../types';
 
 export const Macro: MacroComponent = ({
 	config,
+	// contentId: _contentId,
 	descriptor
 }) => {
 	// throw new Error(`Macro not found: ${descriptor}`);

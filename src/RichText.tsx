@@ -14,6 +14,7 @@ import {Macro as MacroFallback} from './RichText/Macro';
 
 export function RichText({
 	className,
+	contentId,
 	data,
 	Image = ImageFallback,
 	Link = LinkFallback,
@@ -27,6 +28,7 @@ export function RichText({
 			data.processedHtml
 				? HTMLReactParser(data.processedHtml, {
 					replace: createReplacer({
+						contentId,
 						data,
 						Image,
 						Link,
