@@ -18,7 +18,7 @@ import {ErrorComponent} from './ErrorComponent';
 import {findLinkData} from './findLinkData';
 
 
-export function replaceLink({
+export function replaceLink<RestProps = Record<string, unknown>>({
 	createReplacer,
 	data,
 	el,
@@ -26,13 +26,14 @@ export function replaceLink({
 	Link,
 	Macro,
 	replacer,
+	...rest
 }: {
 	createReplacer: typeof CreateReplacer
 	data: RichTextData
 	el: Element
 	Image: ImageComponent,
 	Link: LinkComponent
-	Macro: MacroComponent
+	Macro: MacroComponent<RestProps>
 	replacer?: Replacer
 }) {
 	const {
@@ -79,6 +80,8 @@ export function replaceLink({
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
 		<Link {...linkProps}>{domToReact(children as DOMNode[], {
 			replace: createReplacer({
+				...rest,
+				// These should be last, so they can't be overridden
 				data,
 				Image,
 				Link,

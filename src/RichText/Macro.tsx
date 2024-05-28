@@ -4,11 +4,10 @@ import type {MacroComponent} from '../types';
 // import React from 'react';
 
 
-export const Macro: MacroComponent = ({
+export function Macro({
 	config,
-	// contentId: _contentId,
 	descriptor
-}) => {
+}) {
 	// throw new Error(`Macro not found: ${descriptor}`);
 	return <div style={{
 		border: '1px dotted orange',

@@ -107,13 +107,16 @@ export declare interface LinkDataMedia {
 
 export declare type MacroConfig = Record<string, any>;
 
-export declare type MacroComponent = (params: MacroComponentParams) => React.JSX.Element | null
+export declare type MacroComponent<
+	RestProps = Record<string, unknown>
+> = (params: MacroComponentParams<RestProps>) => React.JSX.Element | null
 
-export declare interface MacroComponentParams {
+export declare type MacroComponentParams<
+	RestProps = Record<string, unknown>
+> = {
 	config: Record<string, unknown>
-	contentId?: string
 	descriptor: MacroDescriptor;
-}
+} & RestProps;
 
 export declare interface MacroData {
 	ref: string
@@ -140,13 +143,14 @@ export declare interface RichTextData {
 	images?: ImageData[]
 }
 
-export declare interface RichTextParams {
+export declare type RichTextParams<
+	RestProps = Record<string, unknown>
+> = {
 	className?: string
-	contentId?: string
 	data: RichTextData
 	Image?: ImageComponent
-	Macro?: MacroComponent
+	Macro?: MacroComponent<RestProps>
 	Link?: LinkComponent
 	replacer?: Replacer
 	tag?: string
-}
+} & RestProps;

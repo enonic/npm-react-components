@@ -22,19 +22,18 @@ import {replaceMacro} from './replaceMacro';
 
 
 // Replaces "matching" domNodes
-export function createReplacer({
-	contentId,
+export function createReplacer<RestProps = Record<string, unknown>>({
 	data,
 	Image,
 	Link,
 	Macro,
 	replacer,
+	...rest
 }: {
-	contentId?: string
 	data: RichTextData
 	Image: ImageComponent
 	Link: LinkComponent
-	Macro: MacroComponent
+	Macro: MacroComponent<RestProps>
 	replacer?: Replacer
 }): (domNode: DOMNode) => ReplacerResult {
 	const {
@@ -56,6 +55,8 @@ export function createReplacer({
 				});
 			case LINK_TAG:
 				return replaceLink({
+					...rest,
+					// These should be last, so they can't be overridden
 					createReplacer,
 					data,
 					el,
@@ -66,7 +67,8 @@ export function createReplacer({
 				});
 			case MACRO_TAG:
 				return replaceMacro({
-					contentId,
+					...rest,
+					// These should be last, so they can't be overridden
 					el,
 					Macro,
 					macros,

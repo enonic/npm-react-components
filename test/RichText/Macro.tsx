@@ -9,7 +9,9 @@ const contentQueriesMock = {
 	}
 };
 
-export const Macro: MacroComponent = ({
+export const Macro: MacroComponent<{
+	contentId?: string
+}> = ({
 	config,
 	contentId,
 	descriptor
