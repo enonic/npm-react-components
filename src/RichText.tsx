@@ -12,23 +12,24 @@ import {Link as LinkFallback} from './RichText/Link';
 import {Macro as MacroFallback} from './RichText/Macro';
 
 
-export function RichText({
+export function RichText<RestProps = Record<string, unknown>>({
 	className,
-	contentId,
 	data,
 	Image = ImageFallback,
 	Link = LinkFallback,
 	Macro = MacroFallback,
 	replacer,
-	tag
-}: RichTextParams) {
+	tag,
+	...rest
+}: RichTextParams<RestProps>) {
 	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
 	return <CustomTag className={className}>
 		{
 			data.processedHtml
 				? HTMLReactParser(data.processedHtml, {
 					replace: createReplacer({
-						contentId,
+						...rest,
+						// These should be last, so they can't be overridden
 						data,
 						Image,
 						Link,

@@ -1,6 +1,7 @@
 import type {Element} from 'domhandler';
 import type {
 	MacroComponent,
+	MacroComponentParams,
 	MacroData
 } from '../types';
 
@@ -11,15 +12,14 @@ import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
 
 
-export function replaceMacro({
-	contentId,
+export function replaceMacro<RestProps = Record<string, unknown>>({
 	el,
 	Macro,
 	macros,
+	...rest
 }: {
-	contentId?: string
 	el: Element
-	Macro: MacroComponent
+	Macro: MacroComponent<RestProps>
 	macros?: MacroData[]
 }) {
 	const ref = el.attribs[MACRO_ATTR];
@@ -36,13 +36,13 @@ export function replaceMacro({
 		return <ErrorComponent>Unable to find macro with ref {ref} in macros object!</ErrorComponent>
 	}
 
-	const {descriptor, name, config} = macroData;
-	const props = config[name];
+	const {descriptor, name, config: configs} = macroData;
+	const config = configs[name];
+
+	// config and descriptor should be last, so they can't be overridden
+	const props = {...rest, config, descriptor} as MacroComponentParams<RestProps>;
+
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-		<Macro
-			config={props}
-			contentId={contentId}
-			descriptor={descriptor}
-		/>
+		<Macro {...props} />
 	</ErrorBoundary>;
 }
