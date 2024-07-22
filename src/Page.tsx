@@ -45,7 +45,7 @@ const Page = ({
 		</head>,
 		<body className="xp-page">
 			{!childrenAfterRegions ? children : null}
-			{regionsData ? <Regions regionsData={regionsData} classes={regionClasses} names={regionNames}/> : null}
+			{regionsData && <Regions regionsData={regionsData} classes={regionClasses} names={regionNames}/>}
 			{childrenAfterRegions ? children : null}
 		</body>,
 	];

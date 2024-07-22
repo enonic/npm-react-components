@@ -45,7 +45,7 @@ const Layout = ({
 
 	return <TAG className={containerClass}>
 		{!childrenAfterRegions ? children : null}
-		{regionsData ? <Regions regionsData={regionsData} classes={regionClasses} names={regionNames}/> : null}
+		{regionsData && <Regions regionsData={regionsData} classes={regionClasses} names={regionNames}/>}
 		{childrenAfterRegions ? children : null}
 	</TAG>;
 };

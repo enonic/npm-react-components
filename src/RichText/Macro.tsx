@@ -1,13 +1,10 @@
-import type {MacroComponent} from '../types';
-
-
 // import React from 'react';
 
 
 export function Macro({
 	config,
 	descriptor
-}) {
+					  }: { config: any, descriptor: string }) {
 	// throw new Error(`Macro not found: ${descriptor}`);
 	return <div style={{
 		border: '1px dotted orange',

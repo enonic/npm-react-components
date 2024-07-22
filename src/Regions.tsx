@@ -29,7 +29,7 @@ const Regions = ({
 	names?: string | string[]
 	tags?: string | Record<string, string>
 	classes?: boolean | string | Record<string, string>
-}): React.JSX.Element[] => {
+}): React.JSX.Element => {
 	if (
 		!regionsData ||
 		typeof regionsData !== 'object'
@@ -49,7 +49,7 @@ const Regions = ({
 	}
 
 	// TODO: sanitize tag and name: not all characters (or tags) are acceptable
-	return selectedRegions.map(name =>
+	const regionViews: React.JSX.Element[] = selectedRegions.map(name =>
 		//@ts-ignore
 		<Region key={name}
 			regionData={regionsData[name]}
@@ -64,6 +64,9 @@ const Regions = ({
 			}
 		/>
 	);
+	return <>
+		{regionViews}
+	</>;
 };
 Regions.propTypes = {
 	regionsData: PropTypes.objectOf(
