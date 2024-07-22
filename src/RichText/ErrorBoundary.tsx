@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ErrorBoundaryProps {
 	children: React.ReactNode
-	Fallback: ({error}: {error: Error}) => React.ReactNode
+	Fallback: ({error}: { error: Error }) => React.JSX.Element
 }
 
 interface ErrorBoundaryState {

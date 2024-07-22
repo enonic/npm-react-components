@@ -93,7 +93,7 @@
     "build": "concurrently -c auto -g --timings npm:build:*",
     "build:cjs": "npx tsup -d dist/cjs",
     "build:esm": "npx tsup -d dist/esm",
-    "clean": "rimraf dist/ *.tgz",
+    "clean": "rimraf --glob dist/ *.tgz",
     "check:types": "npx tsc --noEmit",
     "cov": "npx jest --coverage --no-cache",
     "prebuild": "npm run clean",
