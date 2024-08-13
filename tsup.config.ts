@@ -18,21 +18,21 @@ const TS_FILES = globSync(`./src/**/*.${GLOB_EXTENSIONS}`, {
 
 
 export default defineConfig((options: MyOptions) => {
-	if (options.d === 'dist/cjs') {
+	if (Array.isArray(options.format) && options.format[0] === 'cjs') {
 		return {
-			dts: true,
+			d: 'dist',
+			dts: false,
 			entry: TS_FILES,
-			format: 'cjs',
 			minify: false,
 			platform: 'neutral',
 			target: 'es5',
 			sourcemap: false,
 		};
-	} else if (options.d === 'dist/esm') {
+	} else if (Array.isArray(options.format) && options.format[0] === 'esm') {
 		return {
-			dts: true,
+			d: 'dist',
+			dts: false,
 			entry: TS_FILES,
-			format: 'esm',
 			minify: false,
 			outExtension() {
 				return {
@@ -45,5 +45,5 @@ export default defineConfig((options: MyOptions) => {
 			sourcemap: false,
 		};
 	}
-	throw new Error(`Unconfigured directory:${options.d}!`)
+	throw new Error(`Unsupported format:${options.format}!`)
 });

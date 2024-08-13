@@ -20,6 +20,7 @@
     "@types/react": "^18.2.79",
     "concurrently": "^8.2.2",
     "cpy-cli": "^5.0.0",
+    "del-cli": "^5.1.0",
     "diffable-html": "^5.0.0",
     "domhandler": "^5.0.3",
     "glob": "^10.3.12",
@@ -27,7 +28,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "q-i": "^2.0.1",
     "react-test-renderer": "^18.2.0",
-    "rimraf": "^5.0.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
@@ -36,28 +36,14 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/esm/index.mjs",
-      "require": "./dist/cjs/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
-    "./ComponentTag": {
-      "import": "./dist/esm/ComponentTag.mjs",
-      "require": "./dist/cjs/ComponentTag.cjs"
-    },
-    "./Layout": {
-      "import": "./dist/esm/Layout.mjs",
-      "require": "./dist/cjs/Layout.cjs"
-    },
-    "./Page": {
-      "import": "./dist/esm/Page.mjs",
-      "require": "./dist/cjs/Page.cjs"
-    },
-    "./Region": {
-      "import": "./dist/esm/Region.mjs",
-      "require": "./dist/cjs/Region.cjs"
-    },
-    "./Regions": {
-      "import": "./dist/esm/Regions.mjs",
-      "require": "./dist/cjs/Regions.cjs"
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.cjs"
     }
   },
   "files": [
@@ -73,8 +59,8 @@
     "components"
   ],
   "license": "Apache-2.0",
-  "main": "dist/cjs/index.cjs",
-  "module": "dist/esm/index.mjs",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "name": "@enonic/react-components",
   "peerDependencies": {
     "@enonic-types/core": "^7",
@@ -90,19 +76,20 @@
   },
   "scripts": {
     "build": "concurrently -c auto -g --timings npm:build:* npm:copy:*",
-    "build:cjs": "npx tsup -d dist/cjs",
-    "build:esm": "npx tsup -d dist/esm",
-    "clean": "rimraf --glob dist/ *.tgz",
+    "build:cjs": "npx tsup --format cjs",
+    "build:esm": "npx tsup --format esm",
+    "build:types": "npx tsc --declarationDir dist --emitDeclarationOnly",
+    "clean": "del-cli dist/ *.tgz",
     "check:types": "npx tsc --noEmit",
     "cov": "npx jest --coverage --no-cache",
-    "copy:src:cjs": "npx cpy-cli 'src/**/*' dist/cjs",
-    "copy:src:esm": "npx cpy-cli 'src/**/*' dist/esm",
+    "copy:src": "npx cpy-cli 'src/**/*' dist/",
+    "postbuild": "del-cli dist/types/index.cjs dist/types/index.mjs",
     "prebuild": "npm run clean",
     "prepack": "npm run build",
     "test": "npx jest --no-cache"
   },
   "type": "module",
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/index.d.ts",
   "dependencies": {
     "domelementtype": "^2.3.0",
     "html-react-parser": "^5.1.10",
