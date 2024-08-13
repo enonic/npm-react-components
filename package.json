@@ -19,6 +19,7 @@
     "@types/diffable-html": "^5.0.2",
     "@types/react": "^18.2.79",
     "concurrently": "^8.2.2",
+    "cpy-cli": "^5.0.0",
     "diffable-html": "^5.0.0",
     "domhandler": "^5.0.3",
     "glob": "^10.3.12",
@@ -57,12 +58,10 @@
     "./Regions": {
       "import": "./dist/esm/Regions.mjs",
       "require": "./dist/cjs/Regions.cjs"
-    },
-    "./src": "./src/index.ts"
+    }
   },
   "files": [
     "dist",
-    "src",
     "LICENCE",
     "package.json",
     "README.md"
@@ -90,18 +89,20 @@
     "url": "git+ssh://git@github.com:enonic/enonic-react-components.git"
   },
   "scripts": {
-    "build": "concurrently -c auto -g --timings npm:build:*",
+    "build": "concurrently -c auto -g --timings npm:build:* npm:copy:*",
     "build:cjs": "npx tsup -d dist/cjs",
     "build:esm": "npx tsup -d dist/esm",
     "clean": "rimraf --glob dist/ *.tgz",
     "check:types": "npx tsc --noEmit",
     "cov": "npx jest --coverage --no-cache",
+    "copy:src:cjs": "npx cpy-cli 'src/**/*' dist/cjs",
+    "copy:src:esm": "npx cpy-cli 'src/**/*' dist/esm",
     "prebuild": "npm run clean",
     "prepack": "npm run build",
     "test": "npx jest --no-cache"
   },
   "type": "module",
-  "types": "src/types/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "dependencies": {
     "domelementtype": "^2.3.0",
     "html-react-parser": "^5.1.10",
