@@ -20,6 +20,7 @@ const TS_FILES = globSync(`./src/**/*.${GLOB_EXTENSIONS}`, {
 export default defineConfig((options: MyOptions) => {
 	if (options.d === 'dist/cjs') {
 		return {
+			dts: true,
 			entry: TS_FILES,
 			format: 'cjs',
 			minify: false,
@@ -29,6 +30,7 @@ export default defineConfig((options: MyOptions) => {
 		};
 	} else if (options.d === 'dist/esm') {
 		return {
+			dts: true,
 			entry: TS_FILES,
 			format: 'esm',
 			minify: false,

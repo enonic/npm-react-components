@@ -1,10 +1,32 @@
+export type {
+	Content,
+	ContentUri,
+	ImageComponent,
+	ImageComponentParams,
+	ImageContent,
+	ImageData,
+	ImageStyle,
+	LinkComponent,
+	LinkComponentParams,
+	LinkData,
+	LinkDataMedia,
+	MacroComponent,
+	MacroComponentParams,
+	MacroConfig,
+	MacroData,
+	MacroDescriptor,
+	MediaUri,
+	Replacer,
+	ReplacerResult,
+	RichTextData,
+	RichTextParams,
+} from './types';
+
 import Layout from './Layout'
 import Page from './Page'
 import ComponentTag from './ComponentTag';
 import Region from './Region';
 import Regions from './Regions';
-import { RichText } from './RichText';
-import { cssToReactStyle } from './RichText/cssToReactStyle';
 
 export {
 	ComponentTag,
@@ -12,6 +34,6 @@ export {
 	Page,
 	Region,
 	Regions,
-	RichText,
-	cssToReactStyle
 };
+export { RichText } from './RichText';
+export { cssToReactStyle } from './RichText/cssToReactStyle';
