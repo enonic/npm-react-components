@@ -1,7 +1,7 @@
 // import React from 'react';
 
 
-import {MacroComponentParams} from '../types';
+import type {MacroComponentParams} from '../types';
 
 export function Macro({
                           config,
