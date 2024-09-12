@@ -6,7 +6,7 @@
   "contributors": [
     "Christian Andreas Westgaard <cwe@enonic.com>"
   ],
-  "description": "Ready-made React4xp templates for handling XP regions, and bare-bone page/layout templates with regions supported/included",
+  "description": "Ready-made React templates for handling page components and inputs in Enonic XP",
   "devDependencies": {
     "@enonic-types/core": "^7.14.1",
     "@enonic-types/guillotine": "^7.1.1",
@@ -95,5 +95,5 @@
     "html-react-parser": "^5.1.10",
     "uri-js": "^4.4.1"
   },
-  "version": "5.0.0-B4"
+  "version": "0.0.0"
 }
