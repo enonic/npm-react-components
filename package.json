@@ -8,7 +8,7 @@
   ],
   "description": "Ready-made React templates for handling page components and inputs in Enonic XP",
   "devDependencies": {
-    "@enonic-types/core": "^7.14.1",
+    "@enonic-types/core": "^7.14.4",
     "@enonic-types/guillotine": "^7.1.1",
     "@enonic-types/lib-content": "^7.14.1",
     "@enonic-types/lib-node": "^7.14.1",
