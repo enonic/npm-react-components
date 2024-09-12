@@ -15,7 +15,7 @@
     "@enonic-types/lib-portal": "^7.14.4",
     "@jest/globals": "^29.7.0",
     "@swc/core": "^1.4.14",
-    "@testing-library/react": "^15.0.2",
+    "@testing-library/react": "^16.0.1",
     "@types/diffable-html": "^5.0.2",
     "@types/react": "^18.3.5",
     "concurrently": "^8.2.2",
