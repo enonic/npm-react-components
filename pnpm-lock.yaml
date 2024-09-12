@@ -34,8 +34,8 @@ importers:
         specifier: ^7.14.1
         version: 7.14.1
       '@enonic-types/lib-node':
-        specifier: ^7.14.1
-        version: 7.14.1
+        specifier: ^7.14.4
+        version: 7.14.4
       '@enonic-types/lib-portal':
         specifier: ^7.14.4
         version: 7.14.4
@@ -296,8 +296,8 @@ packages:
   '@enonic-types/lib-content@7.14.1':
     resolution: {integrity: sha512-txhBEqyG563BcNLHNoC49iGfnZjbAWugdAMOxR0dGASr+N42TYgY56gueCjjkgp1GRM3uU2EIRfokYN3dqjEuQ==}
 
-  '@enonic-types/lib-node@7.14.1':
-    resolution: {integrity: sha512-3jhhqWPFYV/6kIrHdz65DLXY4nB7WTYU7lyvXGIVDv9PCeI5PEctBKuucR/0e5ZOlyDxqO+Atfk5zIccibwM7Q==}
+  '@enonic-types/lib-node@7.14.4':
+    resolution: {integrity: sha512-sEOzJu0zZN7SKY3sez8DqgVTLRsSzYI2G/DSLSg1GSzh+SI2uDSwtLwiu+jK1gj5LbQRTrUkIp3Edixtjee/Mw==}
 
   '@enonic-types/lib-portal@7.14.4':
     resolution: {integrity: sha512-CO19Vzai4DGplgeOcqF6OAP0XvxufIDvkINFcy4AxZQgH5iigHVkdttWhaZRTW2meNoNR+dS367siRUozxspbA==}
@@ -2813,9 +2813,9 @@ snapshots:
     dependencies:
       '@enonic-types/core': 7.14.1
 
-  '@enonic-types/lib-node@7.14.1':
+  '@enonic-types/lib-node@7.14.4':
     dependencies:
-      '@enonic-types/core': 7.14.1
+      '@enonic-types/core': 7.14.4
 
   '@enonic-types/lib-portal@7.14.4':
     dependencies:
