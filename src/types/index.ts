@@ -4,8 +4,8 @@
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
 
-import type {DOMNode, Element} from 'html-react-parser';
-import type {ReactNode} from 'react';
+import type {Element} from 'html-react-parser';
+import type {ReactNode, JSX} from 'react';
 
 
 export declare type Content<
@@ -115,7 +115,8 @@ export declare type MacroComponentParams<
 	RestProps = Record<string, unknown>
 > = {
 	config: Record<string, unknown>
-	descriptor: MacroDescriptor;
+	descriptor: MacroDescriptor
+	children: string | React.JSX.Element | React.JSX.Element[]
 } & RestProps;
 
 export declare interface MacroData {

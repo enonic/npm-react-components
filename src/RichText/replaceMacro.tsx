@@ -1,48 +1,69 @@
 import type {Element} from 'domhandler';
-import type {
-	MacroComponent,
-	MacroComponentParams,
-	MacroData
-} from '../types';
+import type {MacroComponent, MacroComponentParams, RichTextData, ImageComponent, LinkComponent, Replacer} from '../types';
 
 
 import React from 'react';
 import {MACRO_ATTR} from '../constants';
 import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
+import {domToReact, type DOMNode} from 'html-react-parser';
+import {type createReplacer as CreateReplacer} from './createReplacer';
 
 
 export function replaceMacro<RestProps = Record<string, unknown>>({
-	el,
-	Macro,
-	macros,
-	...rest
+    createReplacer,
+    data,
+    el,
+    Image,
+    Link,
+    Macro,
+    replacer,
+    ...rest
 }: {
-	el: Element
-	Macro: MacroComponent<RestProps>
-	macros?: MacroData[]
+    createReplacer: typeof CreateReplacer
+    data: RichTextData
+    el: Element
+    Image: ImageComponent,
+    Link: LinkComponent
+    Macro: MacroComponent<RestProps>
+    replacer?: Replacer
 }) {
-	const ref = el.attribs[MACRO_ATTR];
-	if (!ref) {
-		return <ErrorComponent>Macro element has no data-macro-ref attribute!</ErrorComponent>
-	}
+    const ref = el.attribs[MACRO_ATTR];
+    if (!ref) {
+        return <ErrorComponent>Macro element has no data-macro-ref attribute!</ErrorComponent>
+    }
 
-	if (!macros || !macros.length) {
-		return <ErrorComponent>Can't replace macro, when there are no macros in the data object!</ErrorComponent>
-	}
+    const {
+        macros
+    } = data;
 
-	const macroData = macros.find((d) => d.ref === ref);
-	if (!macroData) {
-		return <ErrorComponent>Unable to find macro with ref {ref} in macros object!</ErrorComponent>
-	}
+    if (!macros || !macros.length) {
+        return <ErrorComponent>Can't replace macro, when there are no macros in the data object!</ErrorComponent>
+    }
 
-	const {descriptor, name, config: configs} = macroData;
-	const config = configs[name];
+    const macroData = macros.find((d) => d.ref === ref);
+    if (!macroData) {
+        return <ErrorComponent>Unable to find macro with ref {ref} in macros object!</ErrorComponent>
+    }
 
-	// config and descriptor should be last, so they can't be overridden
-	const props = {...rest, config, descriptor} as MacroComponentParams<RestProps>;
+    const {descriptor, name, config: configs} = macroData;
+    const config = configs[name];
 
-	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-		<Macro {...props} />
-	</ErrorBoundary>;
+    // config and descriptor should be last, so they can't be overridden
+    const props = {...rest, config, descriptor} as MacroComponentParams<RestProps>;
+
+    const children = domToReact(el.children as DOMNode[], {
+        replace: createReplacer({
+            ...rest, // These should be last, so they can't be overridden
+            data,
+            Image,
+            Link,
+            Macro,
+            replacer
+        })
+    });
+
+    return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+        <Macro {...props}>{children}</Macro>
+    </ErrorBoundary>;
 }

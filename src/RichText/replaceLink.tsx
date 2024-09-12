@@ -1,21 +1,12 @@
 import type {Element} from 'domhandler';
 import type {DOMNode} from 'html-react-parser';
-import type {
-	LinkComponent,
-	ImageComponent,
-	MacroComponent,
-	Replacer,
-	RichTextData,
-} from '../types';
-import type {createReplacer as CreateReplacer} from './createReplacer';
-
-
 import {domToReact} from 'html-react-parser';
+import type {LinkComponent, ImageComponent, MacroComponent, Replacer, RichTextData,} from '../types';
+import type {createReplacer as CreateReplacer} from './createReplacer';
 import React from 'react';
 import {LINK_ATTR} from '../constants';
 import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
-import {findLinkData} from './findLinkData';
 
 
 export function replaceLink<RestProps = Record<string, unknown>>({
@@ -61,10 +52,7 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 		return <ErrorComponent>Can't replace link, when there are no links in the data object!</ErrorComponent>
 	}
 
-	const linkData = findLinkData({
-		linkRef,
-		links,
-	});
+	const linkData = links.find(data => data.ref === linkRef);
 	if (!linkData) {
 		return <ErrorComponent>Unable to find link with ref {linkRef} in links object!</ErrorComponent>
 	}
