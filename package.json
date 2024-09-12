@@ -12,7 +12,7 @@
     "@enonic-types/guillotine": "^7.1.1",
     "@enonic-types/lib-content": "^7.14.1",
     "@enonic-types/lib-node": "^7.14.1",
-    "@enonic-types/lib-portal": "^7.14.1",
+    "@enonic-types/lib-portal": "^7.14.4",
     "@jest/globals": "^29.7.0",
     "@swc/core": "^1.4.14",
     "@testing-library/react": "^15.0.2",
