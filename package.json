@@ -86,6 +86,7 @@
     "postbuild": "del-cli dist/types/index.cjs dist/types/index.mjs",
     "prebuild": "npm run clean",
     "prepack": "npm run build",
+    "prepublishOnly": "node setversion.cjs",
     "test": "npx jest --no-cache"
   },
   "type": "module",
