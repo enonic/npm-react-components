@@ -1,8 +1,5 @@
 import type {Element} from 'domhandler';
-import type {
-	ImageComponent,
-	ImageData
-} from '../types';
+import type {ImageComponent, ImageData} from '../types';
 
 
 import React from 'react';
@@ -10,7 +7,6 @@ import {IMG_ATTR} from '../constants';
 import {cssToReactStyle} from './cssToReactStyle';
 import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
-import {findImageData} from './findImageData';
 
 
 export function replaceImage({
@@ -31,10 +27,7 @@ export function replaceImage({
 		return <ErrorComponent>Image element has no data-image-ref attibute!</ErrorComponent>
 	}
 
-	const imageData = findImageData({
-		images,
-		imageRef
-	});
+	const imageData = images.find(data => data.ref === imageRef);
 	if (!imageData) {
 		return <ErrorComponent>Unable to find image with ref {imageRef} in images object!</ErrorComponent>
 	}
