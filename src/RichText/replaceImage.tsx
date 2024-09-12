@@ -1,5 +1,5 @@
 import type {Element} from 'domhandler';
-import type {ImageComponent, ImageData} from '../types';
+import type {ImageComponent, ImageData, ImageComponentParams} from '../types';
 
 
 import React from 'react';
@@ -9,13 +9,14 @@ import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
 
 
-export function replaceImage({
+export function replaceImage<RestProps = Record<string, unknown>>({
 	el,
 	Image,
 	images,
+	...rest
 }: {
 	el: Element
-	Image: ImageComponent
+	Image: ImageComponent<RestProps>
 	images?: ImageData[]
 }) {
 	if (!images || !images.length) {
@@ -49,7 +50,7 @@ export function replaceImage({
 		style: imageStyle
 	} = imageData;
 
-	const imgProps = {alt, image, imageStyle, sizes, src, srcSet, style};
+	const imgProps = {...rest, alt, image, imageStyle, sizes, src, srcSet, style} as ImageComponentParams<RestProps>;
 
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
 		<Image {...imgProps} />

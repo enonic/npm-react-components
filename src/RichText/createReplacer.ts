@@ -1,10 +1,10 @@
 import type {DOMNode} from 'html-react-parser';
-import type {ImageComponent, LinkComponent, MacroComponent, Replacer, ReplacerResult, RichTextData,} from '../types';
+import type {ImageComponent, LinkComponent, MacroComponent, Replacer, ReplacerResult, RichTextData} from '../types';
 
 
 import {ElementType} from 'domelementtype';
 
-import {IMG_TAG, LINK_TAG, MACRO_TAG,} from '../constants';
+import {IMG_TAG, LINK_TAG, MACRO_TAG} from '../constants';
 import {replaceImage} from './replaceImage';
 import {replaceLink} from './replaceLink';
 import {replaceMacro} from './replaceMacro';
@@ -20,8 +20,8 @@ export function createReplacer<RestProps = Record<string, unknown>>({
 	...rest
 }: {
 	data: RichTextData
-	Image: ImageComponent
-	Link: LinkComponent
+	Image: ImageComponent<RestProps>
+	Link: LinkComponent<RestProps>
 	Macro: MacroComponent<RestProps>
 	replacer?: Replacer
 }): (domNode: DOMNode) => ReplacerResult {
@@ -37,6 +37,7 @@ export function createReplacer<RestProps = Record<string, unknown>>({
 		switch (el.tagName) {
 			case IMG_TAG:
 				return replaceImage({
+					...rest,
 					el,
 					Image,
 					images

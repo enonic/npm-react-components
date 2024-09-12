@@ -23,8 +23,8 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
     createReplacer: typeof CreateReplacer
     data: RichTextData
     el: Element
-    Image: ImageComponent,
-    Link: LinkComponent
+    Image: ImageComponent<RestProps>,
+    Link: LinkComponent<RestProps>
     Macro: MacroComponent<RestProps>
     replacer?: Replacer
 }) {

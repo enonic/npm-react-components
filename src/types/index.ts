@@ -55,9 +55,13 @@ export declare type ImageContent = Partial<Content> & {
 	imageUrl?: string
 }
 
-export declare type ImageComponent = (params: ImageComponentParams) => React.JSX.Element | null;
+export declare type ImageComponent<
+	RestProps = Record<string, unknown>
+> = (params: ImageComponentParams<RestProps>) => React.JSX.Element | null;
 
-export declare interface ImageComponentParams {
+export declare type ImageComponentParams<
+	RestProps = Record<string, unknown>
+> = {
 	alt?: string
 	image: ImageContent
 	imageStyle?: ImageStyle | null
@@ -65,7 +69,7 @@ export declare interface ImageComponentParams {
 	src: string
 	srcSet?: string
 	style?: React.CSSProperties
-}
+} & RestProps;
 
 export declare interface ImageData {
 	ref: string
@@ -79,9 +83,13 @@ export declare interface ImageStyle {
 	filter: string
 }
 
-export declare type LinkComponent = (params: LinkComponentParams) => React.JSX.Element | null;
+export declare type LinkComponent<
+	RestProps = Record<string, unknown>
+> = (params: LinkComponentParams<RestProps>) => React.JSX.Element | null;
 
-export declare interface LinkComponentParams {
+export declare type LinkComponentParams<
+	RestProps = Record<string, unknown>
+> = {
 	children: ReactNode
 	content?: Partial<Content> | null
 	href: string
@@ -89,7 +97,7 @@ export declare interface LinkComponentParams {
 	target?: string
 	title?: string
 	uri: string
-}
+} & RestProps;
 
 export declare interface LinkData {
 	ref: string
@@ -149,9 +157,9 @@ export declare type RichTextParams<
 > = {
 	className?: string
 	data: RichTextData
-	Image?: ImageComponent
+	Image?: ImageComponent<RestProps>
 	Macro?: MacroComponent<RestProps>
-	Link?: LinkComponent
+	Link?: LinkComponent<RestProps>
 	replacer?: Replacer
 	tag?: string
 } & RestProps;
