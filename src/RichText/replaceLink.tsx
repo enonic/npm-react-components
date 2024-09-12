@@ -1,7 +1,7 @@
 import type {Element} from 'domhandler';
 import type {DOMNode} from 'html-react-parser';
 import {domToReact} from 'html-react-parser';
-import type {LinkComponent, ImageComponent, MacroComponent, Replacer, RichTextData,} from '../types';
+import type {LinkComponent, ImageComponent, MacroComponent, Replacer, RichTextData, LinkComponentParams} from '../types';
 import type {createReplacer as CreateReplacer} from './createReplacer';
 import React from 'react';
 import {LINK_ATTR} from '../constants';
@@ -22,8 +22,8 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 	createReplacer: typeof CreateReplacer
 	data: RichTextData
 	el: Element
-	Image: ImageComponent,
-	Link: LinkComponent
+	Image: ImageComponent<RestProps>,
+	Link: LinkComponent<RestProps>
 	Macro: MacroComponent<RestProps>
 	replacer?: Replacer
 }) {
@@ -33,8 +33,7 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 			[LINK_ATTR]: linkRef,
 			target,
 			title
-		},
-		children,
+		}
 	} = el;
 
 	if (!linkRef) { // non-content links like mailto and external links.
@@ -63,19 +62,21 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 		uri
 	} = linkData;
 
-	const linkProps = {content, href, media, target, title, uri};
+	const linkProps = {...rest, content, href, media, target, title, uri} as LinkComponentParams<RestProps>;
+
+	const children = domToReact(el.children as DOMNode[], {
+		replace: createReplacer({
+			...rest,
+			// These should be last, so they can't be overridden
+			data,
+			Image,
+			Link,
+			Macro,
+			replacer
+		})
+	})
 
 	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
-		<Link {...linkProps}>{domToReact(children as DOMNode[], {
-			replace: createReplacer({
-				...rest,
-				// These should be last, so they can't be overridden
-				data,
-				Image,
-				Link,
-				Macro,
-				replacer,
-			})
-		})}</Link>
+		<Link {...linkProps}>{children}</Link>
 	</ErrorBoundary>;
 }

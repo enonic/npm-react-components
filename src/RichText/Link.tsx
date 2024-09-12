@@ -1,42 +1,39 @@
-import type {
-	LinkComponent,
-	// LinkDataMedia,
-} from '../../src/types';
+import type {LinkComponentParams} from '../types';
 
 
 // import React from 'react';
 // import {parse} from 'uri-js';
 
 
-export const Link: LinkComponent = ({
-	// children, // in aProps
-	content: _content,
-	media: _media,
-	// href, // in aProps
-	// target, // in aProps
-	// title, // in aProps
-	uri: _uri,
-	...aProps
-}) => {
-	// const {
-	// 	content: mediaContent,
-	// 	intent,
-	// } = media || {} as LinkDataMedia;
+export const Link = ({
+    // children, // in aProps
+    content: _content,
+    media: _media,
+    // href, // in aProps
+    // target, // in aProps
+    // title, // in aProps
+    uri: _uri,
+    ...aProps
+}: LinkComponentParams) => {
+    // const {
+    // 	content: mediaContent,
+    // 	intent,
+    // } = media || {} as LinkDataMedia;
 
-	// const {
-	// 	_id,
-	// 	_name,
-	// 	_path,
-	// 	imageUrl,
-	// 	mediaUrl,
-	// 	type,
-	// } = mediaContent || content;
+    // const {
+    // 	_id,
+    // 	_name,
+    // 	_path,
+    // 	imageUrl,
+    // 	mediaUrl,
+    // 	type,
+    // } = mediaContent || content;
 
-	// const hrefObj = parse(href);
-	// console.debug('hrefObj', hrefObj);
+    // const hrefObj = parse(href);
+    // console.debug('hrefObj', hrefObj);
 
-	// const uriObj = parse(uri);
-	// console.debug('uriObj', uriObj);
+    // const uriObj = parse(uri);
+    // console.debug('uriObj', uriObj);
 
-	return <a {...aProps} />;
+    return <a {...aProps} />;
 }
