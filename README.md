@@ -14,8 +14,6 @@ Here is an example using the RichText component to render RichTextData in a Reac
 
 Typically the RichTextData would be fetched from Enonic XP via the Guillotine GraphQL API.
 
-MyComponent.tsx
-
 ```typescript
 import type {
   ImageComponent,
@@ -105,8 +103,6 @@ Here is an example using the Regions component:
 
 ### Page controller
 
-src/main/resources/site/pages/pageName/pageName.ts
-
 ```typescript
 import { getContent } from '/lib/xp/portal';
 import { render } from '/lib/enonic/react4xp';
@@ -139,7 +135,6 @@ export function get(request) {
 
 ### React4XP Entry
 
-src/main/resources/site/pages/pageName/pageName.tsx
 ```typescript
 import React from 'react';
 import { Regions } from '@enonic/react-components';
