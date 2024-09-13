@@ -97,7 +97,7 @@ export function MyComponent({data}: {data: RichTextData}) {
 
 ## Regions
 
-The Regions, Region, Layout, Page and ComponentTag components, are typically used with React4xp.
+The Regions, Region, Layout, Page and ComponentTag components, are typically used with [React4xp](https://market.enonic.com/starters/react4xp-starter).
 
 Here is an example using the Regions component:
 
