@@ -32,7 +32,7 @@ importers:
         version: 7.1.1
       '@enonic-types/lib-content':
         specifier: ^7.14.1
-        version: 7.14.1
+        version: 7.14.4
       '@enonic-types/lib-node':
         specifier: ^7.14.4
         version: 7.14.4
@@ -281,9 +281,6 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@enonic-types/core@7.14.1':
-    resolution: {integrity: sha512-KHohZGwfpEEN1s/8fBAmD7qSAG9sX2B1/pGA9BWv6cxsvi+NNwh0VM3JAgLAC96yYpjFggliZF7187Lj4XcQ0A==}
-
   '@enonic-types/core@7.14.4':
     resolution: {integrity: sha512-AzMe/DixiaNH8X3OEvy0AREwr3GcmmcQ5lQ3k8AQWK4rQVKmSVatuNslkQFvzakjc7BOcTHGSBxr5lhN9+qD8g==}
 
@@ -293,8 +290,8 @@ packages:
   '@enonic-types/guillotine@7.1.1':
     resolution: {integrity: sha512-6aUg/c3syVdFi647mHW7BbV4LPCmF2oLuWsaiUBEk1Lg/vUlk2zYwrOJ8basqyNFj/w+dQTXzZWLCwhtF1VQ2w==}
 
-  '@enonic-types/lib-content@7.14.1':
-    resolution: {integrity: sha512-txhBEqyG563BcNLHNoC49iGfnZjbAWugdAMOxR0dGASr+N42TYgY56gueCjjkgp1GRM3uU2EIRfokYN3dqjEuQ==}
+  '@enonic-types/lib-content@7.14.4':
+    resolution: {integrity: sha512-LpvmQEme5Z1JbKQ36vVFGbUSgqBmILq3C9DP8OgXBwV7tekWkGOCKb+I1Kjw6j3wttMOZ/Upq8C2gsrNiTsA/A==}
 
   '@enonic-types/lib-node@7.14.4':
     resolution: {integrity: sha512-sEOzJu0zZN7SKY3sez8DqgVTLRsSzYI2G/DSLSg1GSzh+SI2uDSwtLwiu+jK1gj5LbQRTrUkIp3Edixtjee/Mw==}
@@ -2825,8 +2822,6 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@enonic-types/core@7.14.1': {}
-
   '@enonic-types/core@7.14.4': {}
 
   '@enonic-types/global@7.14.1': {}
@@ -2835,11 +2830,11 @@ snapshots:
     dependencies:
       '@enonic-types/core': 7.14.4
       '@enonic-types/global': 7.14.1
-      '@enonic-types/lib-content': 7.14.1
+      '@enonic-types/lib-content': 7.14.4
 
-  '@enonic-types/lib-content@7.14.1':
+  '@enonic-types/lib-content@7.14.4':
     dependencies:
-      '@enonic-types/core': 7.14.1
+      '@enonic-types/core': 7.14.4
 
   '@enonic-types/lib-node@7.14.4':
     dependencies:
