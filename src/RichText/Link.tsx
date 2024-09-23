@@ -1,7 +1,6 @@
 import type {LinkComponentParams} from '../types';
 
 
-// import React from 'react';
 // import {parse} from 'uri-js';
 
 
