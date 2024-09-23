@@ -3,7 +3,6 @@ import type {DOMNode} from 'html-react-parser';
 import {domToReact} from 'html-react-parser';
 import type {LinkComponent, ImageComponent, MacroComponent, Replacer, RichTextData, LinkComponentParams} from '../types';
 import type {createReplacer as CreateReplacer} from './createReplacer';
-import React from 'react';
 import {LINK_ATTR} from '../constants';
 import {ErrorComponent} from './ErrorComponent';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';

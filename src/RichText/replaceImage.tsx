@@ -2,7 +2,6 @@ import type {Element} from 'domhandler';
 import type {ImageComponent, ImageData, ImageComponentParams} from '../types';
 
 
-import React from 'react';
 import {IMG_ATTR} from '../constants';
 import {cssToReactStyle} from './cssToReactStyle';
 import {ErrorComponent} from './ErrorComponent';

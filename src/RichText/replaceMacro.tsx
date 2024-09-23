@@ -2,7 +2,6 @@ import type {Element} from 'domhandler';
 import type {MacroComponent, MacroComponentParams, RichTextData, ImageComponent, LinkComponent, Replacer} from '../types';
 
 
-import React from 'react';
 import {MACRO_ATTR} from '../constants';
 import {ErrorComponent} from './ErrorComponent';
 import {domToReact, type DOMNode} from 'html-react-parser';

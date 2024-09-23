@@ -1,10 +1,12 @@
+import React from 'react';
+
 export function cssToReactStyle(cssString?: string): React.CSSProperties {
 
 	if (!cssString) {
 		return {};
 	}
 
-	const styleObject: React.CSSProperties = {};
+	const styleObject: Record<string, unknown> = {};
 	const rules = cssString.split(';');
 
 	rules.forEach((rule) => {

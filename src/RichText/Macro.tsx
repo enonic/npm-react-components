@@ -1,6 +1,3 @@
-// import React from 'react';
-
-
 import type {MacroComponentParams} from '../types';
 
 export function Macro({
