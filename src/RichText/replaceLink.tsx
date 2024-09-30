@@ -5,8 +5,8 @@ import type {LinkComponent, ImageComponent, MacroComponent, Replacer, RichTextDa
 import type {createReplacer as CreateReplacer} from './createReplacer';
 import React from 'react';
 import {LINK_ATTR} from '../constants';
-import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
+import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
 
 
 export function replaceLink<RestProps = Record<string, unknown>>({
@@ -76,7 +76,7 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 		})
 	})
 
-	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+	return <ErrorBoundaryWrapper>
 		<Link {...linkProps}>{children}</Link>
-	</ErrorBoundary>;
+	</ErrorBoundaryWrapper>;
 }

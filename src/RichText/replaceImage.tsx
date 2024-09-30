@@ -5,8 +5,8 @@ import type {ImageComponent, ImageData, ImageComponentParams} from '../types';
 import React from 'react';
 import {IMG_ATTR} from '../constants';
 import {cssToReactStyle} from './cssToReactStyle';
-import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
+import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
 
 
 export function replaceImage<RestProps = Record<string, unknown>>({
@@ -52,7 +52,7 @@ export function replaceImage<RestProps = Record<string, unknown>>({
 
 	const imgProps = {...rest, alt, image, imageStyle, sizes, src, srcSet, style} as ImageComponentParams<RestProps>;
 
-	return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+	return <ErrorBoundaryWrapper>
 		<Image {...imgProps} />
-	</ErrorBoundary>;
+	</ErrorBoundaryWrapper>;
 }
