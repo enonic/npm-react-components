@@ -17,7 +17,7 @@
     "@swc/core": "^1.7.26",
     "@testing-library/react": "^16.0.1",
     "@types/diffable-html": "^5.0.2",
-    "@types/react": "^18.3.8",
+    "@types/react": "^18.3.10",
     "concurrently": "^9.0.1",
     "cpy-cli": "^5.0.0",
     "del-cli": "^5.1.0",
