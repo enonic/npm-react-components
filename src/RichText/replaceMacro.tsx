@@ -4,10 +4,10 @@ import type {MacroComponent, MacroComponentParams, RichTextData, ImageComponent,
 
 import React from 'react';
 import {MACRO_ATTR} from '../constants';
-import {ErrorBoundary} from './ErrorBoundary';
 import {ErrorComponent} from './ErrorComponent';
 import {domToReact, type DOMNode} from 'html-react-parser';
 import {type createReplacer as CreateReplacer} from './createReplacer';
+import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
 
 
 export function replaceMacro<RestProps = Record<string, unknown>>({
@@ -63,7 +63,7 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
         })
     });
 
-    return <ErrorBoundary Fallback={({error}) => <ErrorComponent>{error.message}</ErrorComponent>}>
+    return <ErrorBoundaryWrapper>
         <Macro {...props}>{children}</Macro>
-    </ErrorBoundary>;
+    </ErrorBoundaryWrapper>;
 }
