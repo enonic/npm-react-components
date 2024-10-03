@@ -28,7 +28,7 @@ export function RichText<RestProps = Record<string, unknown>>({
 			data.processedHtml
 				/* try parser.default.default first because import is wrapped with __toesm() in cjs files
 				 * for node compatibility, which adds default export resulting in parser.default.default */
-				? (parser.default['default'] || parser.default)(data.processedHtml, {
+				? (((parser.default as any).default as typeof parser.default) || parser.default)(data.processedHtml, {
 					replace: createReplacer({
 						...rest,
 						// These should be last, so they can't be overridden
