@@ -58,24 +58,31 @@ const Link: LinkComponent = ({
 
 const HelloWorldMacro = ({
   config,
+    children,
   myCustomProp
 }: {
   config: Record<string,any>
   myCustomProp: RestProps['myCustomProp']
 }) => {
   return (
-    <h1>Hello, World!</h1>
+      <>
+          <h1>Hello, World! < /h1>
+    {
+        children
+    }
+    </>
   );
 }
 
 const Macro: MacroComponent<RestProps> = ({
   config,
   descriptor,
+    children,
   ...rest
 }) => {
   if (descriptor === 'com.enonic.app.example:helloworld') {
     const props = {...rest, config};
-    return <HelloWorldMacro {...props} />;
+      return <HelloWorldMacro {...props} > {children} < /HelloWorldMacro>;
   }
   throw new Error(`Macro not found: ${descriptor}`);
 }
