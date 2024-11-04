@@ -4,11 +4,19 @@
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
 
-import type {Element} from 'html-react-parser';
+import type {
+	DOMNode,
+	Element
+} from 'html-react-parser';
 import type {ReactNode, JSX} from 'react';
 
+export interface ComponentRegistry {
+	addMacro<PROPS = {}>(name: string, component: React.FunctionComponent<PROPS>): React.FunctionComponent<PROPS>
+	getMacro<PROPS = {}>(name: string): React.FunctionComponent<PROPS> | undefined
+	hasMacro(name: string): boolean
+}
 
-export declare type Content<
+export type Content<
 	Extensions extends Record<string, unknown> = Record<string, unknown>
 > = {
 	// Direct Properties
@@ -49,17 +57,28 @@ export declare type Content<
 	[key: string]: any
 } & Extensions
 
-export declare type ContentUri = `content://${string}`;
+export type ContentUri = `content://${string}`;
 
-export declare type ImageContent = Partial<Content> & {
+export type CreateReplacer<RestProps = Record<string, unknown>> = (params: CreateReplacerParams<RestProps>) => (domNode: DOMNode) => ReplacerResult;
+
+export interface CreateReplacerParams<RestProps = Record<string, unknown>> {
+	componentRegistry?: ComponentRegistry
+	data: RichTextData
+	Image: ImageComponent<RestProps>
+	Link: LinkComponent<RestProps>
+	Macro: MacroComponent<RestProps>
+	replacer?: Replacer
+}
+
+export type ImageContent = Partial<Content> & {
 	imageUrl?: string
 }
 
-export declare type ImageComponent<
+export type ImageComponent<
 	RestProps = Record<string, unknown>
 > = (params: ImageComponentParams<RestProps>) => React.JSX.Element | null;
 
-export declare type ImageComponentParams<
+export type ImageComponentParams<
 	RestProps = Record<string, unknown>
 > = {
 	alt?: string
@@ -71,23 +90,23 @@ export declare type ImageComponentParams<
 	style?: React.CSSProperties
 } & RestProps;
 
-export declare interface ImageData {
+export interface ImageData {
 	ref: string
 	image: ImageContent,
 	style?: ImageStyle | null
 }
 
-export declare interface ImageStyle {
+export interface ImageStyle {
 	name: string
 	aspectRatio: string
 	filter: string
 }
 
-export declare type LinkComponent<
+export type LinkComponent<
 	RestProps = Record<string, unknown>
 > = (params: LinkComponentParams<RestProps>) => React.JSX.Element | null;
 
-export declare type LinkComponentParams<
+export type LinkComponentParams<
 	RestProps = Record<string, unknown>
 > = {
 	children: ReactNode
@@ -99,63 +118,76 @@ export declare type LinkComponentParams<
 	uri: string
 } & RestProps;
 
-export declare interface LinkData {
+export interface LinkData {
 	ref: string
 	content?: Partial<Content> | null
 	media?: LinkDataMedia | null
 	uri: string
 }
 
-export declare interface LinkDataMedia {
+export interface LinkDataMedia {
 	content: Partial<Content> & {
 		mediaUrl?: string
 	}
 	intent: 'inline' | 'download'
 }
 
-export declare type MacroConfig = Record<string, any>;
+export type MacroConfig = Record<string, any>;
 
-export declare type MacroComponent<
+export type MacroComponent<
 	RestProps = Record<string, unknown>
 > = (params: MacroComponentParams<RestProps>) => React.JSX.Element | null
 
-export declare type MacroComponentParams<
+export type MacroComponentParams<
 	RestProps = Record<string, unknown>
 > = {
+	componentRegistry?: ComponentRegistry
 	config: Record<string, unknown>
 	descriptor: MacroDescriptor
 	children: string | React.JSX.Element | React.JSX.Element[]
 } & RestProps;
 
-export declare interface MacroData {
+export interface MacroData {
 	ref: string
 	name: string
 	descriptor: MacroDescriptor
 	config: Record<string, MacroConfig>
 }
 
-export declare type MacroDescriptor = `${string}:${string}`;
+export type MacroDescriptor = `${string}:${string}`;
 
-export declare type MediaUri = `media://${string}`;
+export type MediaUri = `media://${string}`;
 
-export declare type Replacer = (
+export interface ReplaceMacroParams<RestProps = Record<string, unknown>> {
+	componentRegistry?: ComponentRegistry
+	createReplacer: CreateReplacer<RestProps>
+    data: RichTextData
+    el: Element
+    Image: ImageComponent<RestProps>,
+    Link: LinkComponent<RestProps>
+    Macro: MacroComponent<RestProps>
+    replacer?: Replacer
+}
+
+export type Replacer = (
 	element: Element,
 	data: RichTextData,
 ) => ReplacerResult;
 
-export declare type ReplacerResult = JSX.Element | object | void | undefined | null | false;
+export type ReplacerResult = JSX.Element | object | void | undefined | null | false;
 
-export declare interface RichTextData {
+export interface RichTextData {
 	processedHtml: string
 	links?: LinkData[]
 	macros?: MacroData[]
 	images?: ImageData[]
 }
 
-export declare type RichTextParams<
+export type RichTextParams<
 	RestProps = Record<string, unknown>
 > = {
 	className?: string
+	componentRegistry?: ComponentRegistry
 	data: RichTextData
 	Image?: ImageComponent<RestProps>
 	Macro?: MacroComponent<RestProps>

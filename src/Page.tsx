@@ -1,6 +1,6 @@
 import type {Region as RegionType} from '@enonic-types/core';
 
-import PropTypes from 'prop-types';
+// import * as PropTypes from 'prop-types';
 
 import Regions from './Regions';
 
@@ -52,27 +52,27 @@ const Page = ({
 };
 
 
-Page.propTypes = {
-	title: PropTypes.string,
-	regionsData: PropTypes.objectOf(
-		PropTypes.shape({
-			components: PropTypes.arrayOf(
-				PropTypes.shape({
-					path: PropTypes.string.isRequired,
-				})
-			),
-		})
-	),
-	regionNames: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.arrayOf(PropTypes.string),
-	]),
-	regionClasses: PropTypes.oneOfType([
-		PropTypes.bool,
-		PropTypes.string,
-		PropTypes.objectOf(PropTypes.string),
-	]),
-	childrenAfterRegions: PropTypes.bool,
-};
+// Page.propTypes = {
+// 	title: PropTypes.string,
+// 	regionsData: PropTypes.objectOf(
+// 		PropTypes.shape({
+// 			components: PropTypes.arrayOf(
+// 				PropTypes.shape({
+// 					path: PropTypes.string.isRequired,
+// 				})
+// 			),
+// 		})
+// 	),
+// 	regionNames: PropTypes.oneOfType([
+// 		PropTypes.string,
+// 		PropTypes.arrayOf(PropTypes.string),
+// 	]),
+// 	regionClasses: PropTypes.oneOfType([
+// 		PropTypes.bool,
+// 		PropTypes.string,
+// 		PropTypes.objectOf(PropTypes.string),
+// 	]),
+// 	childrenAfterRegions: PropTypes.bool,
+// };
 
 export default Page;
