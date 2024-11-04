@@ -1,8 +1,17 @@
 import type {Region as RegionType} from '@enonic-types/core';
+import type {ComponentRegistry} from './ComponentRegistry';
 
-import PropTypes from 'prop-types';
+// import * as PropTypes from 'prop-types';
 
 import Region from './Region';
+
+export interface RegionsProps {
+	componentRegistry?: ComponentRegistry
+	regionsData: Record<string, RegionType>
+	names?: string | string[]
+	tags?: string | Record<string, string>
+	classes?: boolean | string | Record<string, string>
+}
 
 /**
  * @param {Object} regionsData - regions data object (e.g. content.page.regions).
@@ -20,16 +29,12 @@ import Region from './Region';
  * @returns {Region[]} An array of <Region> elements.
  */
 const Regions = ({
+	componentRegistry,
 	regionsData,
 	names,
 	tags,
 	classes
-}: {
-	regionsData: Record<string, RegionType>
-	names?: string | string[]
-	tags?: string | Record<string, string>
-	classes?: boolean | string | Record<string, string>
-}): React.JSX.Element[] => {
+}: RegionsProps): React.JSX.Element[] => {
 	if (
 		!regionsData ||
 		typeof regionsData !== 'object'
@@ -50,8 +55,8 @@ const Regions = ({
 
 	// TODO: sanitize tag and name: not all characters (or tags) are acceptable
 	return selectedRegions.map(name =>
-		//@ts-ignore
 		<Region key={name}
+			componentRegistry={componentRegistry}
 			regionData={regionsData[name]}
 			name={name}
 			tag={typeof tags === 'string' ? tags : (tags || {})[name]}
@@ -65,35 +70,35 @@ const Regions = ({
 		/>
 	);
 };
-Regions.propTypes = {
-	regionsData: PropTypes.objectOf(
-		PropTypes.shape({
-			components: PropTypes.arrayOf(
-				PropTypes.shape({
-					path: PropTypes.string.isRequired,
-				})
-			),
-		})
-	).isRequired,
-	names: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.arrayOf(
-			PropTypes.string
-		),
-	]),
-	tags: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.objectOf(
-			PropTypes.string
-		),
-	]),
-	classes: PropTypes.oneOfType([
-		PropTypes.bool,
-		PropTypes.string,
-		PropTypes.objectOf(
-			PropTypes.string
-		),
-	]),
-};
+// Regions.propTypes = {
+// 	regionsData: PropTypes.objectOf(
+// 		PropTypes.shape({
+// 			components: PropTypes.arrayOf(
+// 				PropTypes.shape({
+// 					path: PropTypes.string.isRequired,
+// 				})
+// 			),
+// 		})
+// 	).isRequired,
+// 	names: PropTypes.oneOfType([
+// 		PropTypes.string,
+// 		PropTypes.arrayOf(
+// 			PropTypes.string
+// 		),
+// 	]),
+// 	tags: PropTypes.oneOfType([
+// 		PropTypes.string,
+// 		PropTypes.objectOf(
+// 			PropTypes.string
+// 		),
+// 	]),
+// 	classes: PropTypes.oneOfType([
+// 		PropTypes.bool,
+// 		PropTypes.string,
+// 		PropTypes.objectOf(
+// 			PropTypes.string
+// 		),
+// 	]),
+// };
 
 export default Regions;

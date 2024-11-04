@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export function ErrorBoundaryWrapper({children}: { children: React.ReactNode }) {
     if (typeof window === 'undefined') {
