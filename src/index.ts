@@ -35,6 +35,8 @@ export {
 	Region,
 	Regions,
 };
+export { ComponentRegistry } from './ComponentRegistry';
+export { replaceMacroComments } from './replaceMacroComments';
 export { RichText } from './RichText';
 export { cssToReactStyle } from './RichText/cssToReactStyle';
 export {sanitizeGraphqlName} from './utils/sanitizeGraphqlName';

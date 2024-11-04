@@ -1,16 +1,18 @@
-import type {Element} from 'domhandler';
-import type {MacroComponent, MacroComponentParams, RichTextData, ImageComponent, LinkComponent, Replacer} from '../types';
+// import type {Element} from 'domhandler';
+import type {DOMNode} from 'html-react-parser';
+import type {MacroComponentParams, ReplaceMacroParams} from '../types';
 
 
 import {MACRO_ATTR} from '../constants';
 import {ErrorComponent} from './ErrorComponent';
-import {domToReact, type DOMNode} from 'html-react-parser';
-import {type createReplacer as CreateReplacer} from './createReplacer';
+import * as htmlReactParser from 'html-react-parser';
+// import {type createReplacer as CreateReplacer} from './createReplacer';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
 import {sanitizeGraphqlName} from '../utils/sanitizeGraphqlName';
 
 
 export function replaceMacro<RestProps = Record<string, unknown>>({
+	componentRegistry,
     createReplacer,
     data,
     el,
@@ -19,15 +21,7 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
     Macro,
     replacer,
     ...rest
-}: {
-    createReplacer: typeof CreateReplacer
-    data: RichTextData
-    el: Element
-    Image: ImageComponent<RestProps>,
-    Link: LinkComponent<RestProps>
-    Macro: MacroComponent<RestProps>
-    replacer?: Replacer
-}) {
+}: ReplaceMacroParams<RestProps>) {
     const ref = el.attribs[MACRO_ATTR];
     if (!ref) {
         return <ErrorComponent>Macro element has no data-macro-ref attribute!</ErrorComponent>
@@ -49,12 +43,22 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
     const {descriptor, name, config: configs} = macroData;
     const config = configs[sanitizeGraphqlName(name)];
 
-    // config and descriptor should be last, so they can't be overridden
-    const props = {...rest, config, descriptor} as MacroComponentParams<RestProps>;
+	if (componentRegistry) {
+		const MacroComponent = componentRegistry.getMacro(name);
+		if (MacroComponent) {
+			return (
+				<MacroComponent {...config}/>
+			);
+		}
+	}
 
-    const children = domToReact(el.children as DOMNode[], {
+    // config and descriptor should be last, so they can't be overridden
+    const props = {...rest, componentRegistry, config, descriptor} as MacroComponentParams<RestProps>;
+
+    const children = htmlReactParser.domToReact(el.children as DOMNode[], {
         replace: createReplacer({
             ...rest, // These should be last, so they can't be overridden
+			componentRegistry,
             data,
             Image,
             Link,

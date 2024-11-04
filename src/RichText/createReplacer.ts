@@ -1,5 +1,5 @@
 import type {DOMNode} from 'html-react-parser';
-import type {ImageComponent, LinkComponent, MacroComponent, Replacer, ReplacerResult, RichTextData} from '../types';
+import type {CreateReplacerParams, ReplacerResult} from '../types';
 
 
 import {ElementType} from 'domelementtype';
@@ -12,19 +12,14 @@ import {replaceMacro} from './replaceMacro';
 
 // Replaces "matching" domNodes
 export function createReplacer<RestProps = Record<string, unknown>>({
+	componentRegistry,
 	data,
 	Image,
 	Link,
 	Macro,
 	replacer,
 	...rest
-}: {
-	data: RichTextData
-	Image: ImageComponent<RestProps>
-	Link: LinkComponent<RestProps>
-	Macro: MacroComponent<RestProps>
-	replacer?: Replacer
-}): (domNode: DOMNode) => ReplacerResult {
+}: CreateReplacerParams<RestProps>): (domNode: DOMNode) => ReplacerResult {
 	const {
 		images
 	} = data;
@@ -55,9 +50,10 @@ export function createReplacer<RestProps = Record<string, unknown>>({
 					replacer,
 				});
 			case MACRO_TAG:
-				return replaceMacro({
+				return replaceMacro<RestProps>({
 					...rest,
 					// These should be last, so they can't be overridden
+					componentRegistry,
 					createReplacer,
 					data,
 					el,
