@@ -5,5 +5,12 @@
 			"ES2015",
 			"DOM"
 		],
+    "paths": {
+      "/lib/xp/schema": ["../node_modules/@enonic-types/lib-schema"],
+    },
+    "types": [
+      "bun",
+      "jest"
+    ]
 	}
 }

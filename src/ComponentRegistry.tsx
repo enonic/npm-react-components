@@ -1,48 +1,64 @@
-import type {ComponentRegistry as ComponentRegistryInterface} from './types';
+import type {
+	ComponentDefinition,
+	ComponentDefinitionParams,
+	ComponentDictionary,
+	ComponentRegistry as ComponentRegistryInterface
+} from './types';
 
 // import {XP_COMPONENT_TYPE} from './constants';
 
 export class ComponentRegistry implements ComponentRegistryInterface {
 
-    // private pages: ComponentDictionary = {};
-    // private parts: ComponentDictionary = {};
-    // private layouts: ComponentDictionary = {};
-    private _macros: {[macroName: string]: React.FunctionComponent<any>} = {};
+    private _pages: ComponentDictionary = {};
+    private _parts: ComponentDictionary = {};
+    private _layouts: ComponentDictionary = {};
+    private _macros: ComponentDictionary = {};
 
-    public addMacro<PROPS = {}>(name: string, component: React.FunctionComponent<PROPS>): React.FunctionComponent<PROPS> {
-		this._macros[name] = component;
-		return this._macros[name];
+    public addMacro<PROPS = {}>(name: string, obj: ComponentDefinitionParams<PROPS>): void {
+		this._macros[name] = obj as ComponentDefinition<{}>;
     }
 
-    // public addLayout(name: string, obj: ComponentDefinitionParams): void {
-    //     return ComponentRegistry.addType('layout', name, obj);
-    // }
-
-    // public addPage(name: string, obj: ComponentDefinitionParams): void {
-    //     return ComponentRegistry.addType('page', name, obj);
-    // }
-
-    // public addPart(name: string, obj: ComponentDefinitionParams): void {
-    //     return ComponentRegistry.addType('part', name, obj);
-    // }
-
-    public getMacro<PROPS = {}>(name: string): React.FunctionComponent<PROPS> | undefined {
-		return this._macros[name];
+    public addLayout<PROPS = {}>(name: string, obj: ComponentDefinitionParams<PROPS>): void {
+        this._layouts[name] = obj as ComponentDefinition<{}>;
     }
 
-    // public getPage(name: string): ComponentDefinition | undefined {
-    //     return ComponentRegistry.getType('page', name);
-    // }
+    public addPage<PROPS = {}>(name: string, obj: ComponentDefinitionParams<PROPS>): void {
+        this._pages[name] = obj as ComponentDefinition<{}>;
+    }
 
-    // public getPart(name: string): ComponentDefinition | undefined {
-    //     return ComponentRegistry.getType('part', name);
-    // }
+    public addPart<PROPS = {}>(name: string, obj: ComponentDefinitionParams<PROPS>): void {
+        this._parts[name] = obj as ComponentDefinition<{}>;
+    }
 
-    // public getLayout(name: string): ComponentDefinition | undefined {
-    //     return ComponentRegistry.getType('layout', name);
-    // }
+	public getLayout<PROPS = {}>(name: string): ComponentDefinition<PROPS> | undefined {
+		return this._layouts[name] as ComponentDefinition<PROPS>;
+    }
+
+    public getMacro<PROPS = {}>(name: string): ComponentDefinition<PROPS> | undefined {
+		return this._macros[name] as ComponentDefinition<PROPS>;
+    }
+
+    public getPage<PROPS = {}>(name: string): ComponentDefinition<PROPS> | undefined {
+		return this._pages[name] as ComponentDefinition<PROPS>;
+    }
+
+    public getPart<PROPS = {}>(name: string): ComponentDefinition<PROPS> | undefined {
+        return this._parts[name] as ComponentDefinition<PROPS>;
+    }
 
 	public hasMacro(name: string): boolean {
 		return this._macros[name] !== undefined;
+	}
+
+	public hasLayout(name: string): boolean {
+		return this._layouts[name] !== undefined;
+	}
+
+	public hasPage(name: string): boolean {
+		return this._pages[name] !== undefined;
+	}
+
+	public hasPart(name: string): boolean {
+		return this._parts[name] !== undefined;
 	}
 }
