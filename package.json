@@ -24,6 +24,7 @@
     "del-cli": "^6.0.0",
     "diffable-html": "^5.0.0",
     "domhandler": "^5.0.3",
+    "esbuild-plugin-globals": "^0.2.0",
     "glob": "^11.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -69,6 +70,8 @@
   "name": "@enonic/react-components",
   "peerDependencies": {
     "@enonic-types/core": "^7",
+    "@enonic-types/lib-portal": "^7",
+    "@enonic-types/lib-schema": "^7",
     "prop-types": "*",
     "react": "*"
   },
@@ -97,6 +100,7 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@enonic/js-utils": "^1.8.0",
     "domelementtype": "^2.3.0",
     "html-react-parser": "^5.1.10",
     "uri-js": "^4.4.1"

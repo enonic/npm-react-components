@@ -44,8 +44,9 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
     const config = configs[sanitizeGraphqlName(name)];
 
 	if (componentRegistry) {
-		const MacroComponent = componentRegistry.getMacro(name);
-		if (MacroComponent) {
+		const MacroComponentDefinition = componentRegistry.getMacro(name);
+		if (MacroComponentDefinition) {
+			const MacroComponent = MacroComponentDefinition.View;
 			return (
 				<MacroComponent {...config}/>
 			);
