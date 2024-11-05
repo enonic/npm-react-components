@@ -1,9 +1,16 @@
-import {expect, it} from 'bun:test';
+import {
+	// beforeAll,
+	// afterAll,
+	describe,
+	expect,
+	test as it
+} from '@jest/globals';
 
 import {replaceMacroComments} from '../src/replaceMacroComments';
 
-it('should replace macro comments', () => {
-	expect(replaceMacroComments(`<p><!--#MACRO _name="info" header="Header1" _document="__macroDocument1" _body="Text1<br>
+describe('replaceMacroComments', () => {
+	it('should replace macro comments', () => {
+		expect(replaceMacroComments(`<p><!--#MACRO _name="info" header="Header1" _document="__macroDocument1" _body="Text1<br>
 With<br>
 Newlines"--></p>
 <p><!--#MACRO _name="info" header="Header2" _document="__macroDocument1" _body="Text2<br>
@@ -37,4 +44,5 @@ Newlines"--></p>`))
 				}
 			]
 		});
+	});
 });

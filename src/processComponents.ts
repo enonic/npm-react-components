@@ -40,19 +40,19 @@ export type NestedPartial<T> = {
 	[K in keyof T]?: T[K] extends object ? NestedPartial<T[K]> : T[K];
 };
 export interface GetComponentReturnType {
-	componentPath: string
-	config: Record<string, unknown>
-	description?: string
-	descriptionI18nKey?: string
-	displayName: string
-	displayNameI18nKey: string
-	form: NestedPartial<FormItem>[]
-	key: string
-	modifiedTime: string
-	regions?: string[]
-	resource: string
-	type: 'PART' | 'LAYOUT' | 'PAGE'
-}
+	componentPath: string;
+	config: Record<string, unknown>;
+	description?: string;
+	descriptionI18nKey?: string;
+	displayName: string;
+	displayNameI18nKey: string;
+	form: NestedPartial<FormItem>[];
+	key: string;
+	modifiedTime: string;
+	regions?: string[];
+	resource: string;
+	type: 'PART' | 'LAYOUT' | 'PAGE';
+};
 type GetComponent = (params: GetDynamicComponentParams) => GetComponentReturnType;
 
 
@@ -67,10 +67,10 @@ function findHtmlAreasInFormItemArray({
 	htmlAreas, // get modified
 	listSchemas,
 }: {
-	ancestor?: string
-	form:  NestedPartial<FormItem>[]
-	htmlAreas: string[]
-	listSchemas: ListSchemas
+	ancestor?: string;
+	form:  NestedPartial<FormItem>[];
+	htmlAreas: string[];
+	listSchemas: ListSchemas;
 }) {
 	for (let i = 0; i < form.length; i++) {
 		const formItem = form[i];
@@ -166,9 +166,9 @@ function getHtmlAreas({
 	form,
 	listSchemas
 }: {
-	ancestor?: string
-	form: NestedPartial<FormItem>[]
-	listSchemas: ListSchemas
+	ancestor?: string;
+	form: NestedPartial<FormItem>[];
+	listSchemas: ListSchemas;
 }): string[] {
 	const htmlAreas: string[] = [];
 	findHtmlAreasInFormItemArray({
@@ -184,17 +184,17 @@ function getHtmlAreas({
 
 function processPart({
 	component,
-	getComponent,
+	getComponentSchema,
 	listSchemas,
 	processHtml,
 }: {
 	component: PartComponent
-	getComponent: GetComponent
-	listSchemas: ListSchemas
-	processHtml: ProcessHtml
+	getComponentSchema: GetComponent;
+	listSchemas: ListSchemas;
+	processHtml: ProcessHtml;
 }) {
 	const {descriptor} = component;
-	const {form} = getComponent({
+	const {form} = getComponentSchema({
 		key: descriptor,
 		type: 'PART',
 	});
@@ -230,17 +230,17 @@ function processPart({
 function processWithRegions({
 	component,
 	form,
-	getComponent,
+	getComponentSchema,
 	getContentByKey,
 	listSchemas,
 	processHtml,
 }: {
-	component: LayoutComponent | PageComponent
-	form:  NestedPartial<FormItem>[]
-	getComponent: GetComponent
-	getContentByKey: GetContentByKey
-	listSchemas: ListSchemas
-	processHtml: ProcessHtml
+	component: LayoutComponent | PageComponent;
+	form:  NestedPartial<FormItem>[];
+	getComponentSchema: GetComponent;
+	getContentByKey: GetContentByKey;
+	listSchemas: ListSchemas;
+	processHtml: ProcessHtml;
 }) {
 	const htmlAreas = getHtmlAreas({
 		ancestor: 'config',
@@ -278,7 +278,7 @@ function processWithRegions({
 			const component = components[j];
 			processedComponent.regions[regionName].components[j] = processComponents({
 				component,
-				getComponent,
+				getComponentSchema,
 				getContentByKey,
 				listSchemas,
 				processHtml,
@@ -290,26 +290,26 @@ function processWithRegions({
 
 function processLayout({
 	component,
-	getComponent,
+	getComponentSchema,
 	getContentByKey,
 	listSchemas,
 	processHtml,
 }: {
-	component: LayoutComponent
-	getComponent: GetComponent
-	getContentByKey: GetContentByKey
-	listSchemas: ListSchemas
-	processHtml: ProcessHtml
+	component: LayoutComponent;
+	getComponentSchema: GetComponent;
+	getContentByKey: GetContentByKey;
+	listSchemas: ListSchemas;
+	processHtml: ProcessHtml;
 }) {
 	const {descriptor} = component;
-	const {form} = getComponent({
+	const {form} = getComponentSchema({
 		key: descriptor,
 		type: 'LAYOUT',
 	});
 	return processWithRegions({
 		component,
 		form,
-		getComponent,
+		getComponentSchema,
 		getContentByKey,
 		listSchemas,
 		processHtml,
@@ -318,26 +318,26 @@ function processLayout({
 
 function processPage({
 	component,
-	getComponent,
+	getComponentSchema,
 	getContentByKey,
 	listSchemas,
 	processHtml,
 }: {
-	component: PageComponent
-	getComponent: GetComponent
-	getContentByKey: GetContentByKey
-	listSchemas: ListSchemas
-	processHtml: ProcessHtml
+	component: PageComponent;
+	getComponentSchema: GetComponent;
+	getContentByKey: GetContentByKey;
+	listSchemas: ListSchemas;
+	processHtml: ProcessHtml;
 }) {
 	const {descriptor} = component;
-	const {form} = getComponent({
+	const {form} = getComponentSchema({
 		key: descriptor,
 		type: 'PAGE',
 	});
 	return processWithRegions({
 		component,
 		form,
-		getComponent,
+		getComponentSchema,
 		getContentByKey,
 		listSchemas,
 		processHtml,
@@ -346,37 +346,30 @@ function processPage({
 
 function processTextComponent({
 	component,
-	// getComponent,
-	// getContentByKey,
-	// listSchemas,
 	processHtml,
 }: {
 	component: TextComponent
-	// getComponent: GetComponent
-	// getContentByKey: GetContentByKey
-	// listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
 	const {text} = component;
 	const processedHtml = processHtml({
 		value: text
 	});
-	const data = replaceMacroComments(processedHtml);
-	return data;
+	return replaceMacroComments(processedHtml);
 }
 
 function processFragment({
 	component,
-	getComponent,
+	getComponentSchema,
 	getContentByKey,
 	listSchemas,
 	processHtml,
 }: {
-	component: FragmentComponent
-	getComponent: GetComponent
-	getContentByKey: GetContentByKey
-	listSchemas: ListSchemas
-	processHtml: ProcessHtml
+	component: FragmentComponent;
+	getComponentSchema: GetComponent;
+	getContentByKey: GetContentByKey;
+	listSchemas: ListSchemas;
+	processHtml: ProcessHtml;
 }) {
 	const {
 		fragment: key,
@@ -407,7 +400,7 @@ function processFragment({
 	if(type === 'part') {
 		return processPart({
 			component: fragment,
-			getComponent,
+			getComponentSchema,
 			listSchemas,
 			processHtml,
 		});
@@ -415,7 +408,7 @@ function processFragment({
 	if(type === 'layout') {
 		return processLayout({
 			component: fragment,
-			getComponent,
+			getComponentSchema,
 			getContentByKey,
 			listSchemas,
 			processHtml,
@@ -432,16 +425,16 @@ function processFragment({
 
 export function processComponents({
 	component,
-	getComponent,
+	getComponentSchema,
 	getContentByKey,
 	listSchemas,
 	processHtml,
 }: {
-	component: Component
-	getComponent: GetComponent
-	getContentByKey: GetContentByKey
-	listSchemas: ListSchemas
-	processHtml: ProcessHtml
+	component: Component;
+	getComponentSchema: GetComponent;
+	getContentByKey: GetContentByKey;
+	listSchemas: ListSchemas;
+	processHtml: ProcessHtml;
 }) {
 	const {type} = component;
 	switch (type) {
@@ -449,18 +442,18 @@ export function processComponents({
 			component,
 			listSchemas,
 			processHtml,
-			getComponent,
+			getComponentSchema,
 		});
 		case 'layout': return processLayout({
 			component: component as LayoutComponent,
-			getComponent,
+			getComponentSchema,
 			getContentByKey,
 			listSchemas,
 			processHtml,
 		});
 		case 'page': return processPage({
 			component: component as PageComponent,
-			getComponent,
+			getComponentSchema,
 			getContentByKey,
 			listSchemas,
 			processHtml,
@@ -471,7 +464,7 @@ export function processComponents({
 		});
 		case 'fragment': return processFragment({
 			component: component as FragmentComponent,
-			getComponent,
+			getComponentSchema,
 			getContentByKey,
 			listSchemas,
 			processHtml,

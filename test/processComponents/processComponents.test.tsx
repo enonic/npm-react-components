@@ -15,7 +15,7 @@ import {
 } from '@jest/globals';
 // import {render} from '@testing-library/react'
 // import toDiffableHtml from 'diffable-html';
-import {print} from 'q-i';
+// import {print} from 'q-i';
 // import React from 'react';
 
 import {ComponentRegistry} from '../../src/ComponentRegistry';
@@ -43,13 +43,15 @@ import {
 } from './schema';
 
 const componentRegistry = new ComponentRegistry;
-componentRegistry.addMacro<InfoPanelProps>('info', InfoPanel);
+componentRegistry.addMacro<InfoPanelProps>('info', {
+	View: InfoPanel
+});
 
 describe('processComponents', () => {
 	it('is able to process anything', () => {
 		const processed = processComponents({
 			component: PAGE_COMPONENT,
-			getComponent: ({
+			getComponentSchema: ({
 				// key,
 				type,
 			}) => {
@@ -87,7 +89,7 @@ describe('processComponents', () => {
 				return PROCESSED_HTML;
 			},
 		});
-		print(processed, { maxItems: Infinity });
+		// print(processed, { maxItems: Infinity });
 		// expect(toDiffableHtml(element.outerHTML)).toEqual(``);
 	});
 });

@@ -11,6 +11,7 @@ export default {
 		`!src/${AND_BELOW}/${DECLARATION_FILES}`
 	],
 	// coverageProvider: 'v8',
+	silent: true, // All below console.error
 	testEnvironment: 'jsdom',
 	testMatch: [
 		`<rootDir>/test/${AND_BELOW}/${TEST_FILES}`,

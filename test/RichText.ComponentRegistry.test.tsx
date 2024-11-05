@@ -35,7 +35,9 @@ const emptyComponentRegistry = new ComponentRegistry;
 
 const componentRegistry = new ComponentRegistry;
 
-componentRegistry.addMacro<InfoPanelMacroProps>('info', InfoPanelMacro);
+componentRegistry.addMacro<InfoPanelMacroProps>('info', {
+	View: InfoPanelMacro
+});
 
 const PROCESSED_HTML = `<p><a href=\"/admin/site/preview/myproject/draft/mysite\" title=\"Tooltip\">Home</a></p>
 

@@ -1,33 +1,42 @@
 { // https://www.typescriptlang.org/tsconfig
-	"compilerOptions": {
-		"allowUmdGlobalAccess": true,
-		"declaration": true,
-		"esModuleInterop": true,
-		"jsx": "react-jsx",
-		"lib": [
-			"DOM", // NOTE: This ChildNode differs from the one in domhandler npm module.
-			"ES2015"
-		],
-		"module": "preserve",
-		"moduleResolution": "bundler",
+  // Specifies an allowlist of files to include in the program.
+  // An error occurs if any of the files can’t be found.
+  // This is useful when you only have a small number of files and don’t need
+  // to use a glob to reference many files. If you need that then use include.
+  "files": [
+    "src/index.ts"
+  ],
 
-		// Even though the setting disables type checking for d.ts files,
-		// TypeScript still type checks the code you specifically
-		// refer to in your application's source code.
-		"skipLibCheck": true,
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts"
+  ],
 
-		"strictNullChecks": true,
-	},
+  "compilerOptions": {
+    "allowUmdGlobalAccess": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "lib": [
+      "DOM", // NOTE: This ChildNode differs from the one in domhandler npm module.
+      "ES2015"
+    ],
+    "module": "preserve",
+    "moduleResolution": "bundler",
 
-	// Specifies an allowlist of files to include in the program.
-	// An error occurs if any of the files can’t be found.
-	// This is useful when you only have a small number of files and don’t need
-	// to use a glob to reference many files. If you need that then use include.
-	"files": [
-		"src/index.ts"
-	],
+    "paths": {
+      // This is only needed buildtime
+      // "html-dom-parser": [
+      //   // "./node_modules/html-dom-parser/esm/server/html-to-dom.mjs",
+      //   "./node_modules/html-dom-parser/lib/server/html-to-dom.js",
+      // ],
+    },
 
-	"include": [
-		"src/**/*.ts"
-	],
+    // Even though the setting disables type checking for d.ts files,
+    // TypeScript still type checks the code you specifically
+    // refer to in your application's source code.
+    "skipLibCheck": true,
+
+    "strictNullChecks": true
+  }
 }
