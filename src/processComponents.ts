@@ -36,10 +36,10 @@ type ListSchemas = typeof listSchemas;
 type ProcessHtml = typeof processHtml;
 type GetContentByKey = typeof getContentByKey;
 
-type NestedPartial<T> = {
+export type NestedPartial<T> = {
 	[K in keyof T]?: T[K] extends object ? NestedPartial<T[K]> : T[K];
 };
-interface GetComponentReturnType {
+export interface GetComponentReturnType {
 	componentPath: string
 	config: Record<string, unknown>
 	description?: string
