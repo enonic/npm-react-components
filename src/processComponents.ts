@@ -61,6 +61,7 @@ class ComponentProcessor {
 	private getContentByKey: GetContentByKey;
 	private listSchemas: ListSchemas;
 	private processHtml: ProcessHtml;
+	private mixinSchemas: Record<string, MixinSchema> = {}
 
 	private static getPath(name: string, ancestor?: string) {
 		return ancestor ? `${ancestor}.${name}` : name;
@@ -129,26 +130,28 @@ class ComponentProcessor {
 				if (!name) {
 					throw new Error(`findHtmlAreasInFormItemArray: InlineMixin name not found!`);
 				}
-				const [application] = name.split(':');
-				const mixinsList = this.listSchemas({
-					application,
-					type: 'MIXIN'
-				}) as MixinSchema[];
-				// console.debug('findHtmlAreasInFormItemArray mixinsList', mixinsList);
+				let mixin = this.mixinSchemas[name];
 
-				const multiAppMixinsObj: Record<string, MixinSchema> = {};
-				for (let j = 0; j < mixinsList.length; j++) {
-					const mixin = mixinsList[j];
-					const {name: mixinName} = mixin;
-					multiAppMixinsObj[mixinName] = mixin;
-				}
-				// console.debug('findHtmlAreasInFormItemArray multiAppMixinsObj', multiAppMixinsObj);
-
-				const mixin = multiAppMixinsObj[name];
 				if (!mixin) {
-					throw new Error(`findHtmlAreasInFormItemArray: InlineMixin mixin not found for name: ${name}!`);
+					const [application] = name.split(':');
+					const mixinsList = this.listSchemas({
+						application,
+						type: 'MIXIN'
+					}) as MixinSchema[];
+					// console.debug('findHtmlAreasInFormItemArray mixinsList', mixinsList);
+
+					for (let j = 0; j < mixinsList.length; j++) {
+						const mixin = mixinsList[j];
+						const {name: mixinName} = mixin;
+						this.mixinSchemas[mixinName] = mixin;
+					}
+					// console.debug('findHtmlAreasInFormItemArray multiAppMixinsObj', multiAppMixinsObj);
+					mixin = this.mixinSchemas[name];
+					if (!mixin) {
+						throw new Error(`findHtmlAreasInFormItemArray: InlineMixin mixin not found for name: ${name}!`);
+					}
+					// console.debug('findHtmlAreasInFormItemArray mixin', mixin);
 				}
-				// console.debug('findHtmlAreasInFormItemArray mixin', mixin);
 
 				const {form} = mixin;
 				if (!form) {
