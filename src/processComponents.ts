@@ -1,9 +1,13 @@
 import type {
 	Component,
+	Content,
 	FragmentComponent,
+	// Layout,
 	LayoutComponent,
 	PageComponent,
+	// Part,
 	PartComponent,
+	TextComponent,
 } from '@enonic-types/core';
 import type {
 	get as getContentByKey,
@@ -13,10 +17,12 @@ import type {
 } from '@enonic-types/lib-portal';
 import type {
 	// getComponent,
+	listSchemas,
 	GetDynamicComponentParams,
 	FormItem,
 	FormItemOptionSet,
 	FormItemSet,
+	MixinSchema,
 } from '@enonic-types/lib-schema';
 
 
@@ -24,7 +30,9 @@ import {getIn} from '@enonic/js-utils/object/getIn';
 import {setIn} from '@enonic/js-utils/object/setIn';
 import {replaceMacroComments} from './replaceMacroComments';
 
+type FragmentContent = Content<undefined,'portal:fragment'>;
 
+type ListSchemas = typeof listSchemas;
 type ProcessHtml = typeof processHtml;
 type GetContentByKey = typeof getContentByKey;
 
@@ -57,10 +65,12 @@ function findHtmlAreasInFormItemArray({
 	ancestor,
 	form,
 	htmlAreas, // get modified
+	listSchemas,
 }: {
 	ancestor?: string
 	form:  NestedPartial<FormItem>[]
 	htmlAreas: string[]
+	listSchemas: ListSchemas
 }) {
 	for (let i = 0; i < form.length; i++) {
 		const formItem = form[i];
@@ -79,6 +89,7 @@ function findHtmlAreasInFormItemArray({
 				ancestor: getPath(name as string, ancestor),
 				form: items as NestedPartial<FormItem>[],
 				htmlAreas, // get modified
+				listSchemas,
 			});
 		} else if (formItemType === 'OptionSet') {
 			const {options} = formItem as FormItemOptionSet;
@@ -92,13 +103,58 @@ function findHtmlAreasInFormItemArray({
 					ancestor: getPath(`${name}.${j}.${optionName}`, ancestor),
 					form: items as NestedPartial<FormItem>[],
 					htmlAreas, // get modified
+					listSchemas,
 				});
 				// console.info('findHtmlAreasInFormItemArray OptionSet htmlAreas', htmlAreas);
 			}
 		} else if (formItemType === 'InlineMixin') {
-			throw new Error(`processComponents: InlineMixin not supported yet!`);
+			if (!name) {
+				throw new Error(`findHtmlAreasInFormItemArray: InlineMixin name not found!`);
+			}
+			const [application] = name.split(':');
+			const mixinsList = listSchemas({
+				application,
+				type: 'MIXIN'
+			}) as MixinSchema[];
+			// console.debug('findHtmlAreasInFormItemArray mixinsList', mixinsList);
+
+			const multiAppMixinsObj: Record<string, MixinSchema> = {};
+			for (let j = 0; j < mixinsList.length; j++) {
+				const mixin = mixinsList[j];
+				const {name: mixinName} = mixin;
+				multiAppMixinsObj[mixinName] = mixin;
+			}
+			// console.debug('findHtmlAreasInFormItemArray multiAppMixinsObj', multiAppMixinsObj);
+
+			const mixin = multiAppMixinsObj[name];
+			if (!mixin) {
+				throw new Error(`findHtmlAreasInFormItemArray: InlineMixin mixin not found for name: ${name}!`);
+			}
+			// console.debug('findHtmlAreasInFormItemArray mixin', mixin);
+
+			const {form} = mixin;
+			if (!form) {
+				throw new Error(`findHtmlAreasInFormItemArray: InlineMixin mixin form not found for name: ${name}!`);
+			}
+			// console.debug('findHtmlAreasInFormItemArray form', form);
+
+			findHtmlAreasInFormItemArray({ // recurse
+				ancestor,
+				form: form,
+				htmlAreas, // get modified
+				listSchemas,
+			});
 		} else if (formItemType === 'Layout') {
-			throw new Error(`processComponents: Layout not supported yet!`);
+			// console.debug('findHtmlAreasInFormItemArray Layout formItem', formItem);
+			const {items} = formItem;
+			if (items) { // Avoid empty fieldsets
+				findHtmlAreasInFormItemArray({ // recurse
+					ancestor,
+					form: items as NestedPartial<FormItem>[],
+					htmlAreas, // get modified
+					listSchemas,
+				});
+			}
 		}
 	}
 	// console.info('findHtmlAreasInFormItemArray htmlAreas', htmlAreas);
@@ -107,16 +163,19 @@ function findHtmlAreasInFormItemArray({
 
 function getHtmlAreas({
 	ancestor,
-	form
+	form,
+	listSchemas
 }: {
 	ancestor?: string
-	form:  NestedPartial<FormItem>[]
+	form: NestedPartial<FormItem>[]
+	listSchemas: ListSchemas
 }): string[] {
 	const htmlAreas: string[] = [];
 	findHtmlAreasInFormItemArray({
 		ancestor,
 		form,
 		htmlAreas,
+		listSchemas,
 	});
 	// console.info('getHtmlAreas htmlAreas', htmlAreas);
 	return htmlAreas;
@@ -125,11 +184,13 @@ function getHtmlAreas({
 
 function processPart({
 	component,
-	processHtml,
 	getComponent,
+	listSchemas,
+	processHtml,
 }: {
 	component: PartComponent
 	getComponent: GetComponent
+	listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
 	const {descriptor} = component;
@@ -139,7 +200,8 @@ function processPart({
 	});
 	const htmlAreas = getHtmlAreas({
 		ancestor: 'config',
-		form
+		form,
+		listSchemas
 	});
 	// console.info('processPart htmlAreas:', htmlAreas);
 
@@ -170,17 +232,20 @@ function processWithRegions({
 	form,
 	getComponent,
 	getContentByKey,
+	listSchemas,
 	processHtml,
 }: {
 	component: LayoutComponent | PageComponent
 	form:  NestedPartial<FormItem>[]
 	getComponent: GetComponent
 	getContentByKey: GetContentByKey
+	listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
 	const htmlAreas = getHtmlAreas({
 		ancestor: 'config',
-		form
+		form,
+		listSchemas,
 	});
 	// console.info('processWithRegions htmlAreas:', htmlAreas);
 
@@ -215,6 +280,7 @@ function processWithRegions({
 				component,
 				getComponent,
 				getContentByKey,
+				listSchemas,
 				processHtml,
 			});
 		}
@@ -226,11 +292,13 @@ function processLayout({
 	component,
 	getComponent,
 	getContentByKey,
+	listSchemas,
 	processHtml,
 }: {
 	component: LayoutComponent
 	getComponent: GetComponent
 	getContentByKey: GetContentByKey
+	listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
 	const {descriptor} = component;
@@ -243,6 +311,7 @@ function processLayout({
 		form,
 		getComponent,
 		getContentByKey,
+		listSchemas,
 		processHtml,
 	});
 }
@@ -251,11 +320,13 @@ function processPage({
 	component,
 	getComponent,
 	getContentByKey,
+	listSchemas,
 	processHtml,
 }: {
 	component: PageComponent
 	getComponent: GetComponent
 	getContentByKey: GetContentByKey
+	listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
 	const {descriptor} = component;
@@ -268,51 +339,91 @@ function processPage({
 		form,
 		getComponent,
 		getContentByKey,
+		listSchemas,
 		processHtml,
 	});
+}
+
+function processTextComponent({
+	component,
+	// getComponent,
+	// getContentByKey,
+	// listSchemas,
+	processHtml,
+}: {
+	component: TextComponent
+	// getComponent: GetComponent
+	// getContentByKey: GetContentByKey
+	// listSchemas: ListSchemas
+	processHtml: ProcessHtml
+}) {
+	const {text} = component;
+	const processedHtml = processHtml({
+		value: text
+	});
+	const data = replaceMacroComments(processedHtml);
+	return data;
 }
 
 function processFragment({
 	component,
 	getComponent,
 	getContentByKey,
+	listSchemas,
 	processHtml,
 }: {
 	component: FragmentComponent
 	getComponent: GetComponent
 	getContentByKey: GetContentByKey
+	listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
-	const {fragment: key} = component;
+	const {
+		fragment: key,
+		path
+	} = component;
 	// console.info('processFragment fragment key:', key);
 
-	const content = getContentByKey({key});
+	// @ts-expect-error Too complex/strict type generics.
+	const content = getContentByKey<FragmentContent>({key});
 	if (!content) {
 		throw new Error(`processFragment: content not found for key: ${key}!`);
 	}
 	// console.info('processFragment content:', content);
 
 	const {fragment} = content;
+	if (!fragment) {
+		throw new Error(`processFragment: fragment not found in content with key: ${key}!`);
+	}
+
+	if (!fragment.path) {
+		fragment.path = path;
+	}
 	// console.info('processFragment fragment:', fragment);
 
-	// @ts-expect-error
 	const {type} = fragment;
 	// console.info('processFragment fragment:', fragment);
 
 	if(type === 'part') {
 		return processPart({
-			// @ts-expect-error
-			component: fragment as PartComponent,
+			component: fragment,
 			getComponent,
+			listSchemas,
 			processHtml,
 		});
 	}
 	if(type === 'layout') {
 		return processLayout({
-			// @ts-expect-error
-			component: fragment as LayoutComponent,
+			component: fragment,
 			getComponent,
 			getContentByKey,
+			listSchemas,
+			processHtml,
+		});
+	}
+	if(type === 'text') {
+		return processTextComponent({
+			component: fragment as TextComponent,
 			processHtml,
 		});
 	}
@@ -323,17 +434,20 @@ export function processComponents({
 	component,
 	getComponent,
 	getContentByKey,
+	listSchemas,
 	processHtml,
 }: {
 	component: Component
 	getComponent: GetComponent
 	getContentByKey: GetContentByKey
+	listSchemas: ListSchemas
 	processHtml: ProcessHtml
 }) {
 	const {type} = component;
 	switch (type) {
 		case 'part': return processPart({
 			component,
+			listSchemas,
 			processHtml,
 			getComponent,
 		});
@@ -341,18 +455,25 @@ export function processComponents({
 			component: component as LayoutComponent,
 			getComponent,
 			getContentByKey,
+			listSchemas,
 			processHtml,
 		});
 		case 'page': return processPage({
 			component: component as PageComponent,
 			getComponent,
 			getContentByKey,
+			listSchemas,
+			processHtml,
+		});
+		case 'text': return processTextComponent({
+			component: component as TextComponent,
 			processHtml,
 		});
 		case 'fragment': return processFragment({
 			component: component as FragmentComponent,
 			getComponent,
 			getContentByKey,
+			listSchemas,
 			processHtml,
 		});
 		default: throw new Error(`processComponents: component type not supported: ${type}!`);
