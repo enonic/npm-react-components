@@ -120,48 +120,46 @@ describe('ComponentRegistry', () => {
 			componentRegistry={componentRegistry}
 			data={data}
 		/>).container;
-		expect(toDiffableHtml(element.outerHTML)).toEqual(`
-<div>
-  <section>
-    <p>
-      <a
-        href="/admin/site/preview/myproject/draft/mysite"
-        title="Tooltip"
-      >
-        Home
-      </a>
-    </p>
-    <figure class="editor-align-justify">
-      <div style="border: 1px dotted red; color: red;">
-        Can't replace image, when there are no images in the data object!
-      </div>
-      <figcaption>
-        Caption
-      </figcaption>
-    </figure>
-    <p>
-      <div class=\"macro-panel macro-panel-info macro-panel-styled\">
-        <i class=\"icon\">
-        </i>
-        <strong>
-          Header1
-        </strong>
-        Text1
-      </div>
-    </p>
-    <p>
-      <div class=\"macro-panel macro-panel-info macro-panel-styled\">
-        <i class=\"icon\">
-        </i>
-        <strong>
-          Header2
-        </strong>
-        Text2
-      </div>
-    </p>
-  </section>
-</div>
-`);
+		expect(toDiffableHtml(element.outerHTML)).toEqual(
+			toDiffableHtml(`
+				<div>
+					<section>
+						<p>
+							<a
+								href="/admin/site/preview/myproject/draft/mysite"
+								title="Tooltip"
+							>
+								Home
+							</a>
+						</p>
+						<figure class="editor-align-justify">
+							<div style="border: 1px dotted red; color: red;">
+								Can't replace image, when there are no images in the data object!
+							</div>
+							<figcaption>
+								Caption
+							</figcaption>
+						</figure>
+						<div class="macro-panel macro-panel-info macro-panel-styled">
+							<i class="icon">
+							</i>
+							<strong>
+								Header1
+							</strong>
+							Text1
+						</div>
+						<div class="macro-panel macro-panel-info macro-panel-styled">
+							<i class="icon">
+							</i>
+							<strong>
+								Header2
+							</strong>
+							Text2
+						</div>
+					</section>
+				</div>
+			`)
+		);
 
 		// const props = {...REGIONS_PROPS, componentRegistry};
 		// // print(props, { maxItems: Infinity });
