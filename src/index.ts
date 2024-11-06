@@ -1,5 +1,4 @@
 export type {
-	Content,
 	ContentUri,
 	ImageComponent,
 	ImageComponentParams,
@@ -18,6 +17,7 @@ export type {
 	MediaUri,
 	Replacer,
 	ReplacerResult,
+	RichtextContent,
 	RichTextData,
 	RichTextParams,
 } from './types';

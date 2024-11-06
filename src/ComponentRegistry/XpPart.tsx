@@ -1,22 +1,26 @@
-import type {PartComponent} from '@enonic-types/core';
+// import type {PartComponent} from '@enonic-types/core';
+import type {
+	ComponentRegistry,
+	DecoratedPartComponent,
+} from '../types';
 
-import type {ComponentRegistry} from '../types';
+import * as React from 'react';
 
-
-export function BasePart({
+export function XpPart({
 	component,
 	componentRegistry
 }: {
-	component: PartComponent
+	component: DecoratedPartComponent
 	componentRegistry: ComponentRegistry
 }) {
-	// console.debug('BasePart component', component);
+	// console.info('XpPart component', component.);
 
 	const {
-		config: props,
-		descriptor
+		config,
+		props = config,
+		descriptor,
 	} = component;
-	// console.debug('BasePart descriptor', descriptor);
+	// console.debug('XpPart descriptor:', descriptor);
 
 	const partDefinition = componentRegistry.getPart(descriptor);
 	if (!partDefinition) {
@@ -29,5 +33,7 @@ export function BasePart({
 		// TODO return ErrorBoundary instead of throwing.
 	}
 	props.componentRegistry = componentRegistry;
-	return (<View {...props}/>);
+	return (
+		<View {...props}/>
+	);
 }

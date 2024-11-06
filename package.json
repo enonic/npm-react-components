@@ -101,6 +101,7 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@enonic/js-utils": "^1.8.0",
+    "clsx": "^2.1.1",
     "domelementtype": "^2.3.0",
     "html-react-parser": "^5.1.10",
     "uri-js": "^4.4.1"

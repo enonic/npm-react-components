@@ -6,6 +6,9 @@
 			"DOM"
 		],
     "paths": {
+      "@enonic-types/core": ["../../xp-comlock-9742/modules/lib/core/index.d.ts"],
+      "/lib/xp/content": ["../../xp-comlock-9742/modules/lib/lib-content/src/main/resources/lib/xp/content.ts"],
+      "/lib/xp/portal": ["../../xp-comlock-9742/modules/lib/lib-portal/src/main/resources/lib/xp/portal.ts"],
       "/lib/xp/schema": ["../node_modules/@enonic-types/lib-schema"],
     },
     "types": [

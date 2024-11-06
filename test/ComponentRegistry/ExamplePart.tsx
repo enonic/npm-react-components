@@ -5,31 +5,16 @@ export function ExamplePart(props) {
 	// console.debug('ExamplePart props', props);
 
 	const {
-		anHtmlArea,
-		anItemSet: {
-			anHtmlArea: anItemHtmlArea,
-		},
-		anOptionSet,
 		componentRegistry,
+		data,
 	} = props;
-	// console.debug('ExamplePart anOptionSet', anOptionSet);
-
-	const anOptionSetHtmlArea = anOptionSet[1].text.anHtmlArea;
-	// console.debug('ExamplePart anOptionSetHtmlArea', anOptionSetHtmlArea);
+	// console.debug('ExamplePart data', data);
 
 	return (
 		<div>
 			<RichText
 				componentRegistry={componentRegistry}
-				data={anHtmlArea}
-			/>
-			<RichText
-				componentRegistry={componentRegistry}
-				data={anItemHtmlArea}
-			/>
-			<RichText
-				componentRegistry={componentRegistry}
-				data={anOptionSetHtmlArea}
+				data={data}
 			/>
 		</div>
 	);

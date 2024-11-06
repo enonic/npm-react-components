@@ -6,7 +6,6 @@ import type {ComponentRegistry} from './ComponentRegistry';
 import Region from './Region';
 
 export interface RegionsProps {
-	componentRegistry?: ComponentRegistry
 	regionsData: Record<string, RegionType>
 	names?: string | string[]
 	tags?: string | Record<string, string>
@@ -29,7 +28,6 @@ export interface RegionsProps {
  * @returns {Region[]} An array of <Region> elements.
  */
 const Regions = ({
-	componentRegistry,
 	regionsData,
 	names,
 	tags,
@@ -56,7 +54,6 @@ const Regions = ({
 	// TODO: sanitize tag and name: not all characters (or tags) are acceptable
 	return selectedRegions.map(name =>
 		<Region key={name}
-			componentRegistry={componentRegistry}
 			regionData={regionsData[name]}
 			name={name}
 			tag={typeof tags === 'string' ? tags : (tags || {})[name]}
