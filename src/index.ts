@@ -37,3 +37,4 @@ export {
 };
 export { RichText } from './RichText';
 export { cssToReactStyle } from './RichText/cssToReactStyle';
+export {sanitizeGraphqlName} from './utils/sanitizeGraphqlName';

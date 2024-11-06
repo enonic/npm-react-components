@@ -22,7 +22,7 @@ export const Macro: MacroComponent<{
 		const response = contentQueriesMock[contentId];
 		return <div>Extra info: {JSON.stringify(response)}</div>;
 	}
-	if (descriptor === 'com.enonic.app.panelmacros:success') {
+	if (descriptor === 'com.enonic.app.panelmacros:success-macro') {
 		return <Success {...config} />;
 	}
 	throw new Error(`Macro not found: ${descriptor}`);

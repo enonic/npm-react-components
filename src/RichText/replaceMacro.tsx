@@ -7,6 +7,7 @@ import {ErrorComponent} from './ErrorComponent';
 import {domToReact, type DOMNode} from 'html-react-parser';
 import {type createReplacer as CreateReplacer} from './createReplacer';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
+import {sanitizeGraphqlName} from '../utils/sanitizeGraphqlName';
 
 
 export function replaceMacro<RestProps = Record<string, unknown>>({
@@ -46,7 +47,7 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
     }
 
     const {descriptor, name, config: configs} = macroData;
-    const config = configs[name];
+    const config = configs[sanitizeGraphqlName(name)];
 
     // config and descriptor should be last, so they can't be overridden
     const props = {...rest, config, descriptor} as MacroComponentParams<RestProps>;

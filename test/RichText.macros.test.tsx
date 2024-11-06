@@ -1,16 +1,7 @@
-import type {
-	MacroDescriptor,
-	RichTextData,
-} from '../src/types';
+import type {MacroDescriptor, RichTextData} from '../src/types';
 
 
-import {
-	beforeAll,
-	afterAll,
-	describe,
-	expect,
-	test as it
-} from '@jest/globals';
+import {beforeAll, afterAll, describe, expect, test as it} from '@jest/globals';
 import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
@@ -53,10 +44,10 @@ describe('RichText', () => {
 		const dataWithMacros: RichTextData = {
 			macros: [{
 				"ref": SUCCESS_REF,
-				"name": "success",
-				"descriptor": "com.enonic.app.panelmacros:success",
+				"name": "success-macro",
+				"descriptor": "com.enonic.app.panelmacros:success-macro",
 				"config": {
-				  "success": {
+					"success_macro": {
 					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
 					"header": "Iha",
 					"body": "Jubalong"
@@ -103,7 +94,7 @@ describe('RichText', () => {
 
 	it('should show an ErrorComponent when the macros array is missing or empty', () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
-		const MACRO_NAME = 'success';
+		const MACRO_NAME = 'success-macro';
 		const dataWithMacros: RichTextData = {
 			// macros: [], // Should be missing or empty, in this test :)
 			processedHtml: `<p><editor-macro data-macro-name=\"${MACRO_NAME}\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
@@ -134,17 +125,17 @@ describe('RichText', () => {
 		const dataWithMacros: RichTextData = {
 			macros: [{
 				"ref": 'wrong-ref',
-				"name": "success",
-				"descriptor": "com.enonic.app.panelmacros:success",
+				"name": "success-macro",
+				"descriptor": "com.enonic.app.panelmacros:success-macro",
 				"config": {
-					"success": {
+					"success_macro": {
 						"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
 						"header": "Iha",
 						"body": "Jubalong"
 					}
 				}
 			}],
-			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText
 			data={dataWithMacros}
@@ -159,17 +150,17 @@ describe('RichText', () => {
 		const dataWithMacros: RichTextData = {
 			macros: [{
 				"ref": SUCCESS_REF,
-				"name": "success",
-				"descriptor": "com.enonic.app.panelmacros:success",
+				"name": "success-macro",
+				"descriptor": "com.enonic.app.panelmacros:success-macro",
 				"config": {
-				  "success": {
+					"success_macro": {
 					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
 					"header": "Iha",
 					"body": "Jubalong"
 				  }
 				}
 			  }],
-			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText
 			className='myclass'
@@ -182,7 +173,7 @@ describe('RichText', () => {
     <section class="myclass">
       <p>
         <div style="border: 1px dotted orange; color: orange;">
-          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success with config {
+          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success-macro with config {
     "__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
     "header": "Iha",
     "body": "Jubalong"
@@ -200,17 +191,17 @@ describe('RichText', () => {
 		const dataWithMacros: RichTextData = {
 			macros: [{
 				"ref": SUCCESS_REF,
-				"name": "success",
-				"descriptor": "com.enonic.app.panelmacros:success",
+				"name": "success-macro",
+				"descriptor": "com.enonic.app.panelmacros:success-macro",
 				"config": {
-				  "success": {
+					"success_macro": {
 					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
 					"header": "Iha",
 					"body": "Jubalong"
 				  }
 				}
 			  }],
-			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText<{contentId: string}>
 			className='myclass'
@@ -227,17 +218,17 @@ describe('RichText', () => {
 		const dataWithMacros: RichTextData = {
 			macros: [{
 				"ref": SUCCESS_REF,
-				"name": "success",
-				"descriptor": "com.enonic.app.panelmacros:success",
+				"name": "success-macro",
+				"descriptor": "com.enonic.app.panelmacros:success-macro",
 				"config": {
-				  "success": {
+					"success_macro": {
 					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
 					"header": "Iha",
 					"body": "Jubalong"
 				  }
 				}
 			  }],
-			processedHtml: `<p><editor-macro data-macro-name=\"success\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText<{descriptor: MacroDescriptor}>
 			className='myclass'
