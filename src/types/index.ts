@@ -1,5 +1,14 @@
 // There is a difference between the core enonic types and what Guillotine returns:
-// import type {Content} from '@enonic-types/core';
+import type {
+	Content,
+	Component,
+	Layout,
+	LayoutComponent,
+	Part,
+	PartComponent,
+	Page,
+	PageComponent
+} from '@enonic-types/core';
 
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
@@ -36,19 +45,36 @@ export interface ComponentRegistry {
 	hasPart(name: string): boolean
 }
 
-export type Content<
+export type DecoratedLayoutComponent = LayoutComponent & {
+	// processedConfig: Record<string, unknown>
+	processedComponent: LayoutComponent
+	props?: Record<string, unknown>
+}
+
+export type DecoratedPageComponent = PageComponent & {
+	// processedConfig: Record<string, unknown>
+	processedComponent: PageComponent
+	props?: Record<string, unknown>
+}
+
+export type DecoratedPartComponent = PartComponent & {
+	// processedConfig: Record<string, unknown>
+	props?: Record<string, unknown>
+}
+
+export type RichtextContent<
 	Extensions extends Record<string, unknown> = Record<string, unknown>
 > = {
 	// Direct Properties
 	_id: string
 	_name: string
 	_path: string
-	_references: Content[]
+	_references: RichtextContent[]
 	_score?: number
 	// attachments: Attachment[]
-	children: Content[]
+	children: RichtextContent[]
 	// childrenConnection: ContentConnection
-	components: Content[]
+	components: RichtextContent[]
 	// contentType: ContentType
 	createdTime: string
 	// creator: PrincipalKey
@@ -60,9 +86,9 @@ export type Content<
 	// modifier: PrincipalKey
 	// owner: PrincipalKey
 	// pageAsJson: GraphQLJson
-	pageTemplate: Content
+	pageTemplate: RichtextContent
 	pageUrl: string
-	parent: Content
+	parent: RichtextContent
 	// permissions: Permissions
 	// publish: PublishInfo
 	// site: portal_Site
@@ -90,7 +116,11 @@ export interface CreateReplacerParams<RestProps = Record<string, unknown>> {
 	replacer?: Replacer
 }
 
-export type ImageContent = Partial<Content> & {
+export type FragmentContent<
+	Component extends LayoutComponent | PartComponent = Layout | Part
+> = Content<undefined,'portal:fragment',Component>;
+
+export type ImageContent = Partial<RichtextContent> & {
 	imageUrl?: string
 }
 
@@ -130,7 +160,7 @@ export type LinkComponentParams<
 	RestProps = Record<string, unknown>
 > = {
 	children: ReactNode
-	content?: Partial<Content> | null
+	content?: Partial<RichtextContent> | null
 	href: string
 	media?: LinkDataMedia | null
 	target?: string
@@ -140,13 +170,13 @@ export type LinkComponentParams<
 
 export interface LinkData {
 	ref: string
-	content?: Partial<Content> | null
+	content?: Partial<RichtextContent> | null
 	media?: LinkDataMedia | null
 	uri: string
 }
 
 export interface LinkDataMedia {
-	content: Partial<Content> & {
+	content: Partial<RichtextContent> & {
 		mediaUrl?: string
 	}
 	intent: 'inline' | 'download'
@@ -177,6 +207,17 @@ export interface MacroData {
 export type MacroDescriptor = `${string}:${string}`;
 
 export type MediaUri = `media://${string}`;
+
+export type PageContent<
+	Data = Record<string, unknown>,
+	Type extends string = string,
+	Component extends PageComponent = Page
+> = Content<
+	Data,
+	Type,
+	// @ts-expect-error Does not satisfy the type constraint
+	Component
+>
 
 export interface ReplaceMacroParams<RestProps = Record<string, unknown>> {
 	componentRegistry?: ComponentRegistry

@@ -25,11 +25,9 @@
     "moduleResolution": "bundler",
 
     "paths": {
-      // This is only needed buildtime
-      // "html-dom-parser": [
-      //   // "./node_modules/html-dom-parser/esm/server/html-to-dom.mjs",
-      //   "./node_modules/html-dom-parser/lib/server/html-to-dom.js",
-      // ],
+      "@enonic-types/core": ["../xp-comlock-9742/modules/lib/core/index.d.ts"],
+      "/lib/xp/content": ["../xp-comlock-9742/modules/lib/lib-content/src/main/resources/lib/xp/content.ts"],
+      "/lib/xp/portal": ["../xp-comlock-9742/modules/lib/lib-portal/src/main/resources/lib/xp/portal.ts"],
     },
 
     // Even though the setting disables type checking for d.ts files,

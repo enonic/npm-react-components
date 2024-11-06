@@ -1,12 +1,13 @@
 
 import type {
-	// Content,
+	Content,
 	LayoutComponent,
 	PageComponent,
 	PartComponent,
 	FragmentComponent,
 	TextComponent,
 } from '@enonic-types/core';
+import type {PageContent} from '../../src/types';
 
 import {
 	HTML_AREA_KEY,
@@ -42,10 +43,12 @@ export const TEXT_COMPONENT: TextComponent = {
 	text: UNPROCESSED_HTML,
 };
 
+export const EXAMPLE_PART_DESCRIPTOR = "com.enonic.app.react4xp:example";
+
 export const PART_COMPONENT: PartComponent = {
 	path: "/main/0/left/0",
 	type: "part",
-	descriptor: "com.enonic.app.react4xp:example",
+	descriptor: EXAMPLE_PART_DESCRIPTOR,
 	config: CONFIG,
 };
 
@@ -71,6 +74,8 @@ export const LAYOUT_FRAGMENT_COMPONENT: FragmentComponent = {
 	fragment: LAYOUT_FRAGMENT_CONTENT_ID,
 };
 
+export const TWO_COLUMNS_LAYOUT_DESCRIPTOR = "com.enonic.app.react4xp:twoColumns";
+
 export const LAYOUT_FRAGMENT_CONTENT = {
 	_id: LAYOUT_FRAGMENT_CONTENT_ID,
 	_name: "fragment-two-columns",
@@ -89,7 +94,7 @@ export const LAYOUT_FRAGMENT_CONTENT = {
 	x: {},
 	fragment: {
 		type: "layout",
-		descriptor: "com.enonic.app.react4xp:twoColumns",
+		descriptor: TWO_COLUMNS_LAYOUT_DESCRIPTOR,
 		config: {
 			myhtmlarea: '<p>[info header="Header"]Text[/info]</p>\n',
 		},
@@ -157,7 +162,7 @@ export const PART_FRAGMENT_CONTENT = {
 	x: {},
 	fragment: {
 		type: "part",
-		descriptor: "com.enonic.app.react4xp:example",
+		descriptor: EXAMPLE_PART_DESCRIPTOR,
 		config: CONFIG,
 	},
 	attachments: {},
@@ -165,16 +170,16 @@ export const PART_FRAGMENT_CONTENT = {
 };
 
 export const LAYOUT_COMPONENT: LayoutComponent = {
-	path: "/main/0",
-	type: "layout",
-	descriptor: "com.enonic.app.react4xp:twoColumns",
+	path: '/main/0',
+	type: 'layout',
+	descriptor: TWO_COLUMNS_LAYOUT_DESCRIPTOR,
 	config: CONFIG,
 	regions: {
 		left: {
 			components: [
-				TEXT_COMPONENT,
-				TEXT_FRAGMENT_COMPONENT,
-				// PART_COMPONENT,
+				// TEXT_COMPONENT,
+				// TEXT_FRAGMENT_COMPONENT,
+				{...PART_COMPONENT, path: '/main/0/left/0'},
 				// PART_FRAGMENT_COMPONENT,
 			],
 			name: "left",
@@ -191,10 +196,12 @@ export const LAYOUT_COMPONENT: LayoutComponent = {
 	},
 };
 
+export const DEFAULT_PAGE_DESCRIPTOR = "com.enonic.app.react4xp:default";
+
 export const PAGE_COMPONENT: PageComponent = {
 	type: "page",
 	path: "/",
-	descriptor: "com.enonic.app.react4xp:default",
+	descriptor: DEFAULT_PAGE_DESCRIPTOR,
 	config: CONFIG,
 	regions: {
 		main: {
@@ -202,7 +209,8 @@ export const PAGE_COMPONENT: PageComponent = {
 				// TEXT_COMPONENT,
 				// TEXT_FRAGMENT_COMPONENT,
 				// LAYOUT_COMPONENT,
-				LAYOUT_FRAGMENT_COMPONENT,
+				{...PART_COMPONENT, path: "/main/0"},
+				// LAYOUT_FRAGMENT_COMPONENT,
 				// {
 				// 	...PART_FRAGMENT_COMPONENT,
 				// 	path: "/main/1",
@@ -211,4 +219,38 @@ export const PAGE_COMPONENT: PageComponent = {
 			name: "main",
 		},
 	},
+};
+
+export const PAGE_CONTENT: PageContent = {
+	_id: "3e36f69a-fa2f-4943-a812-5a2d06f22e56",
+	_name: "mysite",
+	_path: "/mysite",
+	creator: "user:system:su",
+	modifier: "user:system:su",
+	createdTime: "2024-10-30T08:14:10.575402Z",
+	modifiedTime: "2024-11-05T09:36:11.782402Z",
+	owner: "user:system:su",
+	type: "portal:site",
+	displayName: "mysite",
+	hasChildren: true,
+	valid: true,
+	childOrder: "modifiedtime DESC",
+	data: {
+		siteConfig: [
+			{
+				applicationKey: "com.enonic.app.react4xp",
+				config: {},
+			},
+			{
+				applicationKey: "com.enonic.app.panelmacros",
+				config: {
+					custom: false,
+				},
+			},
+		],
+	},
+	x: {},
+	page: PAGE_COMPONENT,
+	attachments: {},
+	publish: {},
 };

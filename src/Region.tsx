@@ -1,9 +1,8 @@
 import type {Region as RegionType} from '@enonic-types/core';
-import type {ComponentRegistry} from './ComponentRegistry';
 
 // import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import {XpComponent} from './XpComponent';
+import ComponentTag from './ComponentTag';
 
 /**
  * @param {string} name - Region name, as defined in a part's/page's/layout's XML definition
@@ -14,13 +13,11 @@ import {XpComponent} from './XpComponent';
  * @returns A react4xp-representation (react component) of an XP region. Must be SERVER-SIDE-rendered by react4xp!
  */
 const Region = ({
-	componentRegistry,
 	name,
 	regionData,
 	tag,
 	addClass
 }: {
-	componentRegistry?: ComponentRegistry
 	name: string
 	regionData: RegionType
 	tag?: string
@@ -48,10 +45,7 @@ const Region = ({
 			__html: `\t\t\t\t\t${
 				regionData.components && regionData.components.length > 0 ?
 					regionData.components
-						.map(component => XpComponent({
-							component,
-							componentRegistry
-						}))
+						.map(component => ComponentTag(component))
 						.join('\n') :
 					''
 			}\t\t\t\t\t\n`,

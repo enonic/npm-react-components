@@ -1,12 +1,13 @@
 import type {
 	Component,
-	Content,
+	// Content,
 	FragmentComponent,
 	// Layout,
 	LayoutComponent,
 	PageComponent,
 	// Part,
 	PartComponent,
+	Request, // TODO
 	TextComponent,
 } from '@enonic-types/core';
 import type {
@@ -24,13 +25,20 @@ import type {
 	FormItemSet,
 	MixinSchema,
 } from '@enonic-types/lib-schema';
+import type {
+	DecoratedLayoutComponent,
+	DecoratedPageComponent,
+	DecoratedPartComponent,
+	FragmentContent,
+	PageContent
+} from './types';
 
 
 import {getIn} from '@enonic/js-utils/object/getIn';
 import {setIn} from '@enonic/js-utils/object/setIn';
-import {replaceMacroComments} from './replaceMacroComments';
+import {stringify} from 'q-i';
 
-type FragmentContent = Content<undefined,'portal:fragment'>;
+import {replaceMacroComments} from './replaceMacroComments';
 
 type ListSchemas = typeof listSchemas;
 type ProcessHtml = typeof processHtml;
@@ -55,11 +63,40 @@ export interface GetComponentReturnType {
 };
 type GetComponent = (params: GetDynamicComponentParams) => GetComponentReturnType;
 
+interface LayoutComponentToPropsParams {
+	component: LayoutComponent;
+	processedComponent: DecoratedLayoutComponent;
+	processedConfig: Record<string, unknown>;
+	content: PageContent;
+	request: Request;
+}
 
-class ComponentProcessor {
+interface PageComponentToPropsParams {
+	component: PageComponent;
+	processedComponent: DecoratedPageComponent;
+	processedConfig: Record<string, unknown>;
+	content: PageContent;
+	request: Request;
+}
+
+interface PartComponentToPropsParams {
+	component: PartComponent;
+	processedConfig: Record<string, unknown>;
+	content: PageContent;
+	request: Request;
+}
+
+type LayoutComponentToPropsFunction = (params: LayoutComponentToPropsParams) => Record<string, unknown>;
+type PageComponentToPropsFunction = (params: PageComponentToPropsParams) => Record<string, unknown>;
+type PartComponentToPropsFunction = (params: PartComponentToPropsParams) => Record<string, unknown>;
+
+export class ComponentProcessor {
 	private getComponentSchema: GetComponent;
 	private getContentByKey: GetContentByKey;
 	private listSchemas: ListSchemas;
+	private layouts: Record<string,LayoutComponentToPropsFunction> = {};
+	private pages: Record<string,PageComponentToPropsFunction> = {};
+	private parts: Record<string,PartComponentToPropsFunction> = {};
 	private processHtml: ProcessHtml;
 	private mixinSchemas: Record<string, MixinSchema> = {}
 
@@ -196,7 +233,15 @@ class ComponentProcessor {
 		return htmlAreas;
 	}
 
-	private processFragment(component: FragmentComponent) {
+	private processFragment({
+		component,
+		content,
+		request,
+	}: {
+		component: FragmentComponent;
+		content: PageContent;
+		request: Request;
+	}) {
 		const {
 			fragment: key,
 			path
@@ -204,13 +249,13 @@ class ComponentProcessor {
 		// console.info('processFragment fragment key:', key);
 
 		// @ts-expect-error Too complex/strict type generics.
-		const content = this.getContentByKey<FragmentContent>({key});
-		if (!content) {
+		const fragmentContent = this.getContentByKey<FragmentContent>({key});
+		if (!fragmentContent) {
 			throw new Error(`processFragment: content not found for key: ${key}!`);
 		}
 		// console.info('processFragment content:', content);
 
-		const {fragment} = content;
+		const {fragment} = fragmentContent;
 		if (!fragment) {
 			throw new Error(`processFragment: fragment not found in content with key: ${key}!`);
 		}
@@ -224,10 +269,18 @@ class ComponentProcessor {
 		// console.info('processFragment fragment:', fragment);
 
 		if(type === 'part') {
-			return this.processPart(fragment);
+			return this.processPart({
+				component: fragment,
+				content,
+				request,
+			});
 		}
 		if(type === 'layout') {
-			return this.processLayout(fragment);
+			return this.processLayout({
+				component: fragment,
+				content,
+				request,
+			});
 		}
 		if(type === 'text') {
 			return this.processTextComponent(fragment as TextComponent);
@@ -235,31 +288,88 @@ class ComponentProcessor {
 		throw new Error(`processFragment: fragment type not supported: ${type}!`);
 	}
 
-	private processLayout(component: LayoutComponent) {
+	private processLayout({
+		component,
+		content,
+		request,
+	}: {
+		component: LayoutComponent;
+		content: PageContent;
+		request: Request;
+	}): LayoutComponent | DecoratedLayoutComponent {
 		const {descriptor} = component;
 		const {form} = this.getComponentSchema({
 			key: descriptor,
 			type: 'LAYOUT',
 		});
-		return this.processWithRegions({
+		const processedComponent = this.processWithRegions({
 			component,
+			content,
 			form,
-		});
+			request,
+		}) as DecoratedLayoutComponent;
+		const toProps = this.layouts[descriptor];
+		if (toProps) {
+			const decoratedComponent: DecoratedLayoutComponent = JSON.parse(JSON.stringify(component));
+			decoratedComponent.props = toProps({
+				component,
+				processedComponent: processedComponent,
+				processedConfig: processedComponent.config,
+				content,
+				request,
+			});
+			// decoratedComponent.processedConfig = processedComponent.config;
+			return decoratedComponent;
+		}
+		return processedComponent as LayoutComponent;
 	}
 
-	private processPage(component: PageComponent) {
+	private processPage({
+		component,
+		content,
+		request,
+	}: {
+		component: PageComponent;
+		content: PageContent;
+		request: Request;
+	}): PageComponent | DecoratedPageComponent {
+		// console.debug('processPage component:', component);
 		const {descriptor} = component;
 		const {form} = this.getComponentSchema({
 			key: descriptor,
 			type: 'PAGE',
 		});
-		return this.processWithRegions({
+		const processedComponent = this.processWithRegions({
 			component,
+			content,
 			form,
-		});
+			request,
+		}) as DecoratedPageComponent;
+		const toProps = this.pages[descriptor];
+		if (toProps) {
+			const decoratedComponent: DecoratedPageComponent = JSON.parse(JSON.stringify(component));
+			decoratedComponent.props = toProps({
+				component,
+				processedComponent: processedComponent,
+				processedConfig: processedComponent.config,
+				content,
+				request,
+			});
+			// decoratedComponent.processedConfig = processedComponent.config;
+			return decoratedComponent;
+		}
+		return processedComponent as PageComponent;
 	}
 
-	private processPart(component: PartComponent) {
+	private processPart({
+		component,
+		content,
+		request,
+	}: {
+		component: PartComponent;
+		content: PageContent;
+		request: Request;
+	}): PartComponent | DecoratedPartComponent {
 		const {descriptor} = component;
 		const {form} = this.getComponentSchema({
 			key: descriptor,
@@ -288,6 +398,18 @@ class ComponentProcessor {
 				const data = replaceMacroComments(processedHtml);
 				setIn(processedComponent, path, data);
 			}
+		} // for
+		const toProps = this.parts[descriptor];
+		if (toProps) {
+			const decoratedComponent: DecoratedPartComponent = JSON.parse(JSON.stringify(component));
+			decoratedComponent.props = toProps({
+				component,
+				processedConfig: processedComponent.config,
+				content,
+				request,
+			});
+			// decoratedComponent.processedConfig = processedComponent.config;
+			return decoratedComponent;
 		}
 		return processedComponent;
 	}
@@ -301,26 +423,34 @@ class ComponentProcessor {
 	}
 
 	private processWithRegions({
-		component,
+		component: layoutOrPageComponent,
+		content,
 		form,
+		request,
 	}: {
 		component: LayoutComponent | PageComponent;
+		content: PageContent;
 		form:  NestedPartial<FormItem>[];
-	}) {
+		request: Request;
+	}): DecoratedLayoutComponent | DecoratedPageComponent {
 		const htmlAreas = this.getHtmlAreas({
 			ancestor: 'config',
 			form,
 		});
 		// console.info('processWithRegions htmlAreas:', htmlAreas);
 
-		const processedComponent = JSON.parse(JSON.stringify(component));
+		const decoratedLayoutOrPageComponent: DecoratedLayoutComponent | DecoratedPageComponent = JSON.parse(JSON.stringify(layoutOrPageComponent));
+
+		//──────────────────────────────────────────────────────────────────────
+		// This modifies layoutOrPage.config:
+		//──────────────────────────────────────────────────────────────────────
 		for (let i = 0; i < htmlAreas.length; i++) {
 			// console.info('component:', component);
 
 			const path = htmlAreas[i];
-			// console.info('path:', path);
+			// console.debug('processWithRegions path:', path);
 
-			const html = getIn(component, path) as string;
+			const html = getIn(layoutOrPageComponent, path) as string;
 			// console.info('html:', html);
 
 			if (html) {
@@ -328,11 +458,16 @@ class ComponentProcessor {
 					value: html
 				});
 				const data = replaceMacroComments(processedHtml);
-				setIn(processedComponent, path, data);
+				setIn(decoratedLayoutOrPageComponent, path, data);
 			}
 		} // for
+		// console.debug('processWithRegions config:', decoratedLayoutOrPageComponent.config);
 
-		const {regions} = component;
+		//──────────────────────────────────────────────────────────────────────
+		// This modifies layoutOrPage.regions:
+		//──────────────────────────────────────────────────────────────────────
+		const {regions} = layoutOrPageComponent;
+		// console.debug('processWithRegions regions:', stringify(regions, {maxItems: Infinity}));
 		const regionNames = Object.keys(regions);
 		for (let i = 0; i < regionNames.length; i++) {
 			const regionName = regionNames[i];
@@ -340,20 +475,77 @@ class ComponentProcessor {
 			const components = region.components;
 			for (let j = 0; j < components.length; j++) {
 				const component = components[j];
-				processedComponent.regions[regionName].components[j] = this.process(component);
+				// @ts-expect-error
+				decoratedLayoutOrPageComponent.regions[regionName].components[j] = this.process({
+					component,
+					content,
+					request,
+				});
 			}
 		}
-		return processedComponent;
+		// console.debug('processWithRegions regions:', stringify(decoratedLayoutOrPageComponent.regions, {maxItems: Infinity}));
+		return decoratedLayoutOrPageComponent;
+	} // processWithRegions
+
+	public addLayout(descriptor: string, {
+		toProps
+	}: {
+		toProps: (params: LayoutComponentToPropsParams) => Record<string, unknown>;
+	}) {
+		// console.debug('addLayout:', descriptor);
+		this.layouts[descriptor] = toProps;
 	}
 
-	public process(component:Component) {
+	public addPage(descriptor: string, {
+		toProps
+	}: {
+		toProps: (params: PageComponentToPropsParams) => Record<string, unknown>;
+	}) {
+		// console.debug('addPage:', descriptor);
+		this.pages[descriptor] = toProps;
+	}
+
+	public addPart(descriptor: string, {
+		toProps
+	}: {
+		toProps: (params: PartComponentToPropsParams) => Record<string, unknown>;
+	}) {
+		// console.debug('addPart:', descriptor);
+		this.parts[descriptor] = toProps;
+	}
+
+	public process({
+		component,
+		content,
+		request,
+	}: {
+		component: Component;
+		content: PageContent;
+		request: Request;
+	}) {
 		const {type} = component;
 		switch (type) {
-			case 'part': return this.processPart(component);
-			case 'layout': return this.processLayout(component as LayoutComponent);
-			case 'page': return this.processPage(component as PageComponent);
+			case 'part': return this.processPart({
+				component,
+				content,
+				request,
+			});
+			case 'layout': return this.processLayout({
+				component: component as LayoutComponent,
+				content,
+				request,
+			});
+			case 'page': return this.processPage({
+				component: component as PageComponent,
+				content,
+				request,
+			});
 			case 'text': return this.processTextComponent(component as TextComponent);
-			case 'fragment': return this.processFragment(component as FragmentComponent);
+			case 'fragment': return this.processFragment({
+				component: component as FragmentComponent,
+				content,
+				request,
+			});
 			default: throw new Error(`processComponents: component type not supported: ${type}!`);
 		}
 	}
@@ -361,16 +553,20 @@ class ComponentProcessor {
 
 export function processComponents({
 	component,
+	content,
 	getComponentSchema,
 	getContentByKey,
 	listSchemas,
 	processHtml,
+	request,
 }: {
 	component: Component;
+	content: PageContent;
 	getComponentSchema: GetComponent;
 	getContentByKey: GetContentByKey;
 	listSchemas: ListSchemas;
 	processHtml: ProcessHtml;
+	request: Request;
 }) {
 	const processor = new ComponentProcessor({
 		getComponentSchema,
@@ -378,5 +574,9 @@ export function processComponents({
 		listSchemas,
 		processHtml,
 	});
-	return processor.process(component);
+	return processor.process({
+		component,
+		content,
+		request
+	});
 }
