@@ -67,7 +67,7 @@ interface LayoutComponentToPropsParams {
 	component: LayoutComponent;
 	processedComponent: DecoratedLayoutComponent;
 	processedConfig: Record<string, unknown>;
-	content: PageContent;
+	content?: PageContent;
 	request: Request;
 }
 
@@ -75,14 +75,14 @@ interface PageComponentToPropsParams {
 	component: PageComponent;
 	processedComponent: DecoratedPageComponent;
 	processedConfig: Record<string, unknown>;
-	content: PageContent;
+	content?: PageContent;
 	request: Request;
 }
 
 interface PartComponentToPropsParams {
 	component: PartComponent;
 	processedConfig: Record<string, unknown>;
-	content: PageContent;
+	content?: PageContent;
 	request: Request;
 }
 
@@ -239,7 +239,7 @@ export class ComponentProcessor {
 		request,
 	}: {
 		component: FragmentComponent;
-		content: PageContent;
+		content?: PageContent;
 		request: Request;
 	}) {
 		const {
@@ -294,7 +294,7 @@ export class ComponentProcessor {
 		request,
 	}: {
 		component: LayoutComponent;
-		content: PageContent;
+		content?: PageContent;
 		request: Request;
 	}): LayoutComponent | DecoratedLayoutComponent {
 		const {descriptor} = component;
@@ -330,7 +330,7 @@ export class ComponentProcessor {
 		request,
 	}: {
 		component: PageComponent;
-		content: PageContent;
+		content?: PageContent;
 		request: Request;
 	}): PageComponent | DecoratedPageComponent {
 		// console.debug('processPage component:', component);
@@ -367,7 +367,7 @@ export class ComponentProcessor {
 		request,
 	}: {
 		component: PartComponent;
-		content: PageContent;
+		content?: PageContent;
 		request: Request;
 	}): PartComponent | DecoratedPartComponent {
 		const {descriptor} = component;
@@ -429,7 +429,7 @@ export class ComponentProcessor {
 		request,
 	}: {
 		component: LayoutComponent | PageComponent;
-		content: PageContent;
+		content?: PageContent;
 		form:  NestedPartial<FormItem>[];
 		request: Request;
 	}): DecoratedLayoutComponent | DecoratedPageComponent {
@@ -520,7 +520,7 @@ export class ComponentProcessor {
 		request,
 	}: {
 		component: Component;
-		content: PageContent;
+		content?: PageContent;
 		request: Request;
 	}) {
 		const {type} = component;
@@ -561,7 +561,7 @@ export function processComponents({
 	request,
 }: {
 	component: Component;
-	content: PageContent;
+	content?: PageContent;
 	getComponentSchema: GetComponent;
 	getContentByKey: GetContentByKey;
 	listSchemas: ListSchemas;
