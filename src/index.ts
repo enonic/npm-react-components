@@ -36,6 +36,8 @@ export {
 	Regions,
 };
 export { ComponentRegistry } from './ComponentRegistry';
+export { XpComponent } from './ComponentRegistry/XpComponent';
+export { XpRegions } from './ComponentRegistry/XpRegions';
 
 // Exporting processComponents here is a bad idea, because it's should be used in Enonic XP nashorn.
 // Nashorn throws "Invalid hex digit" because entities contains Uint16Array.
