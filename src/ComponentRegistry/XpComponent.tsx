@@ -6,6 +6,7 @@ import type {
 	DecoratedPageComponent,
 } from '../types';
 
+// import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import {XP_COMPONENT_TYPE} from '../constants';
 import {XpComponentComment} from './XpComponentComment';
@@ -90,6 +91,7 @@ export function XpComponent({
 			throw new Error(`Layout component missing props: ${component.descriptor}`);
 		}
 		props.componentRegistry = componentRegistry;
+		// console.info('XpComponent LayoutView props:', toStr(props));
 		return (
 			<LayoutView {...props}/>
 		);
@@ -109,6 +111,7 @@ export function XpComponent({
 			throw new Error(`Page component missing props: ${component.descriptor}`);
 		}
 		props.componentRegistry = componentRegistry;
+		// console.info('XpComponent PageView props:', toStr(props));
 		return (
 			<PageView {...props}/>
 		);
