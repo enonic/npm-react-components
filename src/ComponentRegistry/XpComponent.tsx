@@ -1,19 +1,20 @@
 import type {Component} from '@enonic-types/core';
 import type {ComponentRegistry} from '../ComponentRegistry';
-// import type {MacroComponent} from './types';
+import type {RichTextData} from '../types';
 import type {
 	DecoratedLayoutComponent,
 	DecoratedPageComponent,
+	DecoratedTextComponent,
 } from '../types';
 
-// import { toStr } from '@enonic/js-utils/value/toStr';
+import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import {XP_COMPONENT_TYPE} from '../constants';
 import {XpComponentComment} from './XpComponentComment';
 // import {XpLayout} from './XpLayout';
 // import {XpPage} from './XpPage';
 import {XpPart} from './XpPart';
-// import {RichText} from './RichText';
+import {RichText} from '../RichText';
 // import {Macro as FallbackMacro} from './RichText/Macro';
 // import {replaceMacroComments} from './replaceMacroComments';
 
@@ -57,6 +58,8 @@ export function XpComponent({
 	component: Component
 	componentRegistry?: ComponentRegistry
 }) {
+	// console.info('XpComponent component:', toStr(component));
+
 	if (!componentRegistry) {
 		return (
 			<XpComponentComment component={component}/>
@@ -117,21 +120,28 @@ export function XpComponent({
 		);
 	}
 
-	// if (type === XP_COMPONENT_TYPE.TEXT) {
-	// 	// console.info('XpComponent', {component});
+	if (type === XP_COMPONENT_TYPE.TEXT) {
+		// console.info('XpComponent text component:', toStr(component));
 
-	// 	// const data = {};
-	// 	const data = replaceMacroComments(component.text);
-	// 	console.info('data', data);
+		const {props} = component as DecoratedTextComponent;
+		if (!props) {
+			throw new Error(`Text component missing props: ${toStr(component)}`);
+		}
+		// console.info('XpComponent text component props:', toStr(props));
 
-	// 	// componentRegistry={componentRegistry}
-	// 	// Macro={Macro}
-	// 	return (
-	// 		<RichText<RestProps>
-	// 			data={data}
-	// 		/>
-	// 	);
-	// }
+		const {data} = props;
+		console.info('XpComponent text component data:', toStr(data));
+
+		return (
+			<div data-portal-component-type="text">
+				<RichText
+					componentRegistry={componentRegistry}
+					data={data}
+					// data-portal-component-type="text"
+				/>
+			</div>
+		);
+	}
 
 	return (
 		<XpComponentComment component={component}/>
