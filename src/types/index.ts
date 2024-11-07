@@ -7,7 +7,8 @@ import type {
 	Part,
 	PartComponent,
 	Page,
-	PageComponent
+	PageComponent,
+	TextComponent
 } from '@enonic-types/core';
 
 // The Guillotine types are similar, but uses complex types:
@@ -60,6 +61,12 @@ export type DecoratedPageComponent = PageComponent & {
 export type DecoratedPartComponent = PartComponent & {
 	// processedConfig: Record<string, unknown>
 	props?: Record<string, unknown>
+}
+
+export type DecoratedTextComponent = TextComponent & {
+	props?: {
+		data: RichTextData
+	}
 }
 
 export type RichtextContent<

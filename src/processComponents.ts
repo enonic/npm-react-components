@@ -29,6 +29,7 @@ import type {
 	DecoratedLayoutComponent,
 	DecoratedPageComponent,
 	DecoratedPartComponent,
+	DecoratedTextComponent,
 	FragmentContent,
 	PageContent
 } from './types';
@@ -414,12 +415,16 @@ export class ComponentProcessor {
 		return processedComponent;
 	}
 
-	private processTextComponent(component: TextComponent) {
+	private processTextComponent(component: TextComponent): DecoratedTextComponent {
 		const {text} = component;
 		const processedHtml = this.processHtml({
 			value: text
 		});
-		return replaceMacroComments(processedHtml);
+		const decoratedTextComponent: DecoratedTextComponent = JSON.parse(JSON.stringify(component));
+		decoratedTextComponent.props = {
+			data: replaceMacroComments(processedHtml)
+		};
+		return decoratedTextComponent;
 	}
 
 	private processWithRegions({
