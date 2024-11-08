@@ -48,13 +48,13 @@ export interface ComponentRegistry {
 
 export type DecoratedLayoutComponent = LayoutComponent & {
 	// processedConfig: Record<string, unknown>
-	processedComponent: LayoutComponent
+	processedComponent?: LayoutComponent
 	props?: Record<string, unknown>
 }
 
 export type DecoratedPageComponent = PageComponent & {
 	// processedConfig: Record<string, unknown>
-	processedComponent: PageComponent
+	processedComponent?: PageComponent
 	props?: Record<string, unknown>
 }
 
@@ -68,6 +68,12 @@ export type DecoratedTextComponent = TextComponent & {
 		data: RichTextData
 	}
 }
+
+export type DecoratedComponent =
+	| DecoratedLayoutComponent
+	| DecoratedPageComponent
+	| DecoratedPartComponent
+	| DecoratedTextComponent;
 
 export type RichtextContent<
 	Extensions extends Record<string, unknown> = Record<string, unknown>
