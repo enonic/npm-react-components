@@ -1,39 +1,30 @@
-// import type {PartComponent} from '@enonic-types/core';
-import type {
-	ComponentRegistry,
-	DecoratedPartComponent,
-} from '../types';
+import type {LiteralUnion} from '@enonic-types/core';
+import type {ClassValue} from 'clsx';
+import type {ComponentRegistry} from '../ComponentRegistry';
 
-import * as React from 'react';
+import cx from 'clsx';
 
 export function XpPart({
-	component,
-	componentRegistry
-}: {
-	component: DecoratedPartComponent
-	componentRegistry: ComponentRegistry
+	as,
+	children,
+	className,
+	...rest
+}: Omit<
+	React.HTMLAttributes<HTMLElement>,
+	'className'
+> & {
+	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+	children?: React.ReactNode
+	className?: ClassValue
 }) {
-	// console.info('XpPart component', component.);
-
-	const {
-		config,
-		props = config,
-		descriptor,
-	} = component;
-	// console.debug('XpPart descriptor:', descriptor);
-
-	const partDefinition = componentRegistry.getPart(descriptor);
-	if (!partDefinition) {
-		throw new Error(`Part definition not found for descriptor: ${descriptor}`);
-		// TODO return ErrorBoundary instead of throwing.
-	}
-	const {View} = partDefinition;
-	if (!View) {
-		throw new Error(`Part view not found for descriptor: ${descriptor}`);
-		// TODO return ErrorBoundary instead of throwing.
-	}
-	props.componentRegistry = componentRegistry;
+	const ElementType = (as || 'div') as React.ElementType;
 	return (
-		<View {...props}/>
+		<ElementType
+			className={cx(className)}
+			data-portal-component-type="part"
+			{...rest}
+		>
+			{children}
+		</ElementType>
 	);
 }

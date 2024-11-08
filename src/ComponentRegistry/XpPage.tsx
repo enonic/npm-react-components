@@ -1,6 +1,6 @@
 import type {
-	PageComponent,
-	PageContributions,
+	LiteralUnion,
+	Region,
 } from '@enonic-types/core';
 import type {ClassValue} from 'clsx';
 import type {ComponentRegistry} from '../ComponentRegistry';
@@ -9,42 +9,34 @@ import cx from 'clsx';
 import {XpRegions} from './XpRegions';
 
 export function XpPage({
-	bodyBegin,
-	bodyEnd,
+	as,
+	children,
 	className,
-	component,
 	componentRegistry,
-	headBegin,
-	headEnd,
-	title
-}: {
-	bodyBegin?: React.ReactNode;
-	bodyEnd?: React.ReactNode;
+	regions,
+	...rest
+}: Omit<
+	React.HTMLAttributes<HTMLElement>,
+	'className'
+> & {
+	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+	children?: React.ReactNode
 	className?: ClassValue
-	component: PageComponent
 	componentRegistry: ComponentRegistry
-	headBegin?: React.ReactNode;
-	headEnd?: React.ReactNode;
-	title?: string
+	regions: Record<string, Region>;
 }) {
-	const {regions} = component;
+	const ElementType = (as || 'div') as React.ElementType;
 	return (
-		<html
+		<ElementType
 			className={cx(className)}
+			data-portal-component-type="page"
+			{...rest}
 		>
-			<head>
-				{headBegin ? headBegin : null}
-				{title ? <title>{title}</title> : null}
-				{headEnd ? headEnd : null}
-			</head>
-			<body className="xp-page">
-				{bodyBegin ? bodyBegin : null}
-				<XpRegions
-					regions={regions}
-					componentRegistry={componentRegistry}
-				/>
-				{bodyEnd ? bodyEnd : null}
-			</body>
-		</html>
+			{children}
+			<XpRegions
+				componentRegistry={componentRegistry}
+				regions={regions}
+			/>
+		</ElementType>
 	);
 }

@@ -1,4 +1,7 @@
-import type {LayoutComponent} from '@enonic-types/core';
+import type {
+	LiteralUnion,
+	Region
+} from '@enonic-types/core';
 import type {ClassValue} from 'clsx';
 import type {ComponentRegistry} from '../ComponentRegistry';
 
@@ -7,25 +10,33 @@ import {XpRegions} from './XpRegions';
 
 export function XpLayout({
 	as,
+	children,
 	className,
-	component,
 	componentRegistry,
-}: {
-	as?: string;
+	regions,
+	...rest
+}: Omit<
+	React.HTMLAttributes<HTMLElement>,
+	'className'
+> & {
+	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+	children?: React.ReactNode
 	className?: ClassValue;
-	component: LayoutComponent;
 	componentRegistry: ComponentRegistry;
+	regions: Record<string, Region>;
 }) {
 	// console.debug('XpLayout component:', component.descriptor);
-	const {regions} = component;
-	const ElementType = (as || 'div') as keyof JSX.IntrinsicElements;
+	const ElementType = (as || 'div') as React.ElementType;
 	return (
 		<ElementType
 			className={cx(className)}
+			data-portal-component-type="layout"
+			{...rest}
 		>
+			{children}
 			<XpRegions
-				regions={regions}
 				componentRegistry={componentRegistry}
+				regions={regions}
 			/>
 		</ElementType>
 	);
