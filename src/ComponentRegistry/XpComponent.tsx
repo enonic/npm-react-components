@@ -1,6 +1,6 @@
 import type {Component} from '@enonic-types/core';
 import type {ComponentRegistry} from '../ComponentRegistry';
-import type {RichTextData} from '../types';
+// import type {RichTextData} from '../types';
 import type {
 	DecoratedLayoutComponent,
 	DecoratedPageComponent,
@@ -11,45 +11,9 @@ import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import {XP_COMPONENT_TYPE} from '../constants';
 import {XpComponentComment} from './XpComponentComment';
-// import {XpLayout} from './XpLayout';
-// import {XpPage} from './XpPage';
-import {XpPart} from './XpPart';
+import {XpPart} from './XpBasePart';
 import {RichText} from '../RichText';
-// import {Macro as FallbackMacro} from './RichText/Macro';
-// import {replaceMacroComments} from './replaceMacroComments';
 
-
-// interface RestProps {
-// 	componentRegistry?: ComponentRegistry
-// }
-
-// const Macro: MacroComponent<RestProps> = ({
-// 	componentRegistry,
-// 	config,
-// 	descriptor,
-// 	children
-// }) => {
-// 	console.info('MacroWithComponentRegistry', {config, descriptor, children});
-// 	if (componentRegistry) {
-// 		// @ts-ignore
-// 		if (descriptor === 'info') {
-// 			const InfoMacro = componentRegistry.getMacro<{
-// 				header: string
-// 				text: string
-// 			}>('macro');
-// 			console.info(InfoMacro);
-// 			const {
-// 				body,
-// 				header,
-// 			} = config;
-// 			console.info('MacroWithComponentRegistry', {body, header});
-// 			return (
-// 				<InfoMacro header={header} text={body}/>
-// 			);
-// 		}
-// 	}
-// 	return null;
-// }
 
 export function XpComponent({
 	component,
@@ -130,7 +94,7 @@ export function XpComponent({
 		// console.info('XpComponent text component props:', toStr(props));
 
 		const {data} = props;
-		console.info('XpComponent text component data:', toStr(data));
+		// console.info('XpComponent text component data:', toStr(data));
 
 		return (
 			<div data-portal-component-type="text">
