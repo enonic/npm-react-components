@@ -1,6 +1,7 @@
 import type {Component} from '@enonic-types/core';
+import { HtmlComment } from './HtmlComment';
 
-export function XpComponentComment({
+export function XpFallback({
 	component
 }: {
 	component?: Component
@@ -9,6 +10,7 @@ export function XpComponentComment({
 		return null;
 	}
 	return (
-		<>{/*# COMPONENT ${component.path} */}</>
+		<HtmlComment comment={`#COMPONENT ${component.path}`} />
 	);
 }
+

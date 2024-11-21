@@ -1,28 +1,31 @@
 // import type {PartComponent} from '@enonic-types/core';
 import type {
 	ComponentRegistry,
-	DecoratedPartComponent,
+	RenderablePartComponent,
 } from '../types';
 
+// import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
-export function XpPart({
+export function XpBasePart({
 	component,
 	componentRegistry
 }: {
-	component: DecoratedPartComponent
+	component: RenderablePartComponent
 	componentRegistry: ComponentRegistry
 }) {
-	// console.info('XpPart component', component.);
+	// console.debug('XpPart component', toStr(component));
 
 	const {
-		config,
-		props = config,
+		props,
 		descriptor,
 	} = component;
-	// console.debug('XpPart descriptor:', descriptor);
+	// console.debug('XpPart descriptor:', toStr(descriptor));
+	// console.debug('XpPart props:', toStr(props));
 
-	const partDefinition = componentRegistry.getPart(descriptor);
+	const partDefinition = componentRegistry.getPart<{
+		componentRegistry: ComponentRegistry
+	}>(descriptor);
 	if (!partDefinition) {
 		throw new Error(`Part definition not found for descriptor: ${descriptor}`);
 		// TODO return ErrorBoundary instead of throwing.
@@ -32,8 +35,7 @@ export function XpPart({
 		throw new Error(`Part view not found for descriptor: ${descriptor}`);
 		// TODO return ErrorBoundary instead of throwing.
 	}
-	props.componentRegistry = componentRegistry;
 	return (
-		<View {...props}/>
+		<View componentRegistry={componentRegistry} {...props}/>
 	);
 }
