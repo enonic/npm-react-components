@@ -1,15 +1,18 @@
 // There is a difference between the core enonic types and what Guillotine returns:
 import type {
 	Content,
-	Component,
+	// Component,
+	ComponentDescriptor,
 	Layout,
 	LayoutComponent,
 	Part,
 	PartComponent,
 	Page,
 	PageComponent,
-	TextComponent
+	TextComponent,
+	LiteralUnion
 } from '@enonic-types/core';
+import type {ClassValue} from 'clsx';
 
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
@@ -46,34 +49,53 @@ export interface ComponentRegistry {
 	hasPart(name: string): boolean
 }
 
-export type DecoratedLayoutComponent = LayoutComponent & {
+export interface RenderableRegion {
+	name: string;
+	components: RenderableComponent[];
+}
+
+export type RenderableRegions = Record<string, RenderableRegion>;
+
+export interface RenderableLayoutComponent {
+	// config: never
+	descriptor: ComponentDescriptor;
 	// processedConfig: Record<string, unknown>
+	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	processedComponent?: LayoutComponent
 	props?: Record<string, unknown>
+	regions: RenderableRegions;
+	type: 'layout'
 }
 
-export type DecoratedPageComponent = PageComponent & {
+export interface RenderablePageComponent {
+	// config: never;
+	descriptor: ComponentDescriptor;
+	// processedConfig: Record<string, unknown>;
+	path: '/';
+	processedComponent?: PageComponent;
+	props?: Record<string, unknown>;
+	regions: RenderableRegions;
+	type: 'page';
+}
+
+export interface RenderablePartComponent {
+	// config: never
+	descriptor: ComponentDescriptor;
 	// processedConfig: Record<string, unknown>
-	processedComponent?: PageComponent
+	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	props?: Record<string, unknown>
+	type: 'part'
 }
 
-export type DecoratedPartComponent = PartComponent & {
-	// processedConfig: Record<string, unknown>
-	props?: Record<string, unknown>
+export type RenderableTextComponent = TextComponent & {
+	props?: Omit<XpTextProps, 'componentRegistry'>
 }
 
-export type DecoratedTextComponent = TextComponent & {
-	props?: {
-		data: RichTextData
-	}
-}
-
-export type DecoratedComponent =
-	| DecoratedLayoutComponent
-	| DecoratedPageComponent
-	| DecoratedPartComponent
-	| DecoratedTextComponent;
+export type RenderableComponent =
+	| RenderableLayoutComponent
+	| RenderablePageComponent
+	| RenderablePartComponent
+	| RenderableTextComponent;
 
 export type RichtextContent<
 	Extensions extends Record<string, unknown> = Record<string, unknown>
@@ -269,3 +291,14 @@ export type RichTextParams<
 	replacer?: Replacer
 	tag?: string
 } & RestProps;
+
+export interface XpTextProps extends Omit<
+	React.HTMLAttributes<HTMLElement>,'className' | 'children'
+> {
+	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+	className?: ClassValue;
+	componentRegistry: ComponentRegistry;
+	data: RichTextData;
+	'data-portal-component-type'?: 'text';
+	mode: LiteralUnion<RequestMode>;
+}

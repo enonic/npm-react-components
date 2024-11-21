@@ -1,4 +1,4 @@
-import type {InfoPanelProps} from '../processComponents/InfoPanel';
+import type {InfoPanelProps} from './InfoPanel';
 
 import {
 	// beforeAll,
@@ -9,7 +9,7 @@ import {
 } from '@jest/globals';
 import {ComponentRegistry} from '../../src/ComponentRegistry';
 import {ExamplePart} from './ExamplePart';
-import {InfoPanel} from '../processComponents/InfoPanel';
+import {InfoPanel} from './InfoPanel';
 
 const componentRegistry = new ComponentRegistry;
 

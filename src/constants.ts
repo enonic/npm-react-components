@@ -13,3 +13,10 @@ export enum XP_COMPONENT_TYPE {
     PART = 'part',
     TEXT = 'text',
 }
+
+export enum XP_REQUEST_MODE {
+	EDIT = 'edit',
+	INLINE = 'inline',
+	LIVE = 'live',
+	PREVIEW = 'preview',
+}

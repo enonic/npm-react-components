@@ -1,113 +1,91 @@
 import type {Component} from '@enonic-types/core';
 import type {ComponentRegistry} from '../ComponentRegistry';
-// import type {RichTextData} from '../types';
 import type {
-	DecoratedLayoutComponent,
-	DecoratedPageComponent,
-	DecoratedTextComponent,
+	RenderableComponent,
+	XpTextProps
 } from '../types';
 
 import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
+
 import {XP_COMPONENT_TYPE} from '../constants';
-import {XpComponentComment} from './XpComponentComment';
-import {XpPart} from './XpBasePart';
-import {RichText} from '../RichText';
+
+import {XpBaseLayout} from './XpBaseLayout';
+import {XpBasePage} from './XpBasePage';
+import {XpBasePart} from './XpBasePart';
+import {XpFallback} from './XpFallback';
+import {XpText} from './XpText';
 
 
 export function XpComponent({
 	component,
 	componentRegistry
 }: {
-	component: Component
+	component: RenderableComponent
 	componentRegistry?: ComponentRegistry
 }) {
-	// console.info('XpComponent component:', toStr(component));
+	// console.debug('XpComponent component:', toStr(component));
 
 	if (!componentRegistry) {
+		console.warn('XpComponent componentRegistry missing! with component:', toStr(component));
 		return (
-			<XpComponentComment component={component}/>
+			<XpFallback component={component as Component}/>
 		);
 	}
 
-	const {
-		type
-	} = component;
+	const {type} = component;
+	if (!type) {
+		// @ts-expect-error - log is not defined
+		(log||console).error('XpComponent component missing type:', toStr(component));
+		return (
+			<XpFallback component={component}/>
+		);
+	}
 	// console.info('XpComponent type:', type);
 
-	if (type === XP_COMPONENT_TYPE.PART) {
-		return (
-			<XpPart
-				component={component}
-				componentRegistry={componentRegistry}
-			/>
-		);
-	}
-
-	if (type === XP_COMPONENT_TYPE.LAYOUT) {
-		const layoutDefinition = componentRegistry.getLayout(component.descriptor);
-		if (!layoutDefinition) {
-			throw new Error(`Layout definition not found for descriptor: ${component.descriptor}`);
-		}
-		const {View: LayoutView} = layoutDefinition;
-		if (!LayoutView) {
-			throw new Error(`Layout definition missing View for descriptor: ${component.descriptor}`);
-		}
-		const {props} = component as DecoratedLayoutComponent;
-		if (!props) {
-			throw new Error(`Layout component missing props: ${component.descriptor}`);
-		}
-		props.componentRegistry = componentRegistry;
-		// console.info('XpComponent LayoutView props:', toStr(props));
-		return (
-			<LayoutView {...props}/>
-		);
-	}
-
-	if (type === XP_COMPONENT_TYPE.PAGE) {
-		const pageDefinition = componentRegistry.getPage(component.descriptor);
-		if (!pageDefinition) {
-			throw new Error(`Page definition not found for descriptor: ${component.descriptor}`);
-		}
-		const {View: PageView} = pageDefinition;
-		if (!PageView) {
-			throw new Error(`Page definition missing View for descriptor: ${component.descriptor}`);
-		}
-		const {props} = component as DecoratedPageComponent;
-		if (!props) {
-			throw new Error(`Page component missing props: ${component.descriptor}`);
-		}
-		props.componentRegistry = componentRegistry;
-		// console.info('XpComponent PageView props:', toStr(props));
-		return (
-			<PageView {...props}/>
-		);
-	}
-
-	if (type === XP_COMPONENT_TYPE.TEXT) {
-		// console.info('XpComponent text component:', toStr(component));
-
-		const {props} = component as DecoratedTextComponent;
-		if (!props) {
-			throw new Error(`Text component missing props: ${toStr(component)}`);
-		}
-		// console.info('XpComponent text component props:', toStr(props));
-
-		const {data} = props;
-		// console.info('XpComponent text component data:', toStr(data));
-
-		return (
-			<div data-portal-component-type="text">
-				<RichText
+	switch (type) {
+		case XP_COMPONENT_TYPE.PART:
+			return (
+				<XpBasePart
+					component={component}
 					componentRegistry={componentRegistry}
-					data={data}
-					// data-portal-component-type="text"
 				/>
-			</div>
-		);
-	}
+			);
+		case XP_COMPONENT_TYPE.LAYOUT:
+			return (
+				<XpBaseLayout
+					component={component}
+					componentRegistry={componentRegistry}
+				/>
+			);
+		case XP_COMPONENT_TYPE.PAGE:
+			return (
+				<XpBasePage
+					component={component}
+					componentRegistry={componentRegistry}
+				/>
+			);
+		case XP_COMPONENT_TYPE.TEXT: {
+			// console.info('XpComponent text component:', toStr(component));
 
+			const {props} = component;
+			if (!props) {
+				throw new Error(`Text component missing props: ${toStr(component)}`);
+			}
+			// console.info('XpComponent text component props:', toStr(props));
+			const textProps = props as XpTextProps;
+			textProps.componentRegistry = componentRegistry;
+
+			return (
+				<XpText {...textProps}/>
+			);
+		}
+	} // switch
+
+	// @ts-expect-error - log is not defined
+	(log||console).error(`Unknown component type: ${type}`);
 	return (
-		<XpComponentComment component={component}/>
+		<XpFallback component={component as Component}/>
 	);
-}
+
+} // XpComponent

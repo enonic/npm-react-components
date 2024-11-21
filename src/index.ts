@@ -1,5 +1,10 @@
 export type {
 	ContentUri,
+	RenderableComponent,
+	RenderableLayoutComponent,
+	RenderablePageComponent,
+	RenderablePartComponent,
+	RenderableTextComponent,
 	ImageComponent,
 	ImageComponentParams,
 	ImageContent,
@@ -42,11 +47,6 @@ export { XpPage } from './ComponentRegistry/XpPage';
 export { XpPart } from './ComponentRegistry/XpPart';
 export { XpRegions } from './ComponentRegistry/XpRegions';
 
-// Exporting processComponents here is a bad idea, because it's should be used in Enonic XP nashorn.
-// Nashorn throws "Invalid hex digit" because entities contains Uint16Array.
-// export { ComponentProcessor } from './ComponentProcessor';
-
-export { replaceMacroComments } from './replaceMacroComments';
 export { RichText } from './RichText';
 export { cssToReactStyle } from './RichText/cssToReactStyle';
 export {sanitizeGraphqlName} from './utils/sanitizeGraphqlName';
