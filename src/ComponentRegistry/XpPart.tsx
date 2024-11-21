@@ -1,6 +1,5 @@
 import type {LiteralUnion} from '@enonic-types/core';
 import type {ClassValue} from 'clsx';
-import type {ComponentRegistry} from '../ComponentRegistry';
 
 import cx from 'clsx';
 

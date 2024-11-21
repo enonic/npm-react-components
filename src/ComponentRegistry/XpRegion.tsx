@@ -1,9 +1,19 @@
-import type {Component} from '@enonic-types/core';
 import type {ClassValue} from 'clsx';
 import type {ComponentRegistry} from '../ComponentRegistry';
+import type {RenderableComponent} from '../types';
 
 import cx from 'clsx';
 import {XpComponent} from './XpComponent';
+
+
+export interface XpRegionProps {
+	as?: string
+	className?: ClassValue
+	components: RenderableComponent[]
+	componentRegistry: ComponentRegistry
+	name: string
+}
+
 
 export const XpRegion = ({
 	as,
@@ -11,13 +21,7 @@ export const XpRegion = ({
 	components = [],
 	componentRegistry,
 	name,
-}: {
-	as?: string
-	className?: ClassValue
-	components: Component[]
-	componentRegistry?: ComponentRegistry
-	name: string
-}) => {
+}: XpRegionProps) => {
 	if (!((name || '').trim())) {
 		console.error(`<Region NO_NAME> name: ${JSON.stringify(name)}`);
 		throw Error(`Can't render <Region> without a 'name' prop.`);
