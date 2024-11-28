@@ -23,12 +23,13 @@ export function XpText({
 			{...rest}
 		>
 			{
-				mode !== XP_REQUEST_MODE.EDIT
-					? <RichText
+				// mode !== XP_REQUEST_MODE.EDIT
+				// 	?
+					<RichText
 						componentRegistry={componentRegistry}
 						data={data}
 					/>
-					: null
+					// : null // This actually breaks text components in edit mode.
 			}
 		</ElementType>
 	);
