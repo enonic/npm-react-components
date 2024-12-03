@@ -4,7 +4,7 @@ import type {MacroComponentParams, ReplaceMacroParams} from '../types';
 
 
 import {MACRO_ATTR} from '../constants';
-import {ErrorComponent} from './ErrorComponent';
+import {ErrorComponent} from '../ErrorComponent';
 import * as htmlReactParser from 'html-react-parser';
 // import {type createReplacer as CreateReplacer} from './createReplacer';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';

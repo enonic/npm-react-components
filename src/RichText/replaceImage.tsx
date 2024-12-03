@@ -4,7 +4,7 @@ import type {ImageComponent, ImageData, ImageComponentParams} from '../types';
 
 import {IMG_ATTR} from '../constants';
 import {cssToReactStyle} from './cssToReactStyle';
-import {ErrorComponent} from './ErrorComponent';
+import {ErrorComponent} from '../ErrorComponent';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
 
 
