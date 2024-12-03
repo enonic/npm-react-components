@@ -41,6 +41,7 @@ export function XpDocument({
 				{bodyBegin ? bodyBegin : null}
 				<XpRegions
 					componentRegistry={componentRegistry}
+					// @ts-ignore
 					regions={regions}
 				/>
 				{bodyEnd ? bodyEnd : null}

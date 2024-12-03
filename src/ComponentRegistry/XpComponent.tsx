@@ -35,8 +35,7 @@ export function XpComponent({
 
 	const {type} = component;
 	if (!type) {
-		// @ts-expect-error - log is not defined
-		(log||console).error('XpComponent component missing type:', toStr(component));
+		console.error('XpComponent component missing type:', toStr(component));
 		return (
 			<XpFallback component={component}/>
 		);
@@ -82,8 +81,7 @@ export function XpComponent({
 		}
 	} // switch
 
-	// @ts-expect-error - log is not defined
-	(log||console).error(`Unknown component type: ${type}`);
+	console.error(`Unknown component type: ${type}`);
 	return (
 		<XpFallback component={component as Component}/>
 	);
