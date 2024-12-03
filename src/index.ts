@@ -40,7 +40,7 @@ export {
 	Region,
 	Regions,
 };
-export { ComponentRegistry } from './ComponentRegistry';
+export { ComponentRegistry } from './ComponentRegistry'; // This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
 export { XpComponent } from './ComponentRegistry/XpComponent';
 export { XpLayout } from './ComponentRegistry/XpLayout';
 export { XpPage } from './ComponentRegistry/XpPage';
