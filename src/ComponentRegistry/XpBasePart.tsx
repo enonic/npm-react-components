@@ -4,7 +4,7 @@ import type {
 	RenderablePartComponent,
 } from '../types';
 
-// import { toStr } from '@enonic/js-utils/value/toStr';
+import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import { Alert } from '../Alert';
 
@@ -14,7 +14,7 @@ export function XpBasePart({
 }: {
 	component: RenderablePartComponent
 	componentRegistry: ComponentRegistry
-}) {
+}): JSX.Element {
 	// console.debug('XpPart component', toStr(component));
 
 	const {
@@ -53,6 +53,11 @@ export function XpBasePart({
 		return (
 			<Alert mode={mode}>{`Part component missing props: ${descriptor}!`}</Alert>
 		);
+	}
+	if (mode === 'edit') {
+		return React.cloneElement(<PartView componentRegistry={componentRegistry} {...props}/>, {
+			'data-portal-component-type': 'part', // WARNING: This simply adds a prop, it doesn't affect how the child is rendered!
+		});
 	}
 	return (
 		<PartView componentRegistry={componentRegistry} {...props}/>

@@ -7,7 +7,7 @@ export function XpPart({
 	as,
 	children,
 	className,
-	...rest
+	...extraProps
 }: Omit<
 	React.HTMLAttributes<HTMLElement>,
 	'className'
@@ -20,8 +20,11 @@ export function XpPart({
 	return (
 		<ElementType
 			className={cx(className)}
-			data-portal-component-type="part"
-			{...rest}
+
+			// Needed by XpBasePart to add
+			// data-portal-component-type='part'
+			// when request.mode === 'edit'.
+			{...extraProps}
 		>
 			{children}
 		</ElementType>
