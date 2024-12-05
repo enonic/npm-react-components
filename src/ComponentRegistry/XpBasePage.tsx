@@ -13,7 +13,7 @@ export function XpBasePage({
 }: {
 	component: RenderablePageComponent
 	componentRegistry: ComponentRegistry
-}) {
+}): JSX.Element {
 	const {
 		descriptor,
 		mode,
@@ -29,27 +29,29 @@ export function XpBasePage({
 
 	const pageDefinition = componentRegistry.getPage(descriptor);
 	if (!pageDefinition) {
-		// throw new Error(`Page definition not found for descriptor: ${descriptor}`);
 		return (
 			<Alert mode={mode}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Alert>
 		);
 	}
+
 	const {View: PageView} = pageDefinition;
 	if (!PageView) {
-		// throw new Error(`Page definition missing View for descriptor: ${descriptor}`);
 		return (
 			<Alert mode={mode}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Alert>
 		);
 	}
+
 	if (!props) {
-		// throw new Error(`Page component missing props: ${descriptor}`);
 		return (
 			<Alert mode={mode}>{`Page component missing props: ${descriptor}!`}</Alert>
 		);
 	}
-	props.componentRegistry = componentRegistry;
-	// console.info('XpComponent PageView props:', toStr(props));
+
 	return (
-		<PageView {...props}/>
+		<PageView {...{
+			...props,
+			componentRegistry,
+			'data-portal-component-type': mode === 'edit' ? 'page' : undefined
+		}}/>
 	);
 }
