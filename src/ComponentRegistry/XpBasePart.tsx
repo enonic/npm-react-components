@@ -24,10 +24,13 @@ export function XpBasePart({
 	} = component;
 
 	if (warning && (mode === 'edit' || mode === 'inline')) {
-		throw new Error(warning);
-		// return (
-		// 	<Alert mode={mode}>{warning}</Alert>
-		// );
+		return (
+			<Alert {...{
+				children: warning,
+				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				mode,
+			}}/>
+		);
 	}
 
 	const partDefinition = componentRegistry.getPart<{
@@ -35,25 +38,34 @@ export function XpBasePart({
 	}>(descriptor);
 
 	if (!partDefinition) {
-		throw new Error(`Part descriptor:${descriptor} not registered in ComponentRegistry!`);
-		// return (
-		// 	<Alert mode={mode}>{`Part descriptor:${descriptor} not registered in ComponentRegistry!`}</Alert>
-		// );
+		return (
+			<Alert {...{
+				children: `Part descriptor:${descriptor} not registered in ComponentRegistry!`,
+				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				mode,
+			}}/>
+		);
 	}
 
 	const {View: PartView} = partDefinition;
 	if (!PartView) {
-		throw new Error(`No View found for part descriptor:${descriptor} in ComponentRegistry!`);
-		// return (
-		// 	<Alert mode={mode}>{`No View found for part descriptor:${descriptor} in ComponentRegistry!`}</Alert>
-		// );
+		return (
+			<Alert {...{
+				children: `No View found for part descriptor:${descriptor} in ComponentRegistry!`,
+				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				mode,
+			}}/>
+		);
 	}
 
 	if (!props) {
-		throw new Error(`Part component missing props: ${descriptor}!`);
-		// return (
-		// 	<Alert mode={mode}>{`Part component missing props: ${descriptor}!`}</Alert>
-		// );
+		return (
+			<Alert {...{
+				children: `Part component missing props: ${descriptor}!`,
+				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				mode,
+			}}/>
+		);
 	}
 
 	return (
