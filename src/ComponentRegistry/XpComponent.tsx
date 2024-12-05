@@ -6,6 +6,7 @@ import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
 import {XP_COMPONENT_TYPE} from '../constants';
+import { TryCatch } from '../TryCatch';
 import {XpBaseLayout} from './XpBaseLayout';
 import {XpBasePage} from './XpBasePage';
 import {XpBasePart} from './XpBasePart';
@@ -29,7 +30,10 @@ export function XpComponent({
 		);
 	}
 
-	const {type} = component;
+	const {
+		mode,
+		type
+	} = component;
 	if (!type) {
 		console.error('XpComponent component missing type:', toStr(component));
 		return (
@@ -41,10 +45,12 @@ export function XpComponent({
 	switch (type) {
 		case XP_COMPONENT_TYPE.PART:
 			return (
-				<XpBasePart
-					component={component}
-					componentRegistry={componentRegistry}
-				/>
+				<TryCatch mode={mode}>
+					<XpBasePart
+						component={component}
+						componentRegistry={componentRegistry}
+					/>
+				</TryCatch>
 			);
 		case XP_COMPONENT_TYPE.LAYOUT:
 			return (

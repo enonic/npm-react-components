@@ -24,9 +24,10 @@ export function XpBasePart({
 	} = component;
 
 	if (warning && (mode === 'edit' || mode === 'inline')) {
-		return (
-			<Alert mode={mode}>{warning}</Alert>
-		);
+		throw new Error(warning);
+		// return (
+		// 	<Alert mode={mode}>{warning}</Alert>
+		// );
 	}
 
 	const partDefinition = componentRegistry.getPart<{
@@ -34,22 +35,25 @@ export function XpBasePart({
 	}>(descriptor);
 
 	if (!partDefinition) {
-		return (
-			<Alert mode={mode}>{`Part descriptor:${descriptor} not registered in ComponentRegistry!`}</Alert>
-		);
+		throw new Error(`Part descriptor:${descriptor} not registered in ComponentRegistry!`);
+		// return (
+		// 	<Alert mode={mode}>{`Part descriptor:${descriptor} not registered in ComponentRegistry!`}</Alert>
+		// );
 	}
 
 	const {View: PartView} = partDefinition;
 	if (!PartView) {
-		return (
-			<Alert mode={mode}>{`No View found for part descriptor:${descriptor} in ComponentRegistry!`}</Alert>
-		);
+		throw new Error(`No View found for part descriptor:${descriptor} in ComponentRegistry!`);
+		// return (
+		// 	<Alert mode={mode}>{`No View found for part descriptor:${descriptor} in ComponentRegistry!`}</Alert>
+		// );
 	}
 
 	if (!props) {
-		return (
-			<Alert mode={mode}>{`Part component missing props: ${descriptor}!`}</Alert>
-		);
+		throw new Error(`Part component missing props: ${descriptor}!`);
+		// return (
+		// 	<Alert mode={mode}>{`Part component missing props: ${descriptor}!`}</Alert>
+		// );
 	}
 
 	return (
