@@ -7,6 +7,7 @@ export const LINK_ATTR = 'data-link-ref';
 export const MACRO_ATTR = 'data-macro-ref';
 
 export enum XP_COMPONENT_TYPE {
+	CONTENT_TYPE = 'contentType',
 	FRAGMENT = 'fragment',
     LAYOUT = 'layout',
     PAGE = 'page',

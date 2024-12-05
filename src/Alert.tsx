@@ -9,19 +9,20 @@ import { Warning } from './Warning';
 
 export const Alert = ({
 	children,
-	mode
+	mode,
+	...extraProps
 }: {
 	children: ReactNode,
 	mode: LiteralUnion<RequestMode>
 }): JSX.Element | null => {
 	if (mode === 'edit') {
 		return (
-			<ErrorComponent children={children}/>
+			<ErrorComponent {...extraProps} children={children}/>
 		);
 	}
 	if (mode === 'inline') {
 		return (
-			<Warning children={children}/>
+			<Warning {...extraProps} children={children}/>
 		);
 	}
 	if (!mode) {

@@ -1,16 +1,17 @@
 import type {Component} from '@enonic-types/core';
 import type {ComponentRegistry} from '../ComponentRegistry';
-import type { RenderableComponent } from '../types';
+import type {RenderableComponent} from '../types';
 
 import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
 import {XP_COMPONENT_TYPE} from '../constants';
-import { TryCatch } from '../TryCatch';
+// import { TryCatch } from '../TryCatch';
 import {XpBaseLayout} from './XpBaseLayout';
 import {XpBasePage} from './XpBasePage';
 import {XpBasePart} from './XpBasePart';
 import {XpBaseText} from './XpBaseText';
+import {XpContentType} from './XpContentType';
 import {XpFallback} from './XpFallback';
 
 
@@ -45,12 +46,10 @@ export function XpComponent({
 	switch (type) {
 		case XP_COMPONENT_TYPE.PART:
 			return (
-				<TryCatch mode={mode}>
-					<XpBasePart
-						component={component}
-						componentRegistry={componentRegistry}
-					/>
-				</TryCatch>
+				<XpBasePart
+					component={component}
+					componentRegistry={componentRegistry}
+				/>
 			);
 		case XP_COMPONENT_TYPE.LAYOUT:
 			return (
@@ -62,6 +61,13 @@ export function XpComponent({
 		case XP_COMPONENT_TYPE.PAGE:
 			return (
 				<XpBasePage
+					component={component}
+					componentRegistry={componentRegistry}
+				/>
+			);
+		case XP_COMPONENT_TYPE.CONTENT_TYPE:
+			return (
+				<XpContentType
 					component={component}
 					componentRegistry={componentRegistry}
 				/>
