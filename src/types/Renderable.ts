@@ -1,13 +1,23 @@
 // There is a difference between the core enonic types and what Guillotine returns:
 import type {
 	ComponentDescriptor,
-	LayoutComponent,
+	// LayoutComponent,
 	LiteralUnion,
-	PageComponent,
+	// PageComponent,
 	RequestMode,
 	TextComponent,
 } from '@enonic-types/core';
 import type { XpTextBaseProps } from './XpTextBaseProps';
+
+export type XpRunMode = 'development' | 'production';
+
+export interface RenderableContentType {
+	contentType: string;
+	mode: LiteralUnion<RequestMode>;
+	props?: Record<string, unknown>
+	runMode: XpRunMode;
+	type: 'contentType';
+}
 
 export interface RenderableRegion {
 	name: string;
@@ -23,6 +33,7 @@ export interface RenderableLayoutComponent {
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	props?: Record<string, unknown>
 	regions: RenderableRegions;
+	runMode: XpRunMode;
 	type: 'layout'
 	warning?: string;
 }
@@ -34,6 +45,7 @@ export interface RenderablePageComponent {
 	path: '/';
 	props?: Record<string, unknown>;
 	regions: RenderableRegions;
+	runMode: XpRunMode;
 	type: 'page';
 	warning?: string;
 }
@@ -44,6 +56,7 @@ export interface RenderablePartComponent {
 	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	props?: Record<string, unknown>
+	runMode: XpRunMode;
 	type: 'part'
 	warning?: string;
 }
@@ -51,9 +64,11 @@ export interface RenderablePartComponent {
 export type RenderableTextComponent = TextComponent & {
 	mode: LiteralUnion<RequestMode>;
 	props?: XpTextBaseProps;
+	runMode: XpRunMode;
 }
 
 export type RenderableComponent =
+	| RenderableContentType
 	| RenderableLayoutComponent
 	| RenderablePageComponent
 	| RenderablePartComponent

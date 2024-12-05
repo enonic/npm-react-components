@@ -22,10 +22,12 @@ export type {
 } from './ComponentRegistry';
 export type {
 	RenderableComponent,
+	RenderableContentType,
 	RenderableLayoutComponent,
 	RenderablePageComponent,
 	RenderablePartComponent,
 	RenderableTextComponent,
+	XpRunMode,
 } from './Renderable';
 export type {
 	CreateReplacerParams,
