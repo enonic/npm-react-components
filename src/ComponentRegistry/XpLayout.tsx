@@ -14,7 +14,7 @@ export function XpLayout({
 	className,
 	componentRegistry,
 	regions,
-	...rest
+	...extraProps
 }: Omit<
 	React.HTMLAttributes<HTMLElement>,
 	'className'
@@ -25,13 +25,15 @@ export function XpLayout({
 	componentRegistry: ComponentRegistry;
 	regions: Record<string, Region>;
 }) {
-	// console.debug('XpLayout component:', component.descriptor);
 	const ElementType = (as || 'div') as React.ElementType;
 	return (
 		<ElementType
 			className={cx(className)}
-			data-portal-component-type="layout"
-			{...rest}
+
+			// Needed by XpBaseLayout to add
+			// data-portal-component-type='layout'
+			// when request.mode === 'edit'.
+			{...extraProps}
 		>
 			{children}
 			<XpRegions

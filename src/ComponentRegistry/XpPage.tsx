@@ -14,7 +14,7 @@ export function XpPage({
 	className,
 	componentRegistry,
 	regions,
-	...rest
+	...extraProps
 }: Omit<
 	React.HTMLAttributes<HTMLElement>,
 	'className'
@@ -29,8 +29,11 @@ export function XpPage({
 	return (
 		<ElementType
 			className={cx(className)}
-			data-portal-component-type="page"
-			{...rest}
+
+			// Needed by XpBasePage to add
+			// data-portal-component-type='page'
+			// when request.mode === 'edit'.
+			{...extraProps}
 		>
 			{children}
 			<XpRegions

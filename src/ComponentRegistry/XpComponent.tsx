@@ -1,20 +1,16 @@
 import type {Component} from '@enonic-types/core';
 import type {ComponentRegistry} from '../ComponentRegistry';
-import type {
-	RenderableComponent,
-	XpTextProps
-} from '../types';
+import type { RenderableComponent } from '../types';
 
 import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
 import {XP_COMPONENT_TYPE} from '../constants';
-
 import {XpBaseLayout} from './XpBaseLayout';
 import {XpBasePage} from './XpBasePage';
 import {XpBasePart} from './XpBasePart';
+import {XpBaseText} from './XpBaseText';
 import {XpFallback} from './XpFallback';
-import {XpText} from './XpText';
 
 
 export function XpComponent({
@@ -65,18 +61,11 @@ export function XpComponent({
 				/>
 			);
 		case XP_COMPONENT_TYPE.TEXT: {
-			// console.info('XpComponent text component:', toStr(component));
-
-			const {props} = component;
-			if (!props) {
-				throw new Error(`Text component missing props: ${toStr(component)}`);
-			}
-			// console.info('XpComponent text component props:', toStr(props));
-			const textProps = props as XpTextProps;
-			textProps.componentRegistry = componentRegistry;
-
 			return (
-				<XpText {...textProps}/>
+				<XpBaseText
+					component={component}
+					componentRegistry={componentRegistry}
+				/>
 			);
 		}
 	} // switch
