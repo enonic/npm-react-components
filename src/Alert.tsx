@@ -13,7 +13,7 @@ export const Alert = ({
 }: {
 	children: ReactNode,
 	mode: LiteralUnion<RequestMode>
-}) => {
+}): JSX.Element | null => {
 	if (mode === 'edit') {
 		return (
 			<ErrorComponent children={children}/>

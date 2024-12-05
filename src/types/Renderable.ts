@@ -49,6 +49,7 @@ export interface RenderablePartComponent {
 }
 
 export type RenderableTextComponent = TextComponent & {
+	mode: LiteralUnion<RequestMode>;
 	props?: XpTextBaseProps;
 }
 

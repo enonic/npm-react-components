@@ -10,27 +10,22 @@ export function XpText({
 	className,
 	componentRegistry,
 	data,
-	mode,
-	...rest
-}: XpTextProps) {
+	...extraProps
+}: XpTextProps): JSX.Element {
 	const ElementType = (as || 'div') as React.ElementType;
-	if (mode === XP_REQUEST_MODE.EDIT) {
-		rest['data-portal-component-type'] = 'text';
-	}
 	return (
 		<ElementType
 			className={cx(className)}
-			{...rest}
+
+			// Needed by XpBaseText to add
+			// data-portal-component-type='text'
+			// when request.mode === 'edit'.
+			{...extraProps}
 		>
-			{
-				// mode !== XP_REQUEST_MODE.EDIT
-				// 	?
-					<RichText
-						componentRegistry={componentRegistry}
-						data={data}
-					/>
-					// : null // This actually breaks text components in edit mode.
-			}
+			<RichText
+				componentRegistry={componentRegistry}
+				data={data}
+			/>
 		</ElementType>
 	);
 }
