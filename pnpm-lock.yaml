@@ -13,7 +13,7 @@ importers:
         version: 2.3.0
       html-react-parser:
         specifier: ^5.1.10
-        version: 5.1.18(@types/react@18.3.12)(react@18.2.0)
+        version: 5.2.0(@types/react@18.3.12)(react@18.2.0)
       prop-types:
         specifier: '*'
         version: 15.8.1
@@ -1396,8 +1396,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  html-dom-parser@5.0.10:
-    resolution: {integrity: sha512-GwArYL3V3V8yU/mLKoFF7HlLBv80BZ2Ey1BzfVNRpAci0cEKhFHI/Qh8o8oyt3qlAMLlK250wsxLdYX4viedvg==}
+  html-dom-parser@5.0.11:
+    resolution: {integrity: sha512-iORudm2K0c0DYeEj4AbrG9PFzgp1dpFGkJUAiBlVTkeyaNf2YYIs1b0dF7rQUPnDZimkLx+Jls+CvRIKO/++Tg==}
 
   html-encoding-sniffer@3.0.0:
     resolution: {integrity: sha512-oWv4T4yJ52iKrufjnyZPkrN0CH3QnrUqdB6In1g5Fe1mia8GmF36gnfNySxoZtxD5+NmYw1EElVXiBk93UeskA==}
@@ -1406,11 +1406,11 @@ packages:
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
 
-  html-react-parser@5.1.18:
-    resolution: {integrity: sha512-65BwC0zzrdeW96jB2FRr5f1ovBhRMpLPJNvwkY5kA8Ay5xdL9t/RH2/uUTM7p+cl5iM88i6dDk4LXtfMnRmaJQ==}
+  html-react-parser@5.2.0:
+    resolution: {integrity: sha512-t5IkGKTBYnjmYUzEV1RBT5twACepcf20u6Q0TylXQkb6NQKaBFSMebb/S/joxXrg8IHc+ROLirQIZc5DkD23hA==}
     peerDependencies:
-      '@types/react': 0.14 || 15 || 16 || 17 || 18
-      react: 0.14 || 15 || 16 || 17 || 18
+      '@types/react': 0.14 || 15 || 16 || 17 || 18 || 19
+      react: 0.14 || 15 || 16 || 17 || 18 || 19
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -3860,7 +3860,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  html-dom-parser@5.0.10:
+  html-dom-parser@5.0.11:
     dependencies:
       domhandler: 5.0.3
       htmlparser2: 9.1.0
@@ -3871,10 +3871,10 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  html-react-parser@5.1.18(@types/react@18.3.12)(react@18.2.0):
+  html-react-parser@5.2.0(@types/react@18.3.12)(react@18.2.0):
     dependencies:
       domhandler: 5.0.3
-      html-dom-parser: 5.0.10
+      html-dom-parser: 5.0.11
       react: 18.2.0
       react-property: 2.0.2
       style-to-js: 1.1.16
