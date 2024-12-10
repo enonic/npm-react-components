@@ -6,6 +6,7 @@ import type {
 
 import * as React from 'react';
 import { Alert } from '../Alert';
+import { ErrorComponent } from '../ErrorComponent';
 
 export function XpBasePage({
 	component,
@@ -16,14 +17,21 @@ export function XpBasePage({
 }): JSX.Element {
 	const {
 		descriptor,
+		error,
 		mode,
 		props,
 		warning,
 	} = component;
 
-	if (warning && (mode === 'edit' || mode === 'inline')) {
+	if (error && (mode === 'inline' || mode === 'preview')) { // In edit mode the error should be handeled by Content Studio.
 		return (
-			<Alert mode={mode}>{warning}</Alert>
+			<ErrorComponent children={error}/>
+		);
+	}
+
+	if (warning && (mode === 'inline' || mode === 'edit')) {
+		return (
+			<Alert mode={mode} children={warning}/>
 		);
 	}
 

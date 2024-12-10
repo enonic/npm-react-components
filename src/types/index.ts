@@ -27,6 +27,7 @@ export type {
 	RenderablePageComponent,
 	RenderablePartComponent,
 	RenderableTextComponent,
+	RenderableWarning,
 	XpRunMode,
 } from './Renderable';
 export type {

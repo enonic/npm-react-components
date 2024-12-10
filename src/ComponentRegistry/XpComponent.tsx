@@ -5,8 +5,9 @@ import type {RenderableComponent} from '../types';
 import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
-import {XP_COMPONENT_TYPE} from '../constants';
-// import { TryCatch } from '../TryCatch';
+import {RENDERABLE_COMPONENT_TYPE} from '../constants';
+import {ErrorComponent} from '../ErrorComponent';
+import {Warning} from '../Warning';
 import {XpBaseLayout} from './XpBaseLayout';
 import {XpBasePage} from './XpBasePage';
 import {XpBasePart} from './XpBasePart';
@@ -32,7 +33,7 @@ export function XpComponent({
 	}
 
 	const {
-		mode,
+		// mode,
 		type
 	} = component;
 	if (!type) {
@@ -44,40 +45,64 @@ export function XpComponent({
 	// console.info('XpComponent type:', type);
 
 	switch (type) {
-		case XP_COMPONENT_TYPE.PART:
+		case RENDERABLE_COMPONENT_TYPE.PART:
 			return (
 				<XpBasePart
 					component={component}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case XP_COMPONENT_TYPE.LAYOUT:
+		case RENDERABLE_COMPONENT_TYPE.LAYOUT:
 			return (
 				<XpBaseLayout
 					component={component}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case XP_COMPONENT_TYPE.PAGE:
+		case RENDERABLE_COMPONENT_TYPE.PAGE:
 			return (
 				<XpBasePage
 					component={component}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case XP_COMPONENT_TYPE.CONTENT_TYPE:
+		case RENDERABLE_COMPONENT_TYPE.CONTENT_TYPE:
 			return (
 				<XpContentType
 					component={component}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case XP_COMPONENT_TYPE.TEXT: {
+		case RENDERABLE_COMPONENT_TYPE.TEXT: {
 			return (
 				<XpBaseText
 					component={component}
 					componentRegistry={componentRegistry}
 				/>
+			);
+		}
+		case RENDERABLE_COMPONENT_TYPE.ERROR: {
+			const {
+				html,
+				mode
+			} = component;
+			if (mode === 'live') {
+				return null;
+			}
+			return (
+				<ErrorComponent html={html}/>
+			);
+		}
+		case RENDERABLE_COMPONENT_TYPE.WARNING: {
+			const {
+				html,
+				mode
+			} = component;
+			if (mode === 'live') {
+				return null;
+			}
+			return (
+				<Warning html={html}/>
 			);
 		}
 	} // switch
