@@ -17,8 +17,8 @@ import {print} from 'q-i';
 import * as React from 'react';
 
 // SRC imports
-import {ComponentRegistry} from '../../src/ComponentRegistry';
-import {XpPart} from '../../src/ComponentRegistry/XpPart';
+import {ComponentRegistry} from '../../src/ComponentRegistry/ComponentRegistry';
+import {Part} from '../../src/ComponentRegistry/Part';
 // import {ComponentProcessor} from '../../src/processComponents';
 
 // TEST imports

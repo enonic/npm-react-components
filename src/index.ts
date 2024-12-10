@@ -1,3 +1,9 @@
+// WARNING: This file should NOT be imported into server-side Nashorn code.
+// It is supoosed to be used in React4XP (GraalJS) and Next.js projects.
+// The reason is that Nashorn does NOT support Uint16Array:
+// * which is used in the 'entities' node module,
+// * which is used in the 'html-react-parser' node module,
+// * which is used by RichText.
 export type {
 	ContentUri,
 	RenderableComponent,
@@ -27,32 +33,28 @@ export type {
 	RichTextParams,
 } from './types';
 
-import Layout from './Layout'
-import Page from './Page'
-import ComponentTag from './ComponentTag';
-import Region from './Region';
-import Regions from './Regions';
+export { ErrorComponent } from './Common/ErrorComponent';
+export { HtmlComment } from './Common/HtmlComment';
+export { Warning } from './Common/Warning';
 
-export {
-	ComponentTag,
-	Layout,
-	Page,
-	Region,
-	Regions,
-};
-// WARNING: Bad idea! If someone imports the constants into nashorn files,
-// then entities will be bundled, which contains Uint16Array, which is not supported in Nashorn.
-// export {
-// 	RENDERABLE_COMPONENT_TYPE,
-// 	XP_REQUEST_MODE,
-// } from './constants';
-export { ComponentRegistry } from './ComponentRegistry'; // This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
-export { XpComponent } from './ComponentRegistry/XpComponent';
-export { XpLayout } from './ComponentRegistry/XpLayout';
-export { XpPage } from './ComponentRegistry/XpPage';
-export { XpPart } from './ComponentRegistry/XpPart';
-export { XpRegions } from './ComponentRegistry/XpRegions';
+export { BaseComponent } from './ComponentRegistry/BaseComponent';
+export { BaseContentType } from './ComponentRegistry/BaseContentType';
+export { BaseLayout } from './ComponentRegistry/BaseLayout';
+export { BasePage } from './ComponentRegistry/BasePage';
+export { BasePart } from './ComponentRegistry/BasePart';
+export { BaseText } from './ComponentRegistry/BaseText';
+export { ComponentRegistry } from './ComponentRegistry/ComponentRegistry'; // This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
+export { Layout } from './ComponentRegistry/Layout';
+export { Page } from './ComponentRegistry/Page';
+export { Part } from './ComponentRegistry/Part';
+export { Region } from './ComponentRegistry/Region';
+export { Regions } from './ComponentRegistry/Regions';
+export { Text } from './ComponentRegistry/Text';
+export { XpFallback } from './ComponentRegistry/XpFallback';
 
-export { RichText } from './RichText';
+export { Image } from './RichText/Image';
+export { Link } from './RichText/Link';
+export { Macro } from './RichText/Macro';
+export { RichText } from './RichText/RichText';
 export { cssToReactStyle } from './RichText/cssToReactStyle';
 export {sanitizeGraphqlName} from './utils/sanitizeGraphqlName';

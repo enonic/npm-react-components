@@ -3,7 +3,7 @@ import type {
 	ComponentDefinitionParams,
 	ComponentDictionary,
 	ComponentRegistry as ComponentRegistryInterface
-} from './types';
+} from '../types';
 
 // import {XP_COMPONENT_TYPE} from './constants';
 

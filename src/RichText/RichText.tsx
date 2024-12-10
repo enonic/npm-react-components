@@ -1,4 +1,4 @@
-import type {RichTextParams} from './types'
+import type {RichTextParams} from '../types'
 
 
 // Converts an HTML string to one or more React elements
@@ -6,11 +6,11 @@ import * as parser from 'html-react-parser';
 import * as React from 'react';
 
 // Replaces "matching" domNodes
-import {createReplacer} from './RichText/createReplacer';
+import {createReplacer} from './createReplacer';
 
-import {Image as ImageFallback} from './RichText/Image';
-import {Link as LinkFallback} from './RichText/Link';
-import {Macro as MacroFallback} from './RichText/Macro';
+import {Image as ImageFallback} from './Image';
+import {Link as LinkFallback} from './Link';
+import {Macro as MacroFallback} from './Macro';
 
 
 export function RichText<RestProps = Record<string, unknown>>({

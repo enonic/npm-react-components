@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RichText } from '../../src/RichText';
+import { RichText } from '../../src/RichText/RichText';
 
 export function ExamplePart(props) {
 	// console.debug('ExamplePart props', props);

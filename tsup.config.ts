@@ -2,7 +2,6 @@ import type { Options } from 'tsup';
 
 
 import GlobalsPlugin from 'esbuild-plugin-globals';
-import { globSync } from 'glob';
 import { defineConfig} from 'tsup';
 
 
@@ -11,15 +10,12 @@ interface MyOptions extends Options {
 }
 
 
-const GLOB_EXTENSIONS = '{ts,tsx}';
-const TS_FILES = globSync(`./src/**/*.${GLOB_EXTENSIONS}`, {
-	absolute: false,
-	ignore: []
-}).map(dir => dir.replace(/\\/g,'/'));
-
-const external = [
-	// 'entities'
+const ENTRY = [
+	'src/index.ts',
+	'src/nashorn.ts'
 ];
+
+const external = [];
 
 const noExternal = [
 	'@enonic/js-utils',
@@ -41,7 +37,7 @@ export default defineConfig((options: MyOptions) => {
 			bundle: true,
 			d: 'dist',
 			dts: false,
-			entry: TS_FILES,
+			entry: ENTRY,
 			esbuildOptions(options) {
 				options.alias = {
 					// "html-dom-parser": "./node_modules/html-dom-parser/esm/server/html-to-dom.mjs",
@@ -55,6 +51,7 @@ export default defineConfig((options: MyOptions) => {
 			platform: 'neutral',
 			target: 'es5',
 			sourcemap: false,
+			splitting: true,
 			tsconfig: './tsconfig.json',
 		};
 	} else if (Array.isArray(options.format) && options.format[0] === 'esm') {
@@ -62,7 +59,7 @@ export default defineConfig((options: MyOptions) => {
 			bundle: true,
 			d: 'dist',
 			dts: false,
-			entry: TS_FILES,
+			entry: ENTRY,
 			esbuildOptions(options) {
 				options.alias = {
 					"html-dom-parser": "./node_modules/html-dom-parser/esm/server/html-to-dom.mjs",
@@ -80,7 +77,7 @@ export default defineConfig((options: MyOptions) => {
 			},
 			platform: 'neutral',
 			target: 'es2015',
-			splitting: false, // avoid chunk files
+			splitting: true,
 			sourcemap: false,
 			tsconfig: './tsconfig.json',
 		};

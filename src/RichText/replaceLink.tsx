@@ -5,7 +5,7 @@ import type {createReplacer as CreateReplacer} from './createReplacer';
 
 import * as htmlReactParser from 'html-react-parser';
 import {LINK_ATTR} from '../constants';
-import {ErrorComponent} from '../ErrorComponent';
+import {ErrorComponent} from '../Common/ErrorComponent';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
 
 

@@ -6,9 +6,9 @@ import type {
 
 // import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
-import { Alert } from '../Alert';
+import { Message } from '../Common/Message';
 
-export function XpBasePart({
+export function BasePart({
 	component,
 	componentRegistry
 }: {
@@ -25,7 +25,7 @@ export function XpBasePart({
 
 	if (warning && (mode === 'edit' || mode === 'inline')) {
 		return (
-			<Alert {...{
+			<Message {...{
 				children: warning,
 				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
 				mode,
@@ -39,7 +39,7 @@ export function XpBasePart({
 
 	if (!partDefinition) {
 		return (
-			<Alert {...{
+			<Message {...{
 				children: `Part descriptor:${descriptor} not registered in ComponentRegistry!`,
 				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
 				mode,
@@ -50,7 +50,7 @@ export function XpBasePart({
 	const {View: PartView} = partDefinition;
 	if (!PartView) {
 		return (
-			<Alert {...{
+			<Message {...{
 				children: `No View found for part descriptor:${descriptor} in ComponentRegistry!`,
 				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
 				mode,
@@ -60,7 +60,7 @@ export function XpBasePart({
 
 	if (!props) {
 		return (
-			<Alert {...{
+			<Message {...{
 				children: `Part component missing props: ${descriptor}!`,
 				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
 				mode,

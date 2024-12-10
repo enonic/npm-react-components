@@ -4,9 +4,9 @@ import type {
 } from '../types';
 
 import * as React from 'react';
-import { Alert } from '../Alert';
+import { Message } from '../Common/Message';
 
-export const XpContentType = ({
+export const BaseContentType = ({
 	component,
 	componentRegistry
 }: {
@@ -22,7 +22,7 @@ export const XpContentType = ({
 
 	// if (warning && (mode === 'edit' || mode === 'inline')) {
 	// 	return (
-	// 		<Alert mode={mode}>{warning}</Alert>
+	// 		<Message mode={mode}>{warning}</Message>
 	// 	);
 	// }
 
@@ -31,20 +31,20 @@ export const XpContentType = ({
 	}>(contentType);
 	if (!contentTypeDefinition) {
 		return (
-			<Alert mode={mode}>{`ContentType:${contentType} not registered in ComponentRegistry!`}</Alert>
+			<Message mode={mode}>{`ContentType:${contentType} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: ContentTypeView} = contentTypeDefinition;
 	if (!ContentTypeView) {
 		return (
-			<Alert mode={mode}>{`No View found for contentType:${contentType} in ComponentRegistry!`}</Alert>
+			<Message mode={mode}>{`No View found for contentType:${contentType} in ComponentRegistry!`}</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Alert mode={mode}>{`ContentType component missing props: ${contentType}!`}</Alert>
+			<Message mode={mode}>{`ContentType component missing props: ${contentType}!`}</Message>
 		);
 	}
 

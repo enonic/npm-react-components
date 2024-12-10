@@ -7,7 +7,7 @@ import type {ReactNode} from 'react';
 import { ErrorComponent } from './ErrorComponent';
 import { Warning } from './Warning';
 
-export const Alert = ({
+export const Message = ({
 	children,
 	mode,
 	...extraProps

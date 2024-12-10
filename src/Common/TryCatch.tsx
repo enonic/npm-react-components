@@ -5,7 +5,7 @@ import type {
 import type {ReactNode} from 'react';
 
 import * as React from 'react';
-import { Alert } from './Alert';
+import { Message } from './Message';
 
 export const TryCatch = ({
 	children,
@@ -19,7 +19,7 @@ export const TryCatch = ({
 	} catch (e) {
 		if (mode === 'edit' || mode === 'inline') {
 			return (
-				<Alert mode={mode}>
+				<Message mode={mode}>
 					<h2>Error rendering component</h2>
 					<p>{e.message}</p>
 					{
@@ -27,7 +27,7 @@ export const TryCatch = ({
 							<pre>{e.stack || ''}</pre>
 						)
 					}
-				</Alert>
+				</Message>
 			);
 		}
 		console.warn(`TryCatch component didn't get mode prop! children:${children}`);

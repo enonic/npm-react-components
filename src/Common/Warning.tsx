@@ -5,7 +5,7 @@ import { ContentStudioEditModePlaceholderStyle } from './ErrorComponent';
 const lightYellow = '#c9ba9b';
 const brown = '#794b02';
 
-const STYLE = {
+export const WARNING_STYLE = {
 	...ContentStudioEditModePlaceholderStyle,
 	borderColor: lightYellow,
 	color: brown,
@@ -22,10 +22,10 @@ export function Warning({
 	if (html) {
 		return (
 			// Using dangerouslySetInnerHTML avoids encoding < to &lt;
-			<div {...extraProps} dangerouslySetInnerHTML={{ __html: html }} style={STYLE}/>
+			<div {...extraProps} dangerouslySetInnerHTML={{ __html: html }} style={WARNING_STYLE}/>
 		);
 	}
 	return (
-		<div {...extraProps} style={STYLE}>{children}</div>
+		<div {...extraProps} style={WARNING_STYLE}>{children}</div>
 	);
 }
