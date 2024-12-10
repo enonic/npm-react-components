@@ -23,16 +23,26 @@ export const ContentStudioEditModePlaceholderStyle: CSSProperties = {
 	textAlign: 'center',
 }
 
+const STYLE = {
+	...ContentStudioEditModePlaceholderStyle,
+	borderColor: pink,
+	color: darkRed,
+};
+
 // NOTE: "Error" is a property on the global object in Ecmascript.
 export function ErrorComponent({
 	children,
+	html,
 	...extraProps
 }: {
-	children: ReactNode
+	children?: ReactNode
+	html?: string
 }) {
-	return <div {...extraProps} style={{
-		...ContentStudioEditModePlaceholderStyle,
-		borderColor: pink,
-		color: darkRed,
-	}}>{children}</div>
+	if (html) {
+		return (
+			// Using dangerouslySetInnerHTML avoids encoding < to &lt;
+			<div {...extraProps} dangerouslySetInnerHTML={{ __html: html }} style={STYLE}/>
+		);
+	}
+	return <div {...extraProps} style={STYLE}>{children}</div>
 }

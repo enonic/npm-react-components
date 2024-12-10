@@ -40,6 +40,12 @@ export {
 	Region,
 	Regions,
 };
+// WARNING: Bad idea! If someone imports the constants into nashorn files,
+// then entities will be bundled, which contains Uint16Array, which is not supported in Nashorn.
+// export {
+// 	RENDERABLE_COMPONENT_TYPE,
+// 	XP_REQUEST_MODE,
+// } from './constants';
 export { ComponentRegistry } from './ComponentRegistry'; // This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
 export { XpComponent } from './ComponentRegistry/XpComponent';
 export { XpLayout } from './ComponentRegistry/XpLayout';

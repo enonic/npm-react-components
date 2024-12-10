@@ -15,8 +15,14 @@ export interface RenderableContentType {
 	contentType: string;
 	mode: LiteralUnion<RequestMode>;
 	props?: Record<string, unknown>
-	runMode: XpRunMode;
 	type: 'contentType';
+}
+
+export interface RenderableError {
+	html: string;
+	mode: LiteralUnion<RequestMode>;
+	path: string;
+	type: 'error';
 }
 
 export interface RenderableRegion {
@@ -33,7 +39,6 @@ export interface RenderableLayoutComponent {
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	props?: Record<string, unknown>
 	regions: RenderableRegions;
-	runMode: XpRunMode;
 	type: 'layout'
 	warning?: string;
 }
@@ -41,11 +46,11 @@ export interface RenderableLayoutComponent {
 export interface RenderablePageComponent {
 	// config: never;
 	descriptor: ComponentDescriptor;
+	error?: string;
 	mode: LiteralUnion<RequestMode>;
 	path: '/';
 	props?: Record<string, unknown>;
 	regions: RenderableRegions;
-	runMode: XpRunMode;
 	type: 'page';
 	warning?: string;
 }
@@ -56,20 +61,27 @@ export interface RenderablePartComponent {
 	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	props?: Record<string, unknown>
-	runMode: XpRunMode;
 	type: 'part'
 	warning?: string;
+}
+
+export interface RenderableWarning {
+	html: string;
+	mode: LiteralUnion<RequestMode>;
+	path: string;
+	type: 'warning';
 }
 
 export type RenderableTextComponent = TextComponent & {
 	mode: LiteralUnion<RequestMode>;
 	props?: XpTextBaseProps;
-	runMode: XpRunMode;
 }
 
 export type RenderableComponent =
 	| RenderableContentType
+	| RenderableError
 	| RenderableLayoutComponent
 	| RenderablePageComponent
 	| RenderablePartComponent
-	| RenderableTextComponent;
+	| RenderableTextComponent
+	| RenderableWarning;
