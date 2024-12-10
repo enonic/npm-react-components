@@ -3,7 +3,7 @@ import type { LiteralUnion } from '@enonic-types/core';
 import type { ClassValue } from 'clsx';
 import type { RichTextData } from './RichText';
 
-export interface XpTextBaseProps extends Omit<
+export interface TextBaseProps extends Omit<
 	React.HTMLAttributes<HTMLElement>,'className' | 'children'
 > {
 	as?: LiteralUnion<keyof JSX.IntrinsicElements>;

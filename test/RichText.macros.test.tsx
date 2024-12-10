@@ -7,6 +7,10 @@ import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
 import {Macro} from './RichText/Macro';
+import {
+	ERROR_STYLE,
+	WARNING_STYLE,
+} from './testdata';
 // import {print} from 'q-i';
 
 
@@ -89,7 +93,7 @@ describe('RichText', () => {
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
 	});
 
 	it('should show an ErrorComponent when the macros array is missing or empty', () => {
@@ -104,7 +108,7 @@ describe('RichText', () => {
 			data={dataWithMacros}
 			Macro={Macro}
 		/>).baseElement;
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Can't replace macro, when there are no macros in the data object!</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Can't replace macro, when there are no macros in the data object!</div></p></section></div></body>`);
 	});
 
 	it('should show an ErrorComponent when the macro element has not data-macro-ref atribute', () => {
@@ -117,7 +121,7 @@ describe('RichText', () => {
 			data={dataWithMacros}
 			Macro={Macro}
 		/>).baseElement;
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style=\"border: 1px dotted red; color: red;\">Macro element has no data-macro-ref attribute!</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Macro element has no data-macro-ref attribute!</div></p></section></div></body>`);
 	});
 
 	it("should show an ErrorComponent when the macroRef isn't found in the macros array", () => {
@@ -142,7 +146,7 @@ describe('RichText', () => {
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section><p><div style=\"border: 1px dotted red; color: red;\">Unable to find macro with ref ${SUCCESS_REF} in macros object!</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section><p><div style="${ERROR_STYLE}">Unable to find macro with ref ${SUCCESS_REF} in macros object!</div></p></section></div></body>`);
 	});
 
 	it("should render a fallback Macro component, when it's not provided", () => {
@@ -172,8 +176,8 @@ describe('RichText', () => {
   <div>
     <section class="myclass">
       <p>
-        <div style="border: 1px dotted orange; color: orange;">
-          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success-macro with config {
+        <div style="${WARNING_STYLE}">
+          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success with config {
     "__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
     "header": "Iha",
     "body": "Jubalong"

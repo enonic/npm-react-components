@@ -1,14 +1,14 @@
 import type {
 	LiteralUnion,
-	Region
+	Region,
 } from '@enonic-types/core';
 import type {ClassValue} from 'clsx';
-import type {ComponentRegistry} from '../ComponentRegistry';
+import type {ComponentRegistry} from './ComponentRegistry';
 
 import cx from 'clsx';
-import {XpRegions} from './XpRegions';
+import {Regions} from './Regions';
 
-export function XpLayout({
+export function Page({
 	as,
 	children,
 	className,
@@ -21,8 +21,8 @@ export function XpLayout({
 > & {
 	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
 	children?: React.ReactNode
-	className?: ClassValue;
-	componentRegistry: ComponentRegistry;
+	className?: ClassValue
+	componentRegistry: ComponentRegistry
 	regions: Record<string, Region>;
 }) {
 	const ElementType = (as || 'div') as React.ElementType;
@@ -30,13 +30,13 @@ export function XpLayout({
 		<ElementType
 			className={cx(className)}
 
-			// Needed by XpBaseLayout to add
-			// data-portal-component-type='layout'
+			// Needed by BasePage to add
+			// data-portal-component-type='page'
 			// when request.mode === 'edit'.
 			{...extraProps}
 		>
 			{children}
-			<XpRegions
+			<Regions
 				componentRegistry={componentRegistry}
 				regions={regions}
 			/>

@@ -5,9 +5,9 @@ import type {
 } from '../types';
 
 import * as React from 'react';
-import { Alert } from '../Alert';
+import { Message } from '../Common/Message';
 
-export function XpBaseLayout({
+export function BaseLayout({
 	component,
 	componentRegistry
 }: {
@@ -23,27 +23,27 @@ export function XpBaseLayout({
 
 	if (warning && (mode === 'edit' || mode === 'inline')) {
 		return (
-			<Alert mode={mode}>{warning}</Alert>
+			<Message mode={mode}>{warning}</Message>
 		);
 	}
 
 	const layoutDefinition = componentRegistry.getLayout(descriptor);
 	if (!layoutDefinition) {
 		return (
-			<Alert mode={mode}>{`Layout descriptor:${descriptor} not registered in ComponentRegistry!`}</Alert>
+			<Message mode={mode}>{`Layout descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: LayoutView} = layoutDefinition;
 	if (!LayoutView) {
 		return (
-			<Alert mode={mode}>{`No View found for layout descriptor:${descriptor} in ComponentRegistry!`}</Alert>
+			<Message mode={mode}>{`No View found for layout descriptor:${descriptor} in ComponentRegistry!`}</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Alert mode={mode}>{`Layout component missing props: ${descriptor}!`}</Alert>
+			<Message mode={mode}>{`Layout component missing props: ${descriptor}!`}</Message>
 		);
 	}
 

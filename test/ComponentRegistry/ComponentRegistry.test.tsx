@@ -7,7 +7,7 @@ import {
 	expect,
 	test as it
 } from '@jest/globals';
-import {ComponentRegistry} from '../../src/ComponentRegistry';
+import {ComponentRegistry} from '../../src/ComponentRegistry/ComponentRegistry';
 import {ExamplePart} from './ExamplePart';
 import {InfoPanel} from './InfoPanel';
 

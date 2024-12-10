@@ -7,7 +7,7 @@ import type {
 	RequestMode,
 	TextComponent,
 } from '@enonic-types/core';
-import type { XpTextBaseProps } from './XpTextBaseProps';
+import type { TextBaseProps } from './TextBaseProps';
 
 export type XpRunMode = 'development' | 'production';
 
@@ -74,7 +74,7 @@ export interface RenderableWarning {
 
 export type RenderableTextComponent = TextComponent & {
 	mode: LiteralUnion<RequestMode>;
-	props?: XpTextBaseProps;
+	props?: TextBaseProps;
 }
 
 export type RenderableComponent =

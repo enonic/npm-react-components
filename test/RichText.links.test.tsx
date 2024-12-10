@@ -17,7 +17,7 @@ import React from 'react';
 import {RichText} from '../src';
 import {Link} from '../src/RichText/Link';
 // import {print} from 'q-i';
-
+import { ERROR_STYLE } from './testdata';
 
 const IMG_ID = 'e9b1f92b-fa46-4e58-b41f-87dc9f1999e8'
 const IMG_VERSION_KEY = '9abf6cc6c7f565515175b33c08155b3495dcdf47';
@@ -110,7 +110,7 @@ describe('RichText', () => {
 			Link={LinkThatThrows}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Failed to build href!</div></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style="${ERROR_STYLE}">Failed to build href!</div></section></div></body>`);
 	});
 
 	it('should handle links', () => {
@@ -164,7 +164,7 @@ describe('RichText', () => {
 <body>
   <div>
     <section>
-      <div style=\"border: 1px dotted red; color: red;\">
+      <div style="${ERROR_STYLE}">
         Link element has no href attribute!
       </div>
     </section>
@@ -185,7 +185,7 @@ describe('RichText', () => {
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Can't replace link, when there are no links in the data object!</div></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style="${ERROR_STYLE}">Can't replace link, when there are no links in the data object!</div></section></div></body>`);
 	});
 
 	it("should show an ErrorComponent when the linkRef can't be found in the links object", () => {
@@ -210,6 +210,6 @@ describe('RichText', () => {
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style=\"border: 1px dotted red; color: red;\">Unable to find link with ref ${linkRef} in links object!</div></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style="${ERROR_STYLE}">Unable to find link with ref ${linkRef} in links object!</div></section></div></body>`);
 	});
 }); // describe RichText

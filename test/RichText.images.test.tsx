@@ -18,6 +18,7 @@ import React from 'react';
 import {RichText} from '../src';
 import {Image} from '../src/RichText/Image';
 // import {print} from 'q-i';
+import { ERROR_STYLE } from './testdata';
 
 
 const IMG_REF = '59b78b11-3abf-4b7e-b16e-a5b1e90efcb0';
@@ -107,7 +108,7 @@ describe('RichText', () => {
 			Image={ImageThatThrows}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><div style="border: 1px dotted red; color: red;">Failed to render image!</div>
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><div style="${ERROR_STYLE}">Failed to render image!</div>
 <figcaption>Caption</figcaption>
 </figure></section></div></body>`);
 	});
@@ -228,7 +229,7 @@ describe('RichText', () => {
         class="captioned editor-align-right editor-width-custom"
         style="float: right; width: 50%;"
       >
-        <div style="border: 1px dotted red; color: red;">
+        <div style="${ERROR_STYLE}">
           Can't replace image, when there are no images in the data object!
         </div>
         <figcaption>
@@ -269,7 +270,7 @@ describe('RichText', () => {
         class="captioned editor-align-right editor-width-custom"
         style="float: right; width: 50%;"
       >
-        <div style="border: 1px dotted red; color: red;">
+        <div style="${ERROR_STYLE}">
           Image element has no data-image-ref attibute!
         </div>
         <figcaption>
@@ -309,7 +310,7 @@ describe('RichText', () => {
         class="captioned editor-align-right editor-width-custom"
         style="float: right; width: 50%;"
       >
-        <div style="border: 1px dotted red; color: red;">
+        <div style="${ERROR_STYLE}">
           Unable to find image with ref ${IMG_REF} in images object!
         </div>
         <figcaption>

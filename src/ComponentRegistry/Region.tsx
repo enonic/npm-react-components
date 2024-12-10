@@ -1,12 +1,12 @@
 import type {ClassValue} from 'clsx';
-import type {ComponentRegistry} from '../ComponentRegistry';
+import type {ComponentRegistry} from './ComponentRegistry';
 import type {RenderableComponent} from '../types';
 
 import cx from 'clsx';
-import {XpComponent} from './XpComponent';
+import {BaseComponent} from './BaseComponent';
 
 
-export interface XpRegionProps {
+export interface RegionProps {
 	as?: string
 	className?: ClassValue
 	components: RenderableComponent[]
@@ -15,18 +15,18 @@ export interface XpRegionProps {
 }
 
 
-export const XpRegion = ({
+export const Region = ({
 	as,
 	className,
 	components = [],
 	componentRegistry,
 	name,
-}: XpRegionProps) => {
+}: RegionProps) => {
 	if (!((name || '').trim())) {
 		console.error(`<Region NO_NAME> name: ${JSON.stringify(name)}`);
 		throw Error(`Can't render <Region> without a 'name' prop.`);
 	}
-	// console.debug('XpRegion name:', name);
+	// console.debug('Region name:', name);
 
 	const ElementType = (as || 'div') as keyof JSX.IntrinsicElements;
 	return (
@@ -35,7 +35,7 @@ export const XpRegion = ({
 			data-portal-region={name}
 		>
 			{
-				components.map((component, i) => <XpComponent
+				components.map((component, i) => <BaseComponent
 					component={component}
 					componentRegistry={componentRegistry}
 					key={i}

@@ -1,5 +1,7 @@
 import type { MacroComponentParams } from '../types';
 
+import {WARNING_STYLE} from '../Common/Warning';
+
 export function Macro({
 	componentRegistry,
 	config,
@@ -15,10 +17,7 @@ export function Macro({
 	// throw new Error(`Macro not found: ${descriptor}`);
 	return (
 		<div
-			style={{
-				border: "1px dotted orange",
-				color: "orange",
-			}}
+			style={WARNING_STYLE}
 		>
 			{msg} Can't render {descriptor}{" "}
 			with config {JSON.stringify(config, null, 4)}

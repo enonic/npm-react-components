@@ -9,7 +9,7 @@ import type {
 	PageComponent,
 } from '@enonic-types/core';
 import type { ComponentRegistry } from './ComponentRegistry';
-import type { XpTextBaseProps } from './XpTextBaseProps';
+import type { TextBaseProps } from './TextBaseProps';
 
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
@@ -74,6 +74,6 @@ export type PageContent<
 	Component
 >
 
-export interface XpTextProps extends XpTextBaseProps {
+export interface TextProps extends TextBaseProps {
 	componentRegistry: ComponentRegistry;
 }

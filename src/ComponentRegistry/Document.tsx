@@ -3,12 +3,12 @@ import type {
 	// PageContributions,
 } from '@enonic-types/core';
 import type {ClassValue} from 'clsx';
-import type {ComponentRegistry} from '../ComponentRegistry';
+import type {ComponentRegistry} from './ComponentRegistry';
 
 import cx from 'clsx';
-import {XpRegions} from './XpRegions';
+import {Regions} from './Regions';
 
-export function XpDocument({
+export function Document({
 	bodyBegin,
 	bodyEnd,
 	className,
@@ -39,7 +39,7 @@ export function XpDocument({
 			</head>
 			<body className="xp-page">
 				{bodyBegin ? bodyBegin : null}
-				<XpRegions
+				<Regions
 					componentRegistry={componentRegistry}
 					// @ts-ignore
 					regions={regions}

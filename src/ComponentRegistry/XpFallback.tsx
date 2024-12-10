@@ -1,5 +1,5 @@
 import type {Component} from '@enonic-types/core';
-import { HtmlComment } from './HtmlComment';
+import { HtmlComment } from '../Common/HtmlComment';
 
 export function XpFallback({
 	component

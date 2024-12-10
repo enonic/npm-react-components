@@ -1,16 +1,16 @@
 import type {
 	ComponentRegistry,
 	RenderableTextComponent,
-	XpTextProps,
+	TextProps,
 } from '../types';
 
 import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
-import { Alert } from '../Alert';
+import { Message } from '../Common/Message';
 import { XpFallback } from './XpFallback';
-import { XpText } from './XpText';
+import { Text } from './Text';
 
-export const XpBaseText = ({
+export const BaseText = ({
 	component,
 	componentRegistry
 }: {
@@ -25,17 +25,17 @@ export const XpBaseText = ({
 	if (!props) {
 		if (mode === 'edit' || mode === 'inline') {
 			return (
-				<Alert mode={mode}>Text component missing props: {toStr(component)}</Alert>
+				<Message mode={mode}>Text component missing props: {toStr(component)}</Message>
 			);
 		}
-		console.warn('XpBaseText: Text component missing props:', toStr(component));
+		console.warn('BaseText: Text component missing props:', toStr(component));
 		return <XpFallback component={component}/>
 	}
 
-	const textProps = props as XpTextProps;
+	const textProps = props as TextProps;
 
 	return (
-		<XpText {...{
+		<Text {...{
 			...textProps,
 			componentRegistry,
 			'data-portal-component-type': mode === 'edit' ? 'text' : undefined

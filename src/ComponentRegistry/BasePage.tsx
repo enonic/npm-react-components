@@ -5,10 +5,10 @@ import type {
 } from '../types';
 
 import * as React from 'react';
-import { Alert } from '../Alert';
-import { ErrorComponent } from '../ErrorComponent';
+import { Message } from '../Common/Message';
+import { ErrorComponent } from '../Common/ErrorComponent';
 
-export function XpBasePage({
+export function BasePage({
 	component,
 	componentRegistry
 }: {
@@ -31,27 +31,27 @@ export function XpBasePage({
 
 	if (warning && (mode === 'inline' || mode === 'edit')) {
 		return (
-			<Alert mode={mode} children={warning}/>
+			<Message mode={mode} children={warning}/>
 		);
 	}
 
 	const pageDefinition = componentRegistry.getPage(descriptor);
 	if (!pageDefinition) {
 		return (
-			<Alert mode={mode}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Alert>
+			<Message mode={mode}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: PageView} = pageDefinition;
 	if (!PageView) {
 		return (
-			<Alert mode={mode}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Alert>
+			<Message mode={mode}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Alert mode={mode}>{`Page component missing props: ${descriptor}!`}</Alert>
+			<Message mode={mode}>{`Page component missing props: ${descriptor}!`}</Message>
 		);
 	}
 
