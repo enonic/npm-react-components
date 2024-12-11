@@ -15,10 +15,10 @@ export enum RENDERABLE_COMPONENT_TYPE {
 	CONTENT_TYPE = 'contentType',
 	ERROR = 'error',
 	FRAGMENT = 'fragment',
-    LAYOUT = 'layout',
-    PAGE = 'page',
-    PART = 'part',
-    TEXT = 'text',
+	LAYOUT = 'layout',
+	PAGE = 'page',
+	PART = 'part',
+	TEXT = 'text',
 	WARNING = 'warning',
 }
 
