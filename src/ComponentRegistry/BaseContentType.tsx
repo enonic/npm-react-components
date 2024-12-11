@@ -5,6 +5,7 @@ import type {
 
 import * as React from 'react';
 import { Message } from '../Common/Message';
+// import { XP_REQUEST_MODE } from '../constants';
 
 export const BaseContentType = ({
 	component,
@@ -22,7 +23,7 @@ export const BaseContentType = ({
 		// warning,
 	} = component;
 
-	// if (warning && (mode === 'edit' || mode === 'inline')) {
+	// if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
 	// 	return (
 	// 		<Message mode={mode}>{warning}</Message>
 	// 	);

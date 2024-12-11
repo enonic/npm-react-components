@@ -9,6 +9,7 @@ import * as React from 'react';
 import { Message } from '../Common/Message';
 import { XpFallback } from './XpFallback';
 import { Text } from './Text';
+import { XP_REQUEST_MODE } from '../constants';
 
 export const BaseText = ({
 	component,
@@ -22,10 +23,10 @@ export const BaseText = ({
 		props
 	} = component;
 
-	const dataPortalComponentType = mode === 'edit' ? 'text' : undefined;
+	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'text' : undefined;
 
 	if (!props) {
-		if (mode === 'edit' || mode === 'inline') {
+		if (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN) {
 			return (
 				<Message {...{
 					'data-portal-component-type': dataPortalComponentType,

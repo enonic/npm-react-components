@@ -6,6 +6,7 @@ import type {ReactNode} from 'react';
 
 import * as React from 'react';
 import { Message } from './Message';
+import { XP_REQUEST_MODE } from '../constants';
 
 export const TryCatch = ({
 	children,
@@ -22,7 +23,7 @@ export const TryCatch = ({
 				<h2>Error rendering component</h2>
 				<p>{e.message}</p>
 				{
-					mode === 'edit' && (
+					mode === XP_REQUEST_MODE.EDIT && (
 						<pre>{e.stack || ''}</pre>
 					)
 				}

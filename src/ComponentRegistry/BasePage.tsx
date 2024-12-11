@@ -7,6 +7,7 @@ import type {
 import * as React from 'react';
 import { Message } from '../Common/Message';
 import { ErrorComponent } from '../Common/ErrorComponent';
+import { XP_REQUEST_MODE } from '../constants';
 
 export function BasePage({
 	component,
@@ -23,7 +24,7 @@ export function BasePage({
 		warning,
 	} = component;
 
-	const dataPortalComponentType = mode === 'edit' ? 'page' : undefined;
+	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'page' : undefined;
 
 	if (error && (mode === 'inline' || mode === 'preview')) { // In edit mode the error should be handeled by Content Studio.
 		return (
@@ -34,7 +35,7 @@ export function BasePage({
 		);
 	}
 
-	if (warning && (mode === 'inline' || mode === 'edit')) {
+	if (warning && (mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.ADMIN)) {
 		return (
 			<Message {...{
 				children: warning,
