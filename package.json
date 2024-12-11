@@ -26,6 +26,7 @@
     "domhandler": "^5.0.3",
     "esbuild-plugin-globals": "^0.2.0",
     "glob": "^11.0.0",
+    "html-react-parser": "^5.1.19",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "q-i": "^2.0.1",
@@ -68,6 +69,9 @@
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "name": "@enonic/react-components",
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*"
+  },
   "peerDependencies": {
     "@enonic-types/core": "^7.15.0-A1",
     "@enonic-types/lib-portal": "^7.15.0-A1",
@@ -103,7 +107,6 @@
     "@enonic/js-utils": "^1.8.1",
     "clsx": "^2.1.1",
     "domelementtype": "^2.3.0",
-    "html-react-parser": "^5.1.19",
     "uri-js": "^4.4.1"
   },
   "version": "0.0.0"
