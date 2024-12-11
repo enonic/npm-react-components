@@ -23,35 +23,53 @@ export function BasePage({
 		warning,
 	} = component;
 
+	const dataPortalComponentType = mode === 'edit' ? 'page' : undefined;
+
 	if (error && (mode === 'inline' || mode === 'preview')) { // In edit mode the error should be handeled by Content Studio.
 		return (
-			<ErrorComponent children={error}/>
+			<ErrorComponent {...{
+				children: error,
+				'data-portal-component-type': dataPortalComponentType
+			}}/>
 		);
 	}
 
 	if (warning && (mode === 'inline' || mode === 'edit')) {
 		return (
-			<Message mode={mode} children={warning}/>
+			<Message {...{
+				children: warning,
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}/>
 		);
 	}
 
 	const pageDefinition = componentRegistry.getPage(descriptor);
 	if (!pageDefinition) {
 		return (
-			<Message mode={mode}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: PageView} = pageDefinition;
 	if (!PageView) {
 		return (
-			<Message mode={mode}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Message mode={mode}>{`Page component missing props: ${descriptor}!`}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{`Page component missing props: ${descriptor}!`}</Message>
 		);
 	}
 
@@ -59,7 +77,7 @@ export function BasePage({
 		<PageView {...{
 			...props,
 			componentRegistry,
-			'data-portal-component-type': mode === 'edit' ? 'page' : undefined
+			'data-portal-component-type': dataPortalComponentType
 		}}/>
 	);
 }
