@@ -1,6 +1,6 @@
 import type { MacroComponentParams } from '../types';
 
-import {WARNING_STYLE} from '../Common/Warning';
+import { WARNING_STYLE } from '../constants';
 
 export function Macro({
 	componentRegistry,

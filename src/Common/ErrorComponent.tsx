@@ -1,32 +1,14 @@
-import type {
-	CSSProperties,
-	ReactNode,
-} from 'react';
+import type { ReactNode } from 'react';
 
-const pink = '#e0b4b4';
-const darkRed = '#9f3a38';
+import { CONTENT_STUDIO_EDIT_MODE_PLACEHOLDER_STYLE } from '../constants';
 
-export const ContentStudioEditModePlaceholderStyle: CSSProperties = {
-	backgroundColor: '#ffffff',
-	borderWidth: '2px',
-	borderStyle: 'dashed',
-	borderRadius: '4px',
-	boxSizing: 'border-box',
-	display: 'block',
-	fontFamily: 'Open Sans, Helvetica, sans-serif',
-	fontSize: '20px',
-	lineHeight: '33px',
-	margin: '1px 0 10px',
-	minHeight: '137px',
-	padding: '50px 15px',
-	position: 'relative',
-	textAlign: 'center',
-}
+const PINK = '#e0b4b4';
+const DARK_RED = '#9f3a38';
 
 const STYLE = {
-	...ContentStudioEditModePlaceholderStyle,
-	borderColor: pink,
-	color: darkRed,
+	...CONTENT_STUDIO_EDIT_MODE_PLACEHOLDER_STYLE,
+	borderColor: PINK,
+	color: DARK_RED,
 };
 
 // NOTE: "Error" is a property on the global object in Ecmascript.

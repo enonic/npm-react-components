@@ -1,3 +1,8 @@
+import type {
+	CSSProperties,
+	ReactNode,
+} from 'react';
+
 export const IMG_TAG = 'img';
 export const LINK_TAG = 'a';
 export const MACRO_TAG = 'editor-macro';
@@ -23,3 +28,29 @@ export enum XP_REQUEST_MODE {
 	LIVE = 'live',
 	PREVIEW = 'preview',
 }
+
+export const CONTENT_STUDIO_EDIT_MODE_PLACEHOLDER_STYLE: CSSProperties = {
+	backgroundColor: '#ffffff',
+	borderWidth: '2px',
+	borderStyle: 'dashed',
+	borderRadius: '4px',
+	boxSizing: 'border-box',
+	display: 'block',
+	fontFamily: 'Open Sans, Helvetica, sans-serif',
+	fontSize: '20px',
+	lineHeight: '33px',
+	margin: '1px 0 10px',
+	minHeight: '137px',
+	padding: '50px 15px',
+	position: 'relative',
+	textAlign: 'center',
+}
+
+const WARNING_BORDER_COLOR = '#c9ba9b'; // light yellow
+const WARNING_COLOR = '#794b02'; // brown
+
+export const WARNING_STYLE = {
+	...CONTENT_STUDIO_EDIT_MODE_PLACEHOLDER_STYLE,
+	borderColor: WARNING_BORDER_COLOR,
+	color: WARNING_COLOR,
+};
