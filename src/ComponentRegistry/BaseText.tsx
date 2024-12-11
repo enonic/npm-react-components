@@ -25,7 +25,10 @@ export const BaseText = ({
 	if (!props) {
 		if (mode === 'edit' || mode === 'inline') {
 			return (
-				<Message mode={mode}>Text component missing props: {toStr(component)}</Message>
+				<Message {...{
+					'data-portal-component-type': mode === 'edit' ? 'text' : undefined,
+					mode
+				}}>Text component missing props: {toStr(component)}</Message>
 			);
 		}
 		console.warn('BaseText: Text component missing props:', toStr(component));
