@@ -17,7 +17,9 @@ export const BaseContentType = ({
 		contentType,
 		mode,
 		props,
-		// warning, // TODO
+		// NOTE: Such a warning would typically come from lib-react4xp DataFecther.
+		// But there are currently no such warnings returned in dataFecther.processContentType();
+		// warning,
 	} = component;
 
 	// if (warning && (mode === 'edit' || mode === 'inline')) {
