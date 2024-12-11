@@ -1,15 +1,6 @@
 import type {ReactNode} from 'react';
 
-import { ContentStudioEditModePlaceholderStyle } from './ErrorComponent';
-
-const lightYellow = '#c9ba9b';
-const brown = '#794b02';
-
-export const WARNING_STYLE = {
-	...ContentStudioEditModePlaceholderStyle,
-	borderColor: lightYellow,
-	color: brown,
-};
+import { WARNING_STYLE } from '../constants';
 
 export function Warning({
 	children,
