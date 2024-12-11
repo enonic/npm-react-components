@@ -22,11 +22,13 @@ export const BaseText = ({
 		props
 	} = component;
 
+	const dataPortalComponentType = mode === 'edit' ? 'text' : undefined;
+
 	if (!props) {
 		if (mode === 'edit' || mode === 'inline') {
 			return (
 				<Message {...{
-					'data-portal-component-type': mode === 'edit' ? 'text' : undefined,
+					'data-portal-component-type': dataPortalComponentType,
 					mode
 				}}>Text component missing props: {toStr(component)}</Message>
 			);
@@ -41,7 +43,7 @@ export const BaseText = ({
 		<Text {...{
 			...textProps,
 			componentRegistry,
-			'data-portal-component-type': mode === 'edit' ? 'text' : undefined
+			'data-portal-component-type': dataPortalComponentType
 		}}/>
 	);
 }

@@ -21,29 +21,43 @@ export function BaseLayout({
 		warning,
 	} = component;
 
+	const dataPortalComponentType = mode === 'edit' ? 'layout' : undefined;
+
 	if (warning && (mode === 'edit' || mode === 'inline')) {
 		return (
-			<Message mode={mode}>{warning}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{warning}</Message>
 		);
 	}
 
 	const layoutDefinition = componentRegistry.getLayout(descriptor);
 	if (!layoutDefinition) {
 		return (
-			<Message mode={mode}>{`Layout descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{`Layout descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: LayoutView} = layoutDefinition;
 	if (!LayoutView) {
 		return (
-			<Message mode={mode}>{`No View found for layout descriptor:${descriptor} in ComponentRegistry!`}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{`No View found for layout descriptor:${descriptor} in ComponentRegistry!`}</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Message mode={mode}>{`Layout component missing props: ${descriptor}!`}</Message>
+			<Message {...{
+				'data-portal-component-type': dataPortalComponentType,
+				mode
+			}}>{`Layout component missing props: ${descriptor}!`}</Message>
 		);
 	}
 
@@ -51,7 +65,7 @@ export function BaseLayout({
 		<LayoutView {...{
 			...props,
 			componentRegistry,
-			'data-portal-component-type': mode === 'edit' ? 'layout' : undefined
+			'data-portal-component-type': dataPortalComponentType
 		}}/>
 	);
 }
