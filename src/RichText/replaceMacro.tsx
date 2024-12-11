@@ -19,8 +19,9 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
     Image,
     Link,
     Macro,
+	mode,
     replacer,
-    ...rest
+    ...restProps
 }: ReplaceMacroParams<RestProps>) {
     const ref = el.attribs[MACRO_ATTR];
     if (!ref) {
@@ -54,21 +55,29 @@ export function replaceMacro<RestProps = Record<string, unknown>>({
 	}
 
     // config and descriptor should be last, so they can't be overridden
-    const props = {...rest, componentRegistry, config, descriptor} as MacroComponentParams<RestProps>;
+    const props = {
+		...restProps,
+		componentRegistry,
+		config,
+		descriptor,
+		mode
+	} as MacroComponentParams<RestProps>;
 
     const children = htmlReactParser.domToReact(el.children as DOMNode[], {
         replace: createReplacer({
-            ...rest, // These should be last, so they can't be overridden
+            ...restProps,
+			// These should be last, so they can't be overridden:
 			componentRegistry,
             data,
             Image,
             Link,
             Macro,
+			mode,
             replacer
         })
     });
 
-    return <ErrorBoundaryWrapper>
+    return <ErrorBoundaryWrapper mode={mode}>
         <Macro {...props}>{children}</Macro>
     </ErrorBoundaryWrapper>;
 }

@@ -1,3 +1,7 @@
+import type {
+	LiteralUnion,
+	RequestMode,
+} from '@enonic-types/core';
 import type {Element} from 'domhandler';
 import type {ImageComponent, ImageData, ImageComponentParams} from '../types';
 
@@ -12,11 +16,13 @@ export function replaceImage<RestProps = Record<string, unknown>>({
 	el,
 	Image,
 	images,
-	...rest
+	mode,
+	...restProps
 }: {
 	el: Element
 	Image: ImageComponent<RestProps>
 	images?: ImageData[]
+	mode?: LiteralUnion<RequestMode>
 }) {
 	if (!images || !images.length) {
 		return <ErrorComponent>Can't replace image, when there are no images in the data object!</ErrorComponent>
@@ -49,9 +55,9 @@ export function replaceImage<RestProps = Record<string, unknown>>({
 		style: imageStyle
 	} = imageData;
 
-	const imgProps = {...rest, alt, image, imageStyle, sizes, src, srcSet, style} as ImageComponentParams<RestProps>;
+	const imgProps = {...restProps, alt, image, imageStyle, sizes, src, srcSet, style} as ImageComponentParams<RestProps>;
 
-	return <ErrorBoundaryWrapper>
+	return <ErrorBoundaryWrapper mode={mode}>
 		<Image {...imgProps} />
 	</ErrorBoundaryWrapper>;
 }

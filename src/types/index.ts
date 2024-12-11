@@ -3,10 +3,12 @@ import type {
 	Content,
 	Layout,
 	LayoutComponent,
+	LiteralUnion,
 	Part,
 	PartComponent,
 	Page,
 	PageComponent,
+	RequestMode,
 } from '@enonic-types/core';
 import type { ComponentRegistry } from './ComponentRegistry';
 import type { TextBaseProps } from './TextBaseProps';
@@ -76,4 +78,5 @@ export type PageContent<
 
 export interface TextProps extends TextBaseProps {
 	componentRegistry: ComponentRegistry;
+	mode: LiteralUnion<RequestMode>
 }

@@ -22,9 +22,16 @@ describe('RichText', () => {
 		}
 		const html = render(<RichText
 			className='myclass'
-			replacer={(el, data) => {
+			data={data}
+			mode='edit'
+			replacer={({
+				el,
+				data,
+				mode,
+			}) => {
 				// console.debug('el', el);
 				// console.debug('data', data);
+				// console.debug('mode', mode);
 				if (
 					el.name === 'p'
 					&& el.children[0].type === ElementType.Text
@@ -33,7 +40,6 @@ describe('RichText', () => {
 					return <p>Replaced text</p>;
 				}
 			}}
-			data={data}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`

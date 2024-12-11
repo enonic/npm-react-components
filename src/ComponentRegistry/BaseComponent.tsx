@@ -33,7 +33,6 @@ export function BaseComponent({
 	}
 
 	const {
-		// mode,
 		type
 	} = component;
 	if (!type) {

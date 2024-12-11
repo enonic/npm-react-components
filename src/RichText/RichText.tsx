@@ -10,7 +10,7 @@ import {createReplacer} from './createReplacer';
 
 import {Image as ImageFallback} from './Image';
 import {Link as LinkFallback} from './Link';
-import {Macro as MacroFallback} from './Macro';
+import { BaseMacro } from '../ComponentRegistry/BaseMacro';
 
 
 export function RichText<RestProps = Record<string, unknown>>({
@@ -19,12 +19,13 @@ export function RichText<RestProps = Record<string, unknown>>({
 	data,
 	Image = ImageFallback,
 	Link = LinkFallback,
-	Macro = MacroFallback,
+	Macro = BaseMacro,
+	mode,
 	replacer,
 	tag,
-	...rest
+	...restProps
 }: RichTextParams<RestProps>) {
-	// console.info('RichText', {data, Macro, tag, ...rest});
+	// console.info('RichText', {data, Macro, tag, ...restProps});
 	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
 	return <CustomTag className={className}>
 		{
@@ -33,13 +34,14 @@ export function RichText<RestProps = Record<string, unknown>>({
 				 * for node compatibility, which adds default export resulting in parser.default.default */
 				? (((parser.default as any).default as typeof parser.default) || parser.default)(data.processedHtml, {
 					replace: createReplacer<RestProps>({
-						...rest,
-						// These should be last, so they can't be overridden
+						...restProps,
+						// These should be last, so they can't be overridden:
 						componentRegistry,
 						data,
 						Image,
 						Link,
 						Macro,
+						mode,
 						replacer,
 					}),
 				})

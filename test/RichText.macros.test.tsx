@@ -90,10 +90,11 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
+			mode='inline'
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${WARNING_STYLE}">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
 	});
 
 	it('should show an ErrorComponent when the macros array is missing or empty', () => {
@@ -106,6 +107,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
+			mode='edit'
 			Macro={Macro}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Can't replace macro, when there are no macros in the data object!</div></p></section></div></body>`);
@@ -119,6 +121,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
+			mode='edit'
 			Macro={Macro}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Macro element has no data-macro-ref attribute!</div></p></section></div></body>`);
@@ -143,6 +146,7 @@ describe('RichText', () => {
 		}
 		const html = render(<RichText
 			data={dataWithMacros}
+			mode='edit'
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -169,6 +173,7 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
+			mode='inline'
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`

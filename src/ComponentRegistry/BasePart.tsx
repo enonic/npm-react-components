@@ -73,7 +73,8 @@ export function BasePart({
 		<PartView {...{
 			...props,
 			componentRegistry,
-			'data-portal-component-type': dataPortalComponentType
+			'data-portal-component-type': dataPortalComponentType,
+			mode
 		}}/>
 	);
 }

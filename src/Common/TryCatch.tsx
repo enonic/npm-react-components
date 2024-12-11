@@ -12,25 +12,21 @@ export const TryCatch = ({
 	mode
 }: {
 	children: ReactNode;
-	mode: LiteralUnion<RequestMode>
+	mode?: LiteralUnion<RequestMode>
 }): JSX.Element | null => {
 	try {
 		return <>{children}</>;
 	} catch (e) {
-		if (mode === 'edit' || mode === 'inline') {
-			return (
-				<Message mode={mode}>
-					<h2>Error rendering component</h2>
-					<p>{e.message}</p>
-					{
-						mode === 'edit' && (
-							<pre>{e.stack || ''}</pre>
-						)
-					}
-				</Message>
-			);
-		}
-		console.warn(`TryCatch component didn't get mode prop! children:${children}`);
-		return null;
+		return (
+			<Message mode={mode}>
+				<h2>Error rendering component</h2>
+				<p>{e.message}</p>
+				{
+					mode === 'edit' && (
+						<pre>{e.stack || ''}</pre>
+					)
+				}
+			</Message>
+		);
 	}
 }
