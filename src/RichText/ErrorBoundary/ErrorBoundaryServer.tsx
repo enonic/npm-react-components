@@ -4,6 +4,7 @@ import type {
 } from '@enonic-types/core';
 import * as React from 'react';
 import { Message } from '../../Common/Message';
+import { XP_REQUEST_MODE } from '../../constants';
 
 // ErrorBoundaries are not supported on server in Next.js
 export function ErrorBoundaryServer({
@@ -21,7 +22,7 @@ export function ErrorBoundaryServer({
 				<h2>Error rendering component</h2>
 				<p>{e.message}</p>
 				{
-					mode === 'edit' && (
+					mode === XP_REQUEST_MODE.EDIT && (
 						<pre>{e.stack || ''}</pre>
 					)
 				}

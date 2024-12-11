@@ -6,6 +6,7 @@ import type {
 // import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import { Message } from '../Common/Message';
+import { XP_REQUEST_MODE } from '../constants';
 
 export function BasePart({
 	component,
@@ -22,9 +23,9 @@ export function BasePart({
 		warning,
 	} = component;
 
-	const dataPortalComponentType = mode === 'edit' ? 'part' : undefined;
+	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'part' : undefined;
 
-	if (warning && (mode === 'edit' || mode === 'inline')) {
+	if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
 		return (
 			<Message {...{
 				children: warning,

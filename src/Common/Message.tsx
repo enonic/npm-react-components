@@ -6,6 +6,7 @@ import type {ReactNode} from 'react';
 
 import { ErrorComponent } from './ErrorComponent';
 import { Warning } from './Warning';
+import { XP_REQUEST_MODE } from '../constants';
 
 
 export const Message = ({
@@ -18,18 +19,18 @@ export const Message = ({
 }): JSX.Element | null => {
 
 	// Log, but don't render errors in live and preview mode.
-	if (mode === 'live' || mode === 'preview') {
+	if (mode === XP_REQUEST_MODE.LIVE || mode === XP_REQUEST_MODE.PREVIEW) {
 		console.error(children);
 		return null;
 	}
 
-	if (mode === 'inline') {
+	if (mode === XP_REQUEST_MODE.INLINE) {
 		return (
 			<Warning {...extraProps} children={children}/>
 		);
 	}
 
-	if (mode === 'edit') {
+	if (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.ADMIN) {
 		return (
 			<ErrorComponent {...extraProps} children={children}/>
 		);

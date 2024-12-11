@@ -5,7 +5,10 @@ import type {RenderableComponent} from '../types';
 import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
-import {RENDERABLE_COMPONENT_TYPE} from '../constants';
+import {
+	RENDERABLE_COMPONENT_TYPE,
+	XP_REQUEST_MODE,
+} from '../constants';
 import {ErrorComponent} from '../Common/ErrorComponent';
 import {Warning} from '../Common/Warning';
 import {BaseLayout} from './BaseLayout';
@@ -85,7 +88,7 @@ export function BaseComponent({
 				html,
 				mode
 			} = component;
-			if (mode === 'live') {
+			if (mode === XP_REQUEST_MODE.LIVE) {
 				return null;
 			}
 			return (
@@ -97,7 +100,7 @@ export function BaseComponent({
 				html,
 				mode
 			} = component;
-			if (mode === 'live') {
+			if (mode === XP_REQUEST_MODE.LIVE) {
 				return null;
 			}
 			return (

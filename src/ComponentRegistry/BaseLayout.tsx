@@ -6,6 +6,7 @@ import type {
 
 import * as React from 'react';
 import { Message } from '../Common/Message';
+import { XP_REQUEST_MODE } from '../constants';
 
 export function BaseLayout({
 	component,
@@ -21,9 +22,9 @@ export function BaseLayout({
 		warning,
 	} = component;
 
-	const dataPortalComponentType = mode === 'edit' ? 'layout' : undefined;
+	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'layout' : undefined;
 
-	if (warning && (mode === 'edit' || mode === 'inline')) {
+	if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
 		return (
 			<Message {...{
 				'data-portal-component-type': dataPortalComponentType,

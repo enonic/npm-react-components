@@ -1,7 +1,4 @@
-import type {
-	CSSProperties,
-	ReactNode,
-} from 'react';
+import type { CSSProperties } from 'react';
 
 export const IMG_TAG = 'img';
 export const LINK_TAG = 'a';
@@ -23,6 +20,7 @@ export enum RENDERABLE_COMPONENT_TYPE {
 }
 
 export enum XP_REQUEST_MODE {
+	ADMIN = 'admin',
 	EDIT = 'edit',
 	INLINE = 'inline',
 	LIVE = 'live',
