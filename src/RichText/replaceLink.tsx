@@ -1,3 +1,7 @@
+import type {
+	LiteralUnion,
+	RequestMode,
+} from '@enonic-types/core';
 import type {Element} from 'domhandler';
 import type {DOMNode} from 'html-react-parser';
 import type {LinkComponent, ImageComponent, MacroComponent, Replacer, RichTextData, LinkComponentParams} from '../types';
@@ -16,8 +20,9 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 	Image,
 	Link,
 	Macro,
+	mode,
 	replacer,
-	...rest
+	...restProps
 }: {
 	createReplacer: typeof CreateReplacer
 	data: RichTextData
@@ -25,6 +30,7 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 	Image: ImageComponent<RestProps>,
 	Link: LinkComponent<RestProps>
 	Macro: MacroComponent<RestProps>
+	mode?: LiteralUnion<RequestMode>
 	replacer?: Replacer
 }) {
 	const {
@@ -62,21 +68,30 @@ export function replaceLink<RestProps = Record<string, unknown>>({
 		uri
 	} = linkData;
 
-	const linkProps = {...rest, content, href, media, target, title, uri} as LinkComponentParams<RestProps>;
+	const linkProps = {
+		...restProps,
+		content,
+		href,
+		media,
+		target,
+		title,
+		uri
+	} as LinkComponentParams<RestProps>;
 
 	const children = htmlReactParser.domToReact(el.children as DOMNode[], {
 		replace: createReplacer({
-			...rest,
+			...restProps,
 			// These should be last, so they can't be overridden
 			data,
 			Image,
 			Link,
 			Macro,
+			mode,
 			replacer
 		})
 	})
 
-	return <ErrorBoundaryWrapper>
+	return <ErrorBoundaryWrapper mode={mode}>
 		<Link {...linkProps}>{children}</Link>
 	</ErrorBoundaryWrapper>;
 }

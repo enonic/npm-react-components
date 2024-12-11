@@ -18,7 +18,10 @@ import React from 'react';
 import {RichText} from '../src';
 import {Image} from '../src/RichText/Image';
 // import {print} from 'q-i';
-import { ERROR_STYLE } from './testdata';
+import {
+	ERROR_STYLE,
+	WARNING_STYLE
+} from './testdata';
 
 
 const IMG_REF = '59b78b11-3abf-4b7e-b16e-a5b1e90efcb0';
@@ -106,9 +109,10 @@ describe('RichText', () => {
 			className='myclass'
 			data={data}
 			Image={ImageThatThrows}
+			mode='inline'
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><div style="${ERROR_STYLE}">Failed to render image!</div>
+		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><figure class="captioned editor-align-right editor-width-custom" style="float: right; width: 50%;"><div style="${WARNING_STYLE}">Failed to render image!</div>
 <figcaption>Caption</figcaption>
 </figure></section></div></body>`);
 	});

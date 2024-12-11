@@ -2,7 +2,7 @@
 // It is supoosed to be used in React4XP (GraalJS) and Next.js projects.
 // The reason is that Nashorn does NOT support Uint16Array:
 // * which is used in the 'entities' node module,
-// * which is used in the 'html-react-parser' node module,
+// * which is used by the 'html-react-parser' node module,
 // * which is used by RichText.
 export type {
 	ContentUri,
@@ -40,10 +40,14 @@ export { Warning } from './Common/Warning';
 export { BaseComponent } from './ComponentRegistry/BaseComponent';
 export { BaseContentType } from './ComponentRegistry/BaseContentType';
 export { BaseLayout } from './ComponentRegistry/BaseLayout';
+export { BaseMacro } from './ComponentRegistry/BaseMacro';
 export { BasePage } from './ComponentRegistry/BasePage';
 export { BasePart } from './ComponentRegistry/BasePart';
 export { BaseText } from './ComponentRegistry/BaseText';
-export { ComponentRegistry } from './ComponentRegistry/ComponentRegistry'; // This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
+
+// NOTE: This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
+export { ComponentRegistry } from './ComponentRegistry/ComponentRegistry';
+
 export { Layout } from './ComponentRegistry/Layout';
 export { Page } from './ComponentRegistry/Page';
 export { Part } from './ComponentRegistry/Part';
@@ -57,4 +61,4 @@ export { Link } from './RichText/Link';
 export { Macro } from './RichText/Macro';
 export { RichText } from './RichText/RichText';
 export { cssToReactStyle } from './RichText/cssToReactStyle';
-export {sanitizeGraphqlName} from './utils/sanitizeGraphqlName';
+export { sanitizeGraphqlName } from './utils/sanitizeGraphqlName';

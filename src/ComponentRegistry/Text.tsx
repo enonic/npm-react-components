@@ -1,7 +1,6 @@
 import type {TextProps} from '../types';
 
 import cx from 'clsx';
-import {XP_REQUEST_MODE} from '../constants';
 import {RichText} from '../RichText/RichText';
 
 
@@ -10,6 +9,7 @@ export function Text({
 	className,
 	componentRegistry,
 	data,
+	mode,
 	...extraProps
 }: TextProps): JSX.Element {
 	const ElementType = (as || 'div') as React.ElementType;
@@ -25,6 +25,7 @@ export function Text({
 			<RichText
 				componentRegistry={componentRegistry}
 				data={data}
+				mode={mode}
 			/>
 		</ElementType>
 	);

@@ -17,8 +17,9 @@ export function createReplacer<RestProps = Record<string, unknown>>({
 	Image,
 	Link,
 	Macro,
+	mode,
 	replacer,
-	...rest
+	...restProps
 }: CreateReplacerParams<RestProps>): (domNode: DOMNode) => ReplacerResult {
 	const {
 		images
@@ -32,27 +33,29 @@ export function createReplacer<RestProps = Record<string, unknown>>({
 		switch (el.tagName) {
 			case IMG_TAG:
 				return replaceImage({
-					...rest,
+					...restProps,
 					el,
 					Image,
-					images
+					images,
+					mode,
 				});
 			case LINK_TAG:
 				return replaceLink({
-					...rest,
-					// These should be last, so they can't be overridden
+					...restProps,
+					// These should be last, so they can't be overridden:
 					createReplacer,
 					data,
 					el,
 					Image,
 					Link,
 					Macro,
+					mode,
 					replacer,
 				});
 			case MACRO_TAG:
 				return replaceMacro<RestProps>({
-					...rest,
-					// These should be last, so they can't be overridden
+					...restProps,
+					// These should be last, so they can't be overridden:
 					componentRegistry,
 					createReplacer,
 					data,
@@ -60,14 +63,16 @@ export function createReplacer<RestProps = Record<string, unknown>>({
 					Image,
 					Link,
 					Macro,
+					mode,
 					replacer,
 				});
 			default:
 				if (replacer) {
-					const result = replacer(
+					const result = replacer({
 						el,
 						data,
-					);
+						mode
+					});
 					if (result) {
 						return result;
 					}
