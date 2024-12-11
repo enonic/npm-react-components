@@ -1,4 +1,3 @@
-// import type {PartComponent} from '@enonic-types/core';
 import type {
 	ComponentRegistry,
 	RenderablePartComponent,
@@ -23,11 +22,13 @@ export function BasePart({
 		warning,
 	} = component;
 
+	const dataPortalComponentType = mode === 'edit' ? 'part' : undefined;
+
 	if (warning && (mode === 'edit' || mode === 'inline')) {
 		return (
 			<Message {...{
 				children: warning,
-				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				'data-portal-component-type': dataPortalComponentType,
 				mode,
 			}}/>
 		);
@@ -41,7 +42,7 @@ export function BasePart({
 		return (
 			<Message {...{
 				children: `Part descriptor:${descriptor} not registered in ComponentRegistry!`,
-				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				'data-portal-component-type': dataPortalComponentType,
 				mode,
 			}}/>
 		);
@@ -52,7 +53,7 @@ export function BasePart({
 		return (
 			<Message {...{
 				children: `No View found for part descriptor:${descriptor} in ComponentRegistry!`,
-				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				'data-portal-component-type': dataPortalComponentType,
 				mode,
 			}}/>
 		);
@@ -62,7 +63,7 @@ export function BasePart({
 		return (
 			<Message {...{
 				children: `Part component missing props: ${descriptor}!`,
-				'data-portal-component-type': mode === 'edit' ? 'part' : undefined,
+				'data-portal-component-type': dataPortalComponentType,
 				mode,
 			}}/>
 		);
@@ -72,7 +73,7 @@ export function BasePart({
 		<PartView {...{
 			...props,
 			componentRegistry,
-			'data-portal-component-type': mode === 'edit' ? 'part' : undefined
+			'data-portal-component-type': dataPortalComponentType
 		}}/>
 	);
 }
