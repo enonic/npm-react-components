@@ -29,7 +29,6 @@
     "domhandler": "^5.0.3",
     "esbuild-plugin-globals": "^0.2.0",
     "glob": "^11.0.0",
-    "html-react-parser": "^5.1.19",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "q-i": "^2.0.1",
@@ -81,6 +80,7 @@
     "@enonic-types/core": "^7.15.0-A1",
     "@enonic-types/lib-portal": "^7.15.0-A1",
     "@enonic-types/lib-schema": "^7.15.0-A1",
+    "html-react-parser": "^5.1.19",
     "prop-types": "*",
     "react": "*"
   },
@@ -92,14 +92,13 @@
     "url": "git+ssh://git@github.com:enonic/enonic-react-components.git"
   },
   "scripts": {
-    "build": "concurrently -c auto -g --timings npm:build:* npm:copy:*",
+    "build": "concurrently -c auto -g --timings npm:build:*",
     "build:cjs": "npx tsup --format cjs",
     "build:esm": "npx tsup --format esm",
     "build:types": "npx tsc --declarationDir dist --emitDeclarationOnly",
     "clean": "del-cli dist/ *.tgz",
     "check:types": "npx tsc --noEmit",
     "cov": "npx jest --coverage --no-cache",
-    "copy:src": "npx cpy-cli 'src/**/*' dist/",
     "postbuild": "del-cli dist/types/index.cjs dist/types/index.mjs",
     "prebuild": "npm run clean",
     "prepack": "npm run build",
