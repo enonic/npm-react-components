@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@enonic-types/lib-schema':
-        specifier: ^7.15.0-A1
+        specifier: ^7.15.0-A2
         version: 7.15.0-A2
       html-react-parser:
         specifier: ^5.1.19
@@ -23,25 +23,25 @@ importers:
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu':
         specifier: '*'
-        version: 4.24.2
+        version: 4.29.1
       '@swc/core-linux-x64-gnu':
         specifier: '*'
         version: 1.10.1
     devDependencies:
       '@enonic-types/core':
-        specifier: ^7.15.0-A1
+        specifier: ^7.15.0-A2
         version: 7.15.0-A2
       '@enonic-types/guillotine':
         specifier: ^7.1.1
         version: 7.2.0
       '@enonic-types/lib-content':
-        specifier: ^7.15.0-A1
+        specifier: ^7.15.0-A2
         version: 7.15.0-A2
       '@enonic-types/lib-node':
-        specifier: ^7.15.0-A1
+        specifier: ^7.15.0-A2
         version: 7.15.0-A2
       '@enonic-types/lib-portal':
-        specifier: ^7.15.0-A1
+        specifier: ^7.15.0-A2
         version: 7.15.0-A2
       '@enonic/js-utils':
         specifier: ^1.8.1
@@ -656,6 +656,11 @@ packages:
 
   '@rollup/rollup-linux-x64-gnu@4.24.2':
     resolution: {integrity: sha512-jOG/0nXb3z+EM6SioY8RofqqmZ+9NKYvJ6QQaa9Mvd3RQxlH68/jcB/lpyVt4lCiqr04IyaC34NzhUqcXbB5FQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@rollup/rollup-linux-x64-gnu@4.29.1':
+    resolution: {integrity: sha512-87xYCwb0cPGZFoGiErT1eDcssByaLX4fc0z2nRM6eMtV9njAfEE6OW3UniAoDhX4Iq5xQVpE6qO9aJbCFumKYQ==}
     cpu: [x64]
     os: [linux]
 
@@ -3136,6 +3141,9 @@ snapshots:
     optional: true
 
   '@rollup/rollup-linux-x64-gnu@4.24.2':
+    optional: true
+
+  '@rollup/rollup-linux-x64-gnu@4.29.1':
     optional: true
 
   '@rollup/rollup-linux-x64-musl@4.24.2':
