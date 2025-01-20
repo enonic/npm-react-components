@@ -54,7 +54,7 @@ importers:
         version: 1.10.7
       '@testing-library/react':
         specifier: ^16.0.1
-        version: 16.1.0(@testing-library/dom@10.0.0)(@types/react-dom@18.2.25)(@types/react@18.3.17)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
+        version: 16.2.0(@testing-library/dom@10.0.0)(@types/react-dom@18.2.25)(@types/react@18.3.17)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@types/diffable-html':
         specifier: ^5.0.2
         version: 5.0.2
@@ -285,8 +285,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.24.4':
-    resolution: {integrity: sha512-dkxf7+hn8mFBwKjs9bvBlArzLVxVbS8usaPUDd5p2a9JCL9tB8OaOVN1isD4+Xyk4ns89/xeOmbQvgdK7IIVdA==}
+  '@babel/runtime@7.26.0':
+    resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.26.0':
@@ -794,8 +794,8 @@ packages:
     resolution: {integrity: sha512-PmJPnogldqoVFf+EwbHvbBJ98MmqASV8kLrBYgsDNxQcFMeIS7JFL48sfyXvuMtgmWO/wMhh25odr+8VhDmn4g==}
     engines: {node: '>=18'}
 
-  '@testing-library/react@16.1.0':
-    resolution: {integrity: sha512-Q2ToPvg0KsVL0ohND9A3zLJWcOXXcO8IDu3fj11KhNt0UlCWyFyvnCIBkd12tidB2lkiVRG8VFqdhcqhqnAQtg==}
+  '@testing-library/react@16.2.0':
+    resolution: {integrity: sha512-2cSskAvA1QNtKc8Y9VJQRv0tm3hLVgxRGDB+KYhIaPQJ1I+RHbhIXcM+zClKXzMes/wshsMVzf4B9vS4IZpqDQ==}
     engines: {node: '>=18'}
     peerDependencies:
       '@testing-library/dom': ^10.0.0
@@ -2775,7 +2775,7 @@ snapshots:
       '@babel/core': 7.24.4
       '@babel/helper-plugin-utils': 7.24.0
 
-  '@babel/runtime@7.24.4':
+  '@babel/runtime@7.26.0':
     dependencies:
       regenerator-runtime: 0.14.1
 
@@ -3275,9 +3275,9 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@testing-library/react@16.1.0(@testing-library/dom@10.0.0)(@types/react-dom@18.2.25)(@types/react@18.3.17)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
+  '@testing-library/react@16.2.0(@testing-library/dom@10.0.0)(@types/react-dom@18.2.25)(@types/react@18.3.17)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
-      '@babel/runtime': 7.24.4
+      '@babel/runtime': 7.26.0
       '@testing-library/dom': 10.0.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
