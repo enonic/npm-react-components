@@ -45,7 +45,7 @@ importers:
         version: 7.15.0-A2
       '@enonic/js-utils':
         specifier: ^1.8.1
-        version: 1.8.1
+        version: 1.9.0
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
@@ -297,6 +297,10 @@ packages:
     resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/runtime@7.26.0':
+    resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/template@7.24.0':
     resolution: {integrity: sha512-Bkf2q8lMB0AFpX0NFEqSbx1OkTHf0f+0j82mkw+ZpzBnkk7e9Ql0891vlfgi+kHwOk8tQjiQHpqh4LaSa0fKEA==}
     engines: {node: '>=6.9.0'}
@@ -343,8 +347,8 @@ packages:
   '@enonic-types/lib-schema@7.15.0-A2':
     resolution: {integrity: sha512-lv5fdAyQTrezOma5ev0Qi9/WJnQ9NSYndspW+8+z1zP5YRhmOx8Xngtfw1HfAoV6mCLWxJIvFPLVTm5pmaiXlw==}
 
-  '@enonic/js-utils@1.8.1':
-    resolution: {integrity: sha512-kVZeph1YSAxhmc077+GRrBOrU2ikDahByOk6FugTi2A25hBjUoEjZNSkjA3jHG1WG5Z97qI5tqcGaAyV/hdCYA==}
+  '@enonic/js-utils@1.9.0':
+    resolution: {integrity: sha512-bohP40o5Fv6JtR69wOvZDJJl11Ze8ur9WxQgA9gFGE6/UW7Wlo68U99+3mDU9XtCpITg2ZUxlwcqlY0gIULr9g==}
 
   '@esbuild/aix-ppc64@0.24.0':
     resolution: {integrity: sha512-WtKdFM7ls47zkKHFVzMz8opM7LkcsIp9amDUBIAWirg70RM71WRSjdILPsY5Uv1D42ZpUfaPILDlfactHgsRkw==}
@@ -2791,6 +2795,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@babel/runtime@7.26.0':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
   '@babel/template@7.24.0':
     dependencies:
       '@babel/code-frame': 7.24.2
@@ -2856,7 +2864,7 @@ snapshots:
     dependencies:
       '@enonic-types/core': 7.15.0-A2
 
-  '@enonic/js-utils@1.8.1': {}
+  '@enonic/js-utils@1.9.0': {}
 
   '@esbuild/aix-ppc64@0.24.0':
     optional: true
