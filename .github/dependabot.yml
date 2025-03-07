@@ -6,9 +6,9 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     assignees:
-      - "ComLock"
+      - "pmi"
     reviewers:
-      - "ComLock"
+      - "pmi"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
