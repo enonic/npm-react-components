@@ -5,7 +5,7 @@ export function XpFallback({
 	component
 }: {
 	component?: Component
-}): JSX.Element | null {
+}): React.JSX.Element | null {
 	if (!component || !component.path) {
 		return null;
 	}

@@ -14,7 +14,7 @@ export function BasePart({
 }: {
 	component: RenderablePartComponent
 	componentRegistry: ComponentRegistry
-}): JSX.Element {
+}): React.JSX.Element {
 
 	const {
 		descriptor,

@@ -15,7 +15,7 @@ export function BasePage({
 }: {
 	component: RenderablePageComponent
 	componentRegistry: ComponentRegistry
-}): JSX.Element {
+}): React.JSX.Element {
 	const {
 		descriptor,
 		error,

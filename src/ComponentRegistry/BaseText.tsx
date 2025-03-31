@@ -17,7 +17,7 @@ export const BaseText = ({
 }: {
 	component: RenderableTextComponent
 	componentRegistry: ComponentRegistry
-}): JSX.Element => {
+}): React.JSX.Element => {
 	const {
 		mode,
 		props

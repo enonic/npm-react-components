@@ -16,7 +16,7 @@ export const Message = ({
 }: {
 	children: ReactNode,
 	mode?: LiteralUnion<RequestMode>
-}): JSX.Element | null => {
+}): React.JSX.Element | null => {
 
 	// Log, but don't render errors in live and preview mode.
 	if (mode === XP_REQUEST_MODE.LIVE || mode === XP_REQUEST_MODE.PREVIEW) {

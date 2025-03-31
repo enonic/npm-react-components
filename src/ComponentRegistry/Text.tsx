@@ -11,7 +11,7 @@ export function Text({
 	data,
 	mode,
 	...extraProps
-}: TextProps): JSX.Element {
+}: TextProps): React.JSX.Element {
 	const ElementType = (as || 'div') as React.ElementType;
 	return (
 		<ElementType

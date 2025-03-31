@@ -14,7 +14,7 @@ export function BaseLayout({
 }: {
 	component: RenderableLayoutComponent
 	componentRegistry: ComponentRegistry
-}): JSX.Element {
+}): React.JSX.Element {
 	const {
 		descriptor,
 		mode,

@@ -26,7 +26,7 @@ export function RichText<RestProps = Record<string, unknown>>({
 	...restProps
 }: RichTextParams<RestProps>) {
 	// console.info('RichText', {data, Macro, tag, ...restProps});
-	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
+	const CustomTag = tag as keyof React.JSX.IntrinsicElements || 'section';
 	return <CustomTag className={className}>
 		{
 			data.processedHtml
