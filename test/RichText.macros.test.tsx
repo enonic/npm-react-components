@@ -167,7 +167,7 @@ describe('RichText', () => {
 				  }
 				}
 			  }],
-			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
+			processedHtml: `<editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro>`
 		}
 		const html = render(<RichText
 			className='myclass'
@@ -179,15 +179,13 @@ describe('RichText', () => {
 <body>
   <div>
     <section class="myclass">
-      <p>
-        <div style="${WARNING_STYLE}">
-          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success-macro with config {
+      <div style="${WARNING_STYLE}">
+        No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success-macro with config {
     "__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
     "header": "Iha",
     "body": "Jubalong"
 }
-        </div>
-      </p>
+      </div>
     </section>
   </div>
 </body>
