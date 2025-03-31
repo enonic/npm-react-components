@@ -63,9 +63,9 @@ describe('RichText', () => {
           <img
             alt="Alt text"
             sizes="juhu"
-            src="http://localhost:8080/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-768/example.jpg"
-            srcset="http://localhost:8080/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-2048/example.jpg 2048w,http://localhost:8080/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-1024/example.jpg 1024w"
             style="width: 100%;"
+            srcset="http://localhost:8080/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-2048/example.jpg 2048w,http://localhost:8080/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-1024/example.jpg 1024w"
+            src="http://localhost:8080/admin/site/preview/richproject/draft/_/image/e9b1f92b-fa46-4e58-b41f-87dc9f1999e8:9abf6cc6c7f565515175b33c08155b3495dcdf47/width-768/example.jpg"
           >
         </a>
         <figcaption>

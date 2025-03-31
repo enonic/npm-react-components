@@ -19,7 +19,7 @@ export function Page({
 	React.HTMLAttributes<HTMLElement>,
 	'className'
 > & {
-	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+	as?: LiteralUnion<keyof React.JSX.IntrinsicElements>;
 	children?: React.ReactNode
 	className?: ClassValue
 	componentRegistry: ComponentRegistry

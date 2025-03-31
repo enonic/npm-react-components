@@ -13,7 +13,7 @@ export const BaseContentType = ({
 }: {
 	component: RenderableContentType
 	componentRegistry: ComponentRegistry
-}): JSX.Element => {
+}): React.JSX.Element => {
 	const {
 		contentType,
 		mode,

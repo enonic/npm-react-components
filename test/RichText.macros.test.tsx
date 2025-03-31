@@ -31,7 +31,6 @@ beforeAll((done) => {
 		) {
 			return;
 		}
-		console.debug(args[0].detail.message); // For some this line makes an error go away!?!
 		originalError(...args)
 	}
 	done();

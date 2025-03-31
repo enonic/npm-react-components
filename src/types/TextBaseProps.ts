@@ -6,7 +6,7 @@ import type { RichTextData } from './RichText';
 export interface TextBaseProps extends Omit<
 	React.HTMLAttributes<HTMLElement>,'className' | 'children'
 > {
-	as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+	as?: LiteralUnion<keyof React.JSX.IntrinsicElements>;
 	className?: ClassValue;
 	data: RichTextData;
 	'data-portal-component-type'?: 'text';

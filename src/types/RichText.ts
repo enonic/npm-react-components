@@ -84,7 +84,7 @@ export type Replacer = (params: {
 	mode?: LiteralUnion<RequestMode>;
 }) => ReplacerResult;
 
-export type ReplacerResult = JSX.Element | object | void | undefined | null | false;
+export type ReplacerResult = React.JSX.Element | object | void | undefined | null | false;
 
 export interface RichTextData {
 	processedHtml: string;

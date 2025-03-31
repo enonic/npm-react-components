@@ -28,7 +28,7 @@ export const Region = ({
 	}
 	// console.debug('Region name:', name);
 
-	const ElementType = (as || 'div') as keyof JSX.IntrinsicElements;
+	const ElementType = (as || 'div') as keyof React.JSX.IntrinsicElements;
 	return (
 		<ElementType
 			className={cx('xp-region', className)}

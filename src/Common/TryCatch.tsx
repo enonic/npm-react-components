@@ -14,7 +14,7 @@ export const TryCatch = ({
 }: {
 	children: ReactNode;
 	mode?: LiteralUnion<RequestMode>
-}): JSX.Element | null => {
+}): React.JSX.Element | null => {
 	try {
 		return <>{children}</>;
 	} catch (e) {
