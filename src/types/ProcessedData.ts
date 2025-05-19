@@ -1,61 +1,54 @@
 // There is a difference between the core enonic types and what Guillotine returns:
-import type {
-	ComponentDescriptor,
-	// LayoutComponent,
-	LiteralUnion,
-	// PageComponent,
-	RequestMode,
-	TextComponent,
-} from '@enonic-types/core';
-import type { TextBaseProps } from './TextBaseProps';
+import type {ComponentDescriptor, LiteralUnion, RequestMode, TextComponent} from '@enonic-types/core';
+import type {TextBaseProps} from './TextBaseProps';
 
 export type XpRunMode = 'development' | 'production';
 
-export interface RenderableContentType {
+export interface ProcessedContentType {
 	contentType: string;
 	mode: LiteralUnion<RequestMode>;
 	props?: Record<string, unknown>
 	type: 'contentType';
 }
 
-export interface RenderableError {
+export interface ProcessedError {
 	html: string;
 	mode: LiteralUnion<RequestMode>;
 	path: string;
 	type: 'error';
 }
 
-export interface RenderableRegion {
+export interface ProcessedRegion {
 	name: string;
-	components: RenderableComponent[];
+	components: ProcessedData[];
 }
 
-export type RenderableRegions = Record<string, RenderableRegion>;
+export type ProcessedRegions = Record<string, ProcessedRegion>;
 
-export interface RenderableLayoutComponent {
+export interface ProcessedLayout {
 	// config: never
 	descriptor: ComponentDescriptor;
 	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	props?: Record<string, unknown>
-	regions: RenderableRegions;
+	regions: ProcessedRegions;
 	type: 'layout'
 	warning?: string;
 }
 
-export interface RenderablePageComponent {
+export interface ProcessedPage {
 	// config: never;
 	descriptor: ComponentDescriptor;
 	error?: string;
 	mode: LiteralUnion<RequestMode>;
 	path: '/';
 	props?: Record<string, unknown>;
-	regions: RenderableRegions;
+	regions: ProcessedRegions;
 	type: 'page';
 	warning?: string;
 }
 
-export interface RenderablePartComponent {
+export interface ProcessedPart {
 	// config: never
 	descriptor: ComponentDescriptor;
 	mode: LiteralUnion<RequestMode>;
@@ -65,23 +58,23 @@ export interface RenderablePartComponent {
 	warning?: string;
 }
 
-export interface RenderableWarning {
+export interface ProcessedWarning {
 	html: string;
 	mode: LiteralUnion<RequestMode>;
 	path: string;
 	type: 'warning';
 }
 
-export type RenderableTextComponent = TextComponent & {
+export type ProcessedText = TextComponent & {
 	mode: LiteralUnion<RequestMode>;
 	props?: TextBaseProps;
 }
 
-export type RenderableComponent =
-	| RenderableContentType
-	| RenderableError
-	| RenderableLayoutComponent
-	| RenderablePageComponent
-	| RenderablePartComponent
-	| RenderableTextComponent
-	| RenderableWarning;
+export type ProcessedData =
+	| ProcessedContentType
+	| ProcessedLayout
+	| ProcessedPage
+	| ProcessedPart
+	| ProcessedText
+	| ProcessedError
+	| ProcessedWarning;

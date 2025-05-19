@@ -1,19 +1,16 @@
 // import type {PartComponent} from '@enonic-types/core';
-import type {
-	ComponentRegistry,
-	RenderablePageComponent,
-} from '../types';
+import type {ComponentRegistry, ProcessedPage} from '../types';
 
 import * as React from 'react';
-import { Message } from '../Common/Message';
-import { ErrorComponent } from '../Common/ErrorComponent';
-import { XP_REQUEST_MODE } from '../constants';
+import {Message} from '../Common/Message';
+import {ErrorComponent} from '../Common/ErrorComponent';
+import {XP_REQUEST_MODE} from '../constants';
 
 export function BasePage({
-	component,
+	data,
 	componentRegistry
 }: {
-	component: RenderablePageComponent
+	data: ProcessedPage
 	componentRegistry: ComponentRegistry
 }): JSX.Element {
 	const {
@@ -22,7 +19,7 @@ export function BasePage({
 		mode,
 		props,
 		warning,
-	} = component;
+	} = data;
 
 	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'page' : undefined;
 

@@ -1,6 +1,6 @@
 import type {Region as RegionType} from '@enonic-types/core';
 import type {ComponentRegistry} from './ComponentRegistry';
-import type {RenderableComponent} from '../types';
+import type {ProcessedData} from '../types';
 
 import {Region} from './Region';
 
@@ -16,7 +16,7 @@ export function Regions({
 	// console.debug('Regions regions:', regions);
 	return Object.keys(regions).map((name, i) =>
 		<Region
-			components={regions[name].components as RenderableComponent[]}
+			data={regions[name].components as ProcessedData[]}
 			componentRegistry={componentRegistry}
 			key={`region-${i}-${name}`}
 			name={name}

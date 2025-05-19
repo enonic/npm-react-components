@@ -1,16 +1,16 @@
 import type {Component} from '@enonic-types/core';
-import { HtmlComment } from '../Common/HtmlComment';
+import {HtmlComment} from '../Common/HtmlComment';
 
 export function XpFallback({
-	component
+	data
 }: {
-	component?: Component
+	data?: Component
 }): JSX.Element | null {
-	if (!component || !component.path) {
+	if (!data || !data.path) {
 		return null;
 	}
 	return (
-		<HtmlComment comment={`#COMPONENT ${component.path}`} />
+		<HtmlComment comment={`#COMPONENT ${data.path}`}/>
 	);
 }
 

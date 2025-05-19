@@ -1,17 +1,14 @@
-import type {
-	ComponentRegistry,
-	RenderableContentType,
-} from '../types';
+import type {ComponentRegistry, ProcessedContentType} from '../types';
 
 import * as React from 'react';
-import { Message } from '../Common/Message';
+import {Message} from '../Common/Message';
 // import { XP_REQUEST_MODE } from '../constants';
 
 export const BaseContentType = ({
-	component,
+	data,
 	componentRegistry
 }: {
-	component: RenderableContentType
+	data: ProcessedContentType
 	componentRegistry: ComponentRegistry
 }): JSX.Element => {
 	const {
@@ -21,7 +18,7 @@ export const BaseContentType = ({
 		// NOTE: Such a warning would typically come from lib-react4xp DataFecther.
 		// But there are currently no such warnings returned in dataFecther.processContentType();
 		// warning,
-	} = component;
+	} = data;
 
 	// if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
 	// 	return (

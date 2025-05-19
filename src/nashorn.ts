@@ -1,15 +1,15 @@
 export {
-	RenderableComponent,
-	RenderableContentType,
-	RenderableError,
-	RenderableLayoutComponent,
-	RenderablePageComponent,
-	RenderablePartComponent,
-	RenderableTextComponent,
-	RenderableWarning,
+	ProcessedData,
+	ProcessedContentType,
+	ProcessedError,
+	ProcessedLayout,
+	ProcessedPage,
+	ProcessedPart,
+	ProcessedText,
+	ProcessedWarning,
 	XpRunMode,
-} from './types/Renderable';
+} from './types/ProcessedData';
 export {
-	RENDERABLE_COMPONENT_TYPE,
+	PROCESSED_DATA_TYPE,
 	XP_REQUEST_MODE,
 } from './constants';

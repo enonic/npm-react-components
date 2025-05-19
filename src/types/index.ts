@@ -8,10 +8,10 @@ import type {
 	PartComponent,
 	Page,
 	PageComponent,
-	RequestMode,
+	RequestMode
 } from '@enonic-types/core';
-import type { ComponentRegistry } from './ComponentRegistry';
-import type { TextBaseProps } from './TextBaseProps';
+import type {ComponentRegistry} from './ComponentRegistry';
+import type {TextBaseProps} from './TextBaseProps';
 
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
@@ -23,15 +23,15 @@ export type {
 	ComponentRegistry,
 } from './ComponentRegistry';
 export type {
-	RenderableComponent,
-	RenderableContentType,
-	RenderableLayoutComponent,
-	RenderablePageComponent,
-	RenderablePartComponent,
-	RenderableTextComponent,
-	RenderableWarning,
+	ProcessedData,
+	ProcessedContentType,
+	ProcessedLayout,
+	ProcessedPage,
+	ProcessedPart,
+	ProcessedText,
+	ProcessedWarning,
 	XpRunMode,
-} from './Renderable';
+} from './ProcessedData';
 export type {
 	CreateReplacerParams,
 	ImageComponent,

@@ -6,11 +6,11 @@
 // * which is used by RichText.
 export type {
 	ContentUri,
-	RenderableComponent,
-	RenderableLayoutComponent,
-	RenderablePageComponent,
-	RenderablePartComponent,
-	RenderableTextComponent,
+	ProcessedData,
+	ProcessedLayout,
+	ProcessedPage,
+	ProcessedPart,
+	ProcessedText,
 	ImageComponent,
 	ImageComponentParams,
 	ImageContent,

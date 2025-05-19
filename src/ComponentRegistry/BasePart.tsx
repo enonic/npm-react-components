@@ -1,18 +1,15 @@
-import type {
-	ComponentRegistry,
-	RenderablePartComponent,
-} from '../types';
+import type {ComponentRegistry, ProcessedPart} from '../types';
 
 // import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
-import { Message } from '../Common/Message';
-import { XP_REQUEST_MODE } from '../constants';
+import {Message} from '../Common/Message';
+import {XP_REQUEST_MODE} from '../constants';
 
 export function BasePart({
-	component,
+	data,
 	componentRegistry
 }: {
-	component: RenderablePartComponent
+	data: ProcessedPart
 	componentRegistry: ComponentRegistry
 }): JSX.Element {
 
@@ -21,7 +18,7 @@ export function BasePart({
 		mode,
 		props,
 		warning,
-	} = component;
+	} = data;
 
 	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'part' : undefined;
 
