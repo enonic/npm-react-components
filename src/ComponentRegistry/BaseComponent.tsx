@@ -1,14 +1,11 @@
 import type {Component} from '@enonic-types/core';
 import type {ComponentRegistry} from './ComponentRegistry';
-import type {RenderableComponent} from '../types';
+import type {ProcessedData} from '../types';
 
-import { toStr } from '@enonic/js-utils/value/toStr';
+import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
-import {
-	RENDERABLE_COMPONENT_TYPE,
-	XP_REQUEST_MODE,
-} from '../constants';
+import {PROCESSED_DATA_TYPE, XP_REQUEST_MODE} from '../constants';
 import {ErrorComponent} from '../Common/ErrorComponent';
 import {Warning} from '../Common/Warning';
 import {BaseLayout} from './BaseLayout';
@@ -20,74 +17,74 @@ import {XpFallback} from './XpFallback';
 
 
 export function BaseComponent({
-	component,
+	data,
 	componentRegistry
 }: {
-	component: RenderableComponent
+	data: ProcessedData
 	componentRegistry?: ComponentRegistry
 }) {
 	// console.debug('BaseComponent component:', toStr(component));
 
 	if (!componentRegistry) {
-		console.warn('BaseComponent componentRegistry missing! with component:', toStr(component));
+		console.warn('BaseComponent componentRegistry missing! with component:', toStr(data));
 		return (
-			<XpFallback component={component as Component}/>
+			<XpFallback data={data as Component}/>
 		);
 	}
 
 	const {
 		type
-	} = component;
+	} = data;
 	if (!type) {
-		console.error('BaseComponent component missing type:', toStr(component));
+		console.error('BaseComponent component missing type:', toStr(data));
 		return (
-			<XpFallback component={component}/>
+			<XpFallback data={data}/>
 		);
 	}
 	// console.info('BaseComponent type:', type);
 
 	switch (type) {
-		case RENDERABLE_COMPONENT_TYPE.PART:
+		case PROCESSED_DATA_TYPE.PART:
 			return (
 				<BasePart
-					component={component}
+					data={data}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case RENDERABLE_COMPONENT_TYPE.LAYOUT:
+		case PROCESSED_DATA_TYPE.LAYOUT:
 			return (
 				<BaseLayout
-					component={component}
+					data={data}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case RENDERABLE_COMPONENT_TYPE.PAGE:
+		case PROCESSED_DATA_TYPE.PAGE:
 			return (
 				<BasePage
-					component={component}
+					data={data}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case RENDERABLE_COMPONENT_TYPE.CONTENT_TYPE:
+		case PROCESSED_DATA_TYPE.CONTENT_TYPE:
 			return (
 				<BaseContentType
-					component={component}
+					data={data}
 					componentRegistry={componentRegistry}
 				/>
 			);
-		case RENDERABLE_COMPONENT_TYPE.TEXT: {
+		case PROCESSED_DATA_TYPE.TEXT: {
 			return (
 				<BaseText
-					component={component}
+					data={data}
 					componentRegistry={componentRegistry}
 				/>
 			);
 		}
-		case RENDERABLE_COMPONENT_TYPE.ERROR: {
+		case PROCESSED_DATA_TYPE.ERROR: {
 			const {
 				html,
 				mode
-			} = component;
+			} = data;
 			if (mode === XP_REQUEST_MODE.LIVE) {
 				return null;
 			}
@@ -95,11 +92,11 @@ export function BaseComponent({
 				<ErrorComponent html={html}/>
 			);
 		}
-		case RENDERABLE_COMPONENT_TYPE.WARNING: {
+		case PROCESSED_DATA_TYPE.WARNING: {
 			const {
 				html,
 				mode
-			} = component;
+			} = data;
 			if (mode === XP_REQUEST_MODE.LIVE) {
 				return null;
 			}
@@ -111,7 +108,7 @@ export function BaseComponent({
 
 	console.error(`Unknown component type: ${type}`);
 	return (
-		<XpFallback component={component as Component}/>
+		<XpFallback data={data as Component}/>
 	);
 
 } // BaseComponent

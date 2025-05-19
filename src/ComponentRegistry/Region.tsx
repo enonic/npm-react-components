@@ -1,15 +1,14 @@
 import type {ClassValue} from 'clsx';
-import type {ComponentRegistry} from './ComponentRegistry';
-import type {RenderableComponent} from '../types';
-
 import cx from 'clsx';
+import type {ComponentRegistry} from './ComponentRegistry';
+import type {ProcessedData} from '../types';
 import {BaseComponent} from './BaseComponent';
 
 
 export interface RegionProps {
 	as?: string
 	className?: ClassValue
-	components: RenderableComponent[]
+	data: ProcessedData[]
 	componentRegistry: ComponentRegistry
 	name: string
 }
@@ -18,7 +17,7 @@ export interface RegionProps {
 export const Region = ({
 	as,
 	className,
-	components = [],
+	data = [],
 	componentRegistry,
 	name,
 }: RegionProps) => {
@@ -35,8 +34,8 @@ export const Region = ({
 			data-portal-region={name}
 		>
 			{
-				components.map((component, i) => <BaseComponent
-					component={component}
+				data.map((data, i) => <BaseComponent
+					data={data}
 					componentRegistry={componentRegistry}
 					key={i}
 				/>)

@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type {CSSProperties} from 'react';
 
 export const IMG_TAG = 'img';
 export const LINK_TAG = 'a';
@@ -8,7 +8,7 @@ export const IMG_ATTR = 'data-image-ref';
 export const LINK_ATTR = 'data-link-ref';
 export const MACRO_ATTR = 'data-macro-ref';
 
-export enum RENDERABLE_COMPONENT_TYPE {
+export enum PROCESSED_DATA_TYPE {
 	CONTENT_TYPE = 'contentType',
 	ERROR = 'error',
 	FRAGMENT = 'fragment',

@@ -1,18 +1,15 @@
 // import type {PartComponent} from '@enonic-types/core';
-import type {
-	ComponentRegistry,
-	RenderableLayoutComponent,
-} from '../types';
+import type {ComponentRegistry, ProcessedLayout} from '../types';
 
 import * as React from 'react';
-import { Message } from '../Common/Message';
-import { XP_REQUEST_MODE } from '../constants';
+import {Message} from '../Common/Message';
+import {XP_REQUEST_MODE} from '../constants';
 
 export function BaseLayout({
-	component,
+	data,
 	componentRegistry
 }: {
-	component: RenderableLayoutComponent
+	data: ProcessedLayout
 	componentRegistry: ComponentRegistry
 }): JSX.Element {
 	const {
@@ -20,7 +17,7 @@ export function BaseLayout({
 		mode,
 		props,
 		warning,
-	} = component;
+	} = data;
 
 	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'layout' : undefined;
 

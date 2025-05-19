@@ -1,35 +1,13 @@
-import type {
-	Request
-} from '@enonic-types/core';
 // import type {InfoPanelProps} from '../processComponents/InfoPanel';
-import type {RenderablePartComponent} from '../../src/types';
 
-import {
-	// beforeAll,
-	// afterAll,
-	describe,
-	expect,
-	test as it
-} from '@jest/globals';
-import {render} from '@testing-library/react'
-import toDiffableHtml from 'diffable-html';
-import {print} from 'q-i';
-import * as React from 'react';
+import {describe, test as it} from '@jest/globals';
 
 // SRC imports
 import {ComponentRegistry} from '../../src/ComponentRegistry/ComponentRegistry';
-import {Part} from '../../src/ComponentRegistry/Part';
 // import {ComponentProcessor} from '../../src/processComponents';
-
 // TEST imports
 import {InfoPanel} from './InfoPanel';
-import {
-	EXAMPLE_PART_DESCRIPTOR,
-	PAGE_CONTENT,
-	PART_COMPONENT,
-	PROCESSED_HTML
-} from './data'
-import {PART_SCHEMA} from './schema'
+import {EXAMPLE_PART_DESCRIPTOR} from './data'
 import {ExamplePart} from './ExamplePart';
 
 // const componentProcessor = new ComponentProcessor({
