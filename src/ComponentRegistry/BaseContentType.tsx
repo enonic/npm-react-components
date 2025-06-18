@@ -26,9 +26,7 @@ export const BaseContentType = ({
 	// 	);
 	// }
 
-	const contentTypeDefinition = componentRegistry.getContentType<{
-		componentRegistry: ComponentRegistry
-	}>(contentType);
+	const contentTypeDefinition = componentRegistry.getContentType(contentType);
 	if (!contentTypeDefinition) {
 		return (
 			<Message mode={mode}>{`ContentType:${contentType} not registered in ComponentRegistry!`}</Message>
@@ -49,9 +47,6 @@ export const BaseContentType = ({
 	}
 
 	return (
-		<ContentTypeView {...{
-			...props,
-			componentRegistry,
-		}}/>
+		<ContentTypeView {...props}/>
 	);
 };

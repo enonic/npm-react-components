@@ -1,46 +1,44 @@
-import type {ComponentRegistry, ProcessedText, TextProps} from '../types';
+import type {ComponentRegistry, ProcessedText} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import {Message} from '../Common/Message';
 import {XpFallback} from './XpFallback';
-import {Text} from './Text';
 import {XP_REQUEST_MODE} from '../constants';
+import {RichText} from '../RichText/RichText';
 
 export const BaseText = ({
-	data,
-	componentRegistry
+    data,
+    componentRegistry
 }: {
-	data: ProcessedText
-	componentRegistry: ComponentRegistry
+    data: ProcessedText
+    componentRegistry: ComponentRegistry
 }): JSX.Element => {
-	const {
-		mode,
-		props
-	} = data;
 
-	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'text' : undefined;
+    const {
+        mode,
+        props
+    } = data;
 
-	if (!props) {
-		if (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN) {
-			return (
-				<Message {...{
-					'data-portal-component-type': dataPortalComponentType,
-					mode
-				}}>Text component missing props: {toStr(data)}</Message>
-			);
-		}
-		console.warn('BaseText: Text component missing props:', toStr(data));
-		return <XpFallback data={data}/>
-	}
+    const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'text' : undefined;
 
-	const textProps = props as TextProps;
+    if (!props) {
+        if (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN) {
+            return (
+                <Message {...{
+                    'data-portal-component-type': dataPortalComponentType,
+                    mode
+                }}>Text component missing props: {toStr(data)}</Message>
+            );
+        }
+        console.warn('BaseText: Text component missing props:', toStr(data));
+        return <XpFallback data={data}/>
+    }
 
-	return (
-		<Text {...{
-			...textProps,
-			componentRegistry,
-			'data-portal-component-type': dataPortalComponentType
-		}}/>
-	);
+    return <RichText
+        tag={props.as}
+        componentRegistry={componentRegistry}
+        data={props.data}
+        mode={mode}
+    />;
 }

@@ -1,10 +1,11 @@
 // import type {PartComponent} from '@enonic-types/core';
-import type {ComponentRegistry, ProcessedPage} from '../types';
+import {ComponentRegistry, ProcessedPage} from '../types';
 
 import * as React from 'react';
 import {Message} from '../Common/Message';
 import {ErrorComponent} from '../Common/ErrorComponent';
 import {XP_REQUEST_MODE} from '../constants';
+import {RegionsProps} from './Regions';
 
 export function BasePage({
 	data,
@@ -12,22 +13,20 @@ export function BasePage({
 }: {
 	data: ProcessedPage
 	componentRegistry: ComponentRegistry
-}): JSX.Element {
+}): JSX.Element | undefined {
 	const {
 		descriptor,
 		error,
 		mode,
 		props,
 		warning,
+		regions
 	} = data;
-
-	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'page' : undefined;
 
 	if (error && (mode === 'inline' || mode === 'preview')) { // In edit mode the error should be handeled by Content Studio.
 		return (
 			<ErrorComponent {...{
 				children: error,
-				'data-portal-component-type': dataPortalComponentType
 			}}/>
 		);
 	}
@@ -36,46 +35,37 @@ export function BasePage({
 		return (
 			<Message {...{
 				children: warning,
-				'data-portal-component-type': dataPortalComponentType,
 				mode
 			}}/>
 		);
 	}
 
-	const pageDefinition = componentRegistry.getPage(descriptor);
+	if (!warning && !error && !descriptor) {
+		// The page is not initialized yet, so we return nothing for CS to render a placeholder
+		return;
+	}
+
+	const pageDefinition = componentRegistry.getPage<RegionsProps>(descriptor);
 	if (!pageDefinition) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
+			<Message mode={mode}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: PageView} = pageDefinition;
 	if (!PageView) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Message>
+			<Message mode={mode}>{`No View found for page descriptor:${descriptor} in ComponentRegistry!`}</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{`Page component missing props: ${descriptor}!`}</Message>
+			<Message mode={mode}>{`Page component missing props: ${descriptor}!`}</Message>
 		);
 	}
 
 	return (
-		<PageView {...{
-			...props,
-			componentRegistry,
-			'data-portal-component-type': dataPortalComponentType
-		}}/>
+		<PageView regions={regions} componentRegistry={componentRegistry} {...props}/>
 	);
 }

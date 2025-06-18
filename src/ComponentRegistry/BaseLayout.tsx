@@ -1,9 +1,10 @@
 // import type {PartComponent} from '@enonic-types/core';
-import type {ComponentRegistry, ProcessedLayout} from '../types';
+import {ComponentRegistry, ProcessedLayout} from '../types';
 
 import * as React from 'react';
 import {Message} from '../Common/Message';
 import {XP_REQUEST_MODE} from '../constants';
+import {RegionsProps} from './Regions';
 
 export function BaseLayout({
 	data,
@@ -11,59 +12,53 @@ export function BaseLayout({
 }: {
 	data: ProcessedLayout
 	componentRegistry: ComponentRegistry
-}): JSX.Element {
+}): JSX.Element | undefined {
 	const {
 		descriptor,
 		mode,
 		props,
 		warning,
+		regions
 	} = data;
-
-	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'layout' : undefined;
 
 	if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{warning}</Message>
+			<Message mode={mode}>
+				{warning}
+			</Message>
 		);
 	}
 
-	const layoutDefinition = componentRegistry.getLayout(descriptor);
+	if (!warning && !descriptor) {
+		// The layout is not initialized yet, so we return nothing for CS to render a placeholder
+		return;
+	}
+
+	const layoutDefinition = componentRegistry.getLayout<RegionsProps>(descriptor);
 	if (!layoutDefinition) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{`Layout descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
+			<Message mode={mode}>{`Layout descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
 		);
 	}
 
 	const {View: LayoutView} = layoutDefinition;
 	if (!LayoutView) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{`No View found for layout descriptor:${descriptor} in ComponentRegistry!`}</Message>
+			<Message mode={mode}>
+				{`No View found for layout descriptor:${descriptor} in ComponentRegistry!`}
+			</Message>
 		);
 	}
 
 	if (!props) {
 		return (
-			<Message {...{
-				'data-portal-component-type': dataPortalComponentType,
-				mode
-			}}>{`Layout component missing props: ${descriptor}!`}</Message>
+			<Message mode={mode}>
+				{`Layout component missing props: ${descriptor}!`}
+			</Message>
 		);
 	}
 
 	return (
-		<LayoutView {...{
-			...props,
-			componentRegistry,
-			'data-portal-component-type': dataPortalComponentType
-		}}/>
+		<LayoutView regions={regions} componentRegistry={componentRegistry} {...props}/>
 	);
 }
