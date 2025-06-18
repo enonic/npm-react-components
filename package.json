@@ -4,8 +4,8 @@
     "url": "https://github.com/enonic/npm-react-components/issues"
   },
   "contributors": [
-    "Christian Andreas Westgaard <cwe@enonic.com>",
-    "Pavel Milkevich <pmi@enonic.com>"
+    "Christian Andreas Westgaard",
+    "Pavel Milkevich"
   ],
   "description": "Library of React components for handling Enonic XP data and page components",
   "devDependencies": {
