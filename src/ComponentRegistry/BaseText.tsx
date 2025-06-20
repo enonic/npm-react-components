@@ -1,4 +1,4 @@
-import type {ComponentRegistry, ProcessedText} from '../types';
+import type {ComponentRegistry, ProcessedText, ProcessedProps} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
@@ -9,9 +9,11 @@ import {RichText} from '../RichText/RichText';
 
 export const BaseText = ({
     data,
+    common,
     componentRegistry
 }: {
-    data: ProcessedText
+    data: ProcessedText,
+    common?: ProcessedProps,
     componentRegistry: ComponentRegistry
 }): JSX.Element => {
 

@@ -1,14 +1,22 @@
-import type {ComponentRegistry, ProcessedContentType} from '../types';
+import type {ComponentRegistry, ProcessedContentType, ProcessedProps} from '../types';
 
 import * as React from 'react';
 import {Message} from '../Common/Message';
+
 // import { XP_REQUEST_MODE } from '../constants';
+
+export interface ContentTypeProps {
+	data?: ProcessedProps
+	common?: ProcessedProps
+}
 
 export const BaseContentType = ({
 	data,
+	common,
 	componentRegistry
 }: {
-	data: ProcessedContentType
+	data: ProcessedContentType,
+	common?: ProcessedProps,
 	componentRegistry: ComponentRegistry
 }): JSX.Element => {
 	const {
@@ -26,7 +34,7 @@ export const BaseContentType = ({
 	// 	);
 	// }
 
-	const contentTypeDefinition = componentRegistry.getContentType(contentType);
+	const contentTypeDefinition = componentRegistry.getContentType<ContentTypeProps>(contentType);
 	if (!contentTypeDefinition) {
 		return (
 			<Message mode={mode}>{`ContentType:${contentType} not registered in ComponentRegistry!`}</Message>
@@ -41,12 +49,12 @@ export const BaseContentType = ({
 	}
 
 	if (!props) {
-		return (
-			<Message mode={mode}>{`ContentType component missing props: ${contentType}!`}</Message>
-		);
+		/*		return (
+                    <Message mode={mode}>{`ContentType component missing props: ${contentType}!`}</Message>
+                );*/
 	}
 
 	return (
-		<ContentTypeView {...props}/>
+		<ContentTypeView data={props} common={common}/>
 	);
 };

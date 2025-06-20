@@ -1,6 +1,6 @@
 import type {ClassValue} from 'clsx';
 import cx from 'clsx';
-import type {ComponentRegistry, ProcessedData} from '../types';
+import type {ComponentRegistry, ProcessedData, ProcessedProps} from '../types';
 import {BaseComponent} from './BaseComponent';
 
 
@@ -8,6 +8,7 @@ export interface RegionProps {
     as?: string
     className?: ClassValue
     data: ProcessedData[]
+    common?: ProcessedProps
     componentRegistry: ComponentRegistry
     name: string
 }
@@ -16,6 +17,7 @@ export interface RegionProps {
 export const Region = ({
     as,
     className,
+    common,
     data = [],
     componentRegistry,
     name
@@ -35,6 +37,7 @@ export const Region = ({
             {
                 data.map((data, i) => <BaseComponent
                     data={data}
+                    common={common}
                     componentRegistry={componentRegistry}
                     key={i}
                 />)
