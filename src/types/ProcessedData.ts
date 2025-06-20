@@ -4,10 +4,12 @@ import type {TextBaseProps} from './TextBaseProps';
 
 export type XpRunMode = 'development' | 'production';
 
+export type ProcessedProps = Record<string, unknown>;
+
 export interface ProcessedContentType {
 	contentType: string;
 	mode: LiteralUnion<RequestMode>;
-	props?: Record<string, unknown>
+	props?: ProcessedProps;
 	type: 'contentType';
 }
 
@@ -30,7 +32,7 @@ export interface ProcessedLayout {
 	descriptor: ComponentDescriptor;
 	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
-	props?: Record<string, unknown>
+	props?: ProcessedProps;
 	regions: ProcessedRegions;
 	type: 'layout'
 	warning?: string;
@@ -42,7 +44,7 @@ export interface ProcessedPage {
 	error?: string;
 	mode: LiteralUnion<RequestMode>;
 	path: '/';
-	props?: Record<string, unknown>;
+	props?: ProcessedProps;
 	regions: ProcessedRegions;
 	type: 'page';
 	warning?: string;
@@ -53,7 +55,7 @@ export interface ProcessedPart {
 	descriptor: ComponentDescriptor;
 	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
-	props?: Record<string, unknown>
+	props?: ProcessedProps;
 	type: 'part'
 	warning?: string;
 }

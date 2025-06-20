@@ -23,7 +23,11 @@ export type {
 	ComponentRegistry,
 } from './ComponentRegistry';
 export type {
+	ProcessedProps,
 	ProcessedData,
+	ProcessedRegions,
+	ProcessedRegion,
+	ProcessedError,
 	ProcessedContentType,
 	ProcessedLayout,
 	ProcessedPage,
@@ -55,6 +59,19 @@ export type {
 	RichTextData,
 	RichTextParams,
 } from './RichText';
+
+export type {
+	PartProps
+} from '../ComponentRegistry/BasePart';
+export type {
+	LayoutProps
+} from '../ComponentRegistry/BaseLayout';
+export type {
+	PageProps
+} from '../ComponentRegistry/BasePage';
+export type {
+	ContentTypeProps
+} from '../ComponentRegistry/BaseContentType';
 
 export type ContentUri = `content://${string}`;
 

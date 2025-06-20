@@ -1,78 +1,75 @@
-import type {ComponentRegistry, ProcessedPart} from '../types';
+import type {ComponentRegistry, ProcessedPart, ProcessedProps} from '../types';
 
 // import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import {Message} from '../Common/Message';
 import {XP_REQUEST_MODE} from '../constants';
+import {ContentTypeProps} from './BaseContentType';
+
+export interface PartProps extends ContentTypeProps {
+}
 
 export function BasePart({
-	data,
-	componentRegistry
+    data,
+    common,
+    componentRegistry
 }: {
-	data: ProcessedPart
-	componentRegistry: ComponentRegistry
-}): JSX.Element {
+    data: ProcessedPart
+    common?: ProcessedProps
+    componentRegistry: ComponentRegistry
+}): JSX.Element | undefined {
 
-	const {
-		descriptor,
-		mode,
-		props,
-		warning,
-	} = data;
+    const {
+        descriptor,
+        mode,
+        props,
+        warning
+    } = data;
 
-	const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'part' : undefined;
+    if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
+        return (
+            <Message mode={mode}>
+                {warning}
+            </Message>
+        );
+    }
 
-	if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
-		return (
-			<Message {...{
-				children: warning,
-				'data-portal-component-type': dataPortalComponentType,
-				mode,
-			}}/>
-		);
-	}
+    if (!warning && !descriptor) {
+        // The part is not initialized yet, so we return nothing for CS to render a placeholder
+        return;
+    }
 
-	const partDefinition = componentRegistry.getPart<{
-		componentRegistry: ComponentRegistry
-	}>(descriptor);
+    const partDefinition = componentRegistry.getPart<PartProps>(descriptor);
 
-	if (!partDefinition) {
-		return (
-			<Message {...{
-				children: `Part descriptor:${descriptor} not registered in ComponentRegistry!`,
-				'data-portal-component-type': dataPortalComponentType,
-				mode,
-			}}/>
-		);
-	}
+    if (!partDefinition) {
+        return (
+            <Message {...{
+                children: `Part descriptor:${descriptor} not registered in ComponentRegistry!`,
+                mode
+            }}/>
+        );
+    }
 
-	const {View: PartView} = partDefinition;
-	if (!PartView) {
-		return (
-			<Message {...{
-				children: `No View found for part descriptor:${descriptor} in ComponentRegistry!`,
-				'data-portal-component-type': dataPortalComponentType,
-				mode,
-			}}/>
-		);
-	}
+    const {View: PartView} = partDefinition;
+    if (!PartView) {
+        return (
+            <Message {...{
+                children: `No View found for part descriptor:${descriptor} in ComponentRegistry!`,
+                mode
+            }}/>
+        );
+    }
 
-	if (!props) {
-		return (
-			<Message {...{
-				children: `Part component missing props: ${descriptor}!`,
-				'data-portal-component-type': dataPortalComponentType,
-				mode,
-			}}/>
-		);
-	}
+    if (!props) {
+        /*        return (
+                    <Message {...{
+                        children: `Part component missing props: ${descriptor}!`,
+                        mode
+                    }}/>
+                );*/
+    }
 
-	return (
-		<PartView {...{
-			...props,
-			componentRegistry,
-			'data-portal-component-type': dataPortalComponentType,
-			mode
-		}}/>
-	);
+    return (
+        <PartView data={props} common={common}/>
+    );
 }

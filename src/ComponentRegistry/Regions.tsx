@@ -1,25 +1,26 @@
-import type {Region as RegionType} from '@enonic-types/core';
-import type {ComponentRegistry} from './ComponentRegistry';
-import type {ProcessedData} from '../types';
+import type {ComponentRegistry, ProcessedData, ProcessedProps, ProcessedRegions} from '../types';
 
 import {Region} from './Region';
 
 export interface RegionsProps {
-	componentRegistry: ComponentRegistry;
-	regions: Record<string, RegionType>;
+    componentRegistry: ComponentRegistry;
+    regions: ProcessedRegions;
+    common?: ProcessedProps;
 }
 
 export function Regions({
-	componentRegistry,
-	regions
+    componentRegistry,
+    common,
+    regions
 }: RegionsProps) {
-	// console.debug('Regions regions:', regions);
-	return Object.keys(regions).map((name, i) =>
-		<Region
-			data={regions[name].components as ProcessedData[]}
-			componentRegistry={componentRegistry}
-			key={`region-${i}-${name}`}
-			name={name}
-		/>
-	)
+    // console.debug('Regions regions:', regions);
+    return Object.keys(regions).map((name, i) =>
+        <Region
+            data={regions[name].components as ProcessedData[]}
+            common={common}
+            componentRegistry={componentRegistry}
+            key={`region-${i}-${name}`}
+            name={name}
+        />
+    )
 }

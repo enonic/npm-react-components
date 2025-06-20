@@ -1,4 +1,5 @@
 export {
+	ProcessedProps,
 	ProcessedData,
 	ProcessedContentType,
 	ProcessedError,
@@ -6,6 +7,8 @@ export {
 	ProcessedPage,
 	ProcessedPart,
 	ProcessedText,
+	ProcessedRegions,
+	ProcessedRegion,
 	ProcessedWarning,
 	XpRunMode,
 } from './types/ProcessedData';

@@ -5,12 +5,20 @@
 // * which is used by the 'html-react-parser' node module,
 // * which is used by RichText.
 export type {
+	PartProps,
+	LayoutProps,
+	PageProps,
+	ContentTypeProps,
+	ProcessedProps,
 	ContentUri,
 	ProcessedData,
 	ProcessedLayout,
 	ProcessedPage,
 	ProcessedPart,
 	ProcessedText,
+	ProcessedRegions,
+	ProcessedRegion,
+	ProcessedError,
 	ImageComponent,
 	ImageComponentParams,
 	ImageContent,
@@ -48,12 +56,8 @@ export { BaseText } from './ComponentRegistry/BaseText';
 // NOTE: This is the implementation, not the type, causes "--jsx is not set" warnings in other projects when imported as a type.
 export { ComponentRegistry } from './ComponentRegistry/ComponentRegistry';
 
-export { Layout } from './ComponentRegistry/Layout';
-export { Page } from './ComponentRegistry/Page';
-export { Part } from './ComponentRegistry/Part';
 export { Region } from './ComponentRegistry/Region';
 export { Regions } from './ComponentRegistry/Regions';
-export { Text } from './ComponentRegistry/Text';
 export { XpFallback } from './ComponentRegistry/XpFallback';
 
 export { Image } from './RichText/Image';
