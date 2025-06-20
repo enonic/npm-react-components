@@ -1,5 +1,5 @@
 import type {Component} from '@enonic-types/core';
-import type {ComponentRegistry, ProcessedData} from '../types';
+import type {ComponentRegistry, ProcessedData, ProcessedProps} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
@@ -18,12 +18,14 @@ import {ComponentWrapper} from './ComponentWrapper';
 
 export function BaseComponent({
     data,
+    common,
     componentRegistry
 }: {
     data: ProcessedData
+    common?: ProcessedProps
     componentRegistry?: ComponentRegistry
 }) {
-    // console.debug('BaseComponent component:', toStr(component));
+    // console.debug('BaseComponent component:', toStr(data));
 
     if (!componentRegistry) {
         console.warn('BaseComponent componentRegistry missing! with component:', toStr(data));
@@ -48,34 +50,19 @@ export function BaseComponent({
 
     switch (type) {
         case PROCESSED_DATA_TYPE.PART:
-            componentView = <BasePart
-                data={data}
-                componentRegistry={componentRegistry}
-            />
+            componentView = <BasePart {...{data, common, componentRegistry}}/>
             break;
         case PROCESSED_DATA_TYPE.LAYOUT:
-            componentView = <BaseLayout
-                data={data}
-                componentRegistry={componentRegistry}
-            />
+            componentView = <BaseLayout {...{data, common, componentRegistry}}/>
             break;
         case PROCESSED_DATA_TYPE.PAGE:
-            componentView = <BasePage
-                data={data}
-                componentRegistry={componentRegistry}
-            />
+            componentView = <BasePage {...{data, common, componentRegistry}}/>
             break;
         case PROCESSED_DATA_TYPE.CONTENT_TYPE:
-            componentView = <BaseContentType
-                data={data}
-                componentRegistry={componentRegistry}
-            />
+            componentView = <BaseContentType {...{data, common, componentRegistry}}/>
             break;
         case PROCESSED_DATA_TYPE.TEXT: {
-            componentView = <BaseText
-                data={data}
-                componentRegistry={componentRegistry}
-            />
+            componentView = <BaseText {...{data, common, componentRegistry}}/>
             break;
         }
         case PROCESSED_DATA_TYPE.ERROR: {

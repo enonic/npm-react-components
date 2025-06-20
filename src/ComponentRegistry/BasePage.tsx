@@ -1,17 +1,22 @@
 // import type {PartComponent} from '@enonic-types/core';
-import {ComponentRegistry, ProcessedPage} from '../types';
+import type {ComponentRegistry, ProcessedPage, ProcessedProps} from '../types';
 
 import * as React from 'react';
 import {Message} from '../Common/Message';
 import {ErrorComponent} from '../Common/ErrorComponent';
 import {XP_REQUEST_MODE} from '../constants';
-import {RegionsProps} from './Regions';
+import {LayoutProps} from './BaseLayout';
+
+export interface PageProps extends LayoutProps {
+}
 
 export function BasePage({
 	data,
+	common,
 	componentRegistry
 }: {
-	data: ProcessedPage
+	data: ProcessedPage,
+	common?: ProcessedProps,
 	componentRegistry: ComponentRegistry
 }): JSX.Element | undefined {
 	const {
@@ -45,7 +50,7 @@ export function BasePage({
 		return;
 	}
 
-	const pageDefinition = componentRegistry.getPage<RegionsProps>(descriptor);
+	const pageDefinition = componentRegistry.getPage<PageProps>(descriptor);
 	if (!pageDefinition) {
 		return (
 			<Message mode={mode}>{`Page descriptor:${descriptor} not registered in ComponentRegistry!`}</Message>
@@ -60,12 +65,12 @@ export function BasePage({
 	}
 
 	if (!props) {
-		return (
-			<Message mode={mode}>{`Page component missing props: ${descriptor}!`}</Message>
-		);
+		/*		return (
+                    <Message mode={mode}>{`Page component missing props: ${descriptor}!`}</Message>
+                );*/
 	}
 
 	return (
-		<PageView regions={regions} componentRegistry={componentRegistry} {...props}/>
+		<PageView regions={regions} componentRegistry={componentRegistry} data={props} common={common}/>
 	);
 }
