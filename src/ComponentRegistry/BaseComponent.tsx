@@ -1,5 +1,5 @@
 import type {Component} from '@enonic-types/core';
-import type {ComponentRegistry, ProcessedData, ProcessedProps} from '../types';
+import type {ComponentProps} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
@@ -17,31 +17,26 @@ import {ComponentWrapper} from './ComponentWrapper';
 
 
 export function BaseComponent({
+    component,
     data,
     common,
-    componentRegistry
-}: {
-    data: ProcessedData
-    common?: ProcessedProps
-    componentRegistry?: ComponentRegistry
-}) {
+    meta
+}: ComponentProps) {
     // console.debug('BaseComponent component:', toStr(data));
 
+    const {mode, componentRegistry} = meta;
     if (!componentRegistry) {
-        console.warn('BaseComponent componentRegistry missing! with component:', toStr(data));
+        console.warn('BaseComponent componentRegistry missing! with component:', toStr(component));
         return (
-            <XpFallback data={data as Component}/>
+            <XpFallback data={component as Component}/>
         );
     }
 
-    const {
-        type,
-        mode
-    } = data;
+    const type = component.type;
     if (!type || !Object.values<string>(PROCESSED_DATA_TYPE).includes(type)) {
-        console.error('BaseComponent unknown component type:', toStr(data));
+        console.error('BaseComponent unknown component type:', toStr(component));
         return (
-            <XpFallback data={data as Component}/>
+            <XpFallback data={component as Component}/>
         );
     }
     // console.info('BaseComponent type:', type);
@@ -50,26 +45,25 @@ export function BaseComponent({
 
     switch (type) {
         case PROCESSED_DATA_TYPE.PART:
-            componentView = <BasePart {...{data, common, componentRegistry}}/>
+            componentView = <BasePart {...{data, component, common, meta}}/>
             break;
         case PROCESSED_DATA_TYPE.LAYOUT:
-            componentView = <BaseLayout {...{data, common, componentRegistry}}/>
+            componentView = <BaseLayout {...{data, component, common, meta}}/>
             break;
         case PROCESSED_DATA_TYPE.PAGE:
-            componentView = <BasePage {...{data, common, componentRegistry}}/>
+            componentView = <BasePage {...{data, component, common, meta}}/>
             break;
         case PROCESSED_DATA_TYPE.CONTENT_TYPE:
-            componentView = <BaseContentType {...{data, common, componentRegistry}}/>
+            componentView = <BaseContentType {...{data, component, common, meta}}/>
             break;
         case PROCESSED_DATA_TYPE.TEXT: {
-            componentView = <BaseText {...{data, common, componentRegistry}}/>
+            componentView = <BaseText {...{data, component, common, meta}}/>
             break;
         }
         case PROCESSED_DATA_TYPE.ERROR: {
             const {
-                html,
-                mode
-            } = data;
+                html
+            } = component;
             if (shouldRenderError(mode)) {
                 componentView = <ErrorComponent html={html}/>
             }
@@ -77,9 +71,8 @@ export function BaseComponent({
         }
         case PROCESSED_DATA_TYPE.WARNING: {
             const {
-                html,
-                mode
-            } = data;
+                html
+            } = component;
             if (shouldRenderWarning(mode)) {
                 componentView = <Warning html={html}/>
             }

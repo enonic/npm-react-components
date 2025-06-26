@@ -1,6 +1,6 @@
 // There is a difference between the core enonic types and what Guillotine returns:
 import type {ComponentDescriptor, LiteralUnion, RequestMode, TextComponent} from '@enonic-types/core';
-import type {TextBaseProps} from './TextBaseProps';
+import {ComponentRegistry} from './ComponentRegistry';
 
 export type XpRunMode = 'development' | 'production';
 
@@ -8,14 +8,11 @@ export type ProcessedProps = Record<string, unknown>;
 
 export interface ProcessedContentType {
 	contentType: string;
-	mode: LiteralUnion<RequestMode>;
-	props?: ProcessedProps;
 	type: 'contentType';
 }
 
 export interface ProcessedError {
 	html: string;
-	mode: LiteralUnion<RequestMode>;
 	path: string;
 	type: 'error';
 }
@@ -30,9 +27,7 @@ export type ProcessedRegions = Record<string, ProcessedRegion>;
 export interface ProcessedLayout {
 	// config: never
 	descriptor: ComponentDescriptor;
-	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
-	props?: ProcessedProps;
 	regions: ProcessedRegions;
 	type: 'layout'
 	warning?: string;
@@ -42,9 +37,7 @@ export interface ProcessedPage {
 	// config: never;
 	descriptor: ComponentDescriptor;
 	error?: string;
-	mode: LiteralUnion<RequestMode>;
 	path: '/';
-	props?: ProcessedProps;
 	regions: ProcessedRegions;
 	type: 'page';
 	warning?: string;
@@ -53,26 +46,33 @@ export interface ProcessedPage {
 export interface ProcessedPart {
 	// config: never
 	descriptor: ComponentDescriptor;
-	mode: LiteralUnion<RequestMode>;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
-	props?: ProcessedProps;
 	type: 'part'
 	warning?: string;
 }
 
 export interface ProcessedWarning {
 	html: string;
-	mode: LiteralUnion<RequestMode>;
 	path: string;
 	type: 'warning';
 }
 
-export type ProcessedText = TextComponent & {
+export type ProcessedText = TextComponent;
+
+export type MetaData = {
+	type: string;
+	id: string;
+	path: string;
 	mode: LiteralUnion<RequestMode>;
-	props?: TextBaseProps;
+	componentRegistry: ComponentRegistry;
 }
 
-export type ProcessedData =
+export type ProcessedData = {
+	data?: ProcessedProps;
+	component: ProcessedComponent;
+}
+
+export type ProcessedComponent =
 	| ProcessedContentType
 	| ProcessedLayout
 	| ProcessedPage

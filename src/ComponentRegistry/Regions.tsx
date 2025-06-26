@@ -1,24 +1,26 @@
-import type {ComponentRegistry, ProcessedData, ProcessedProps, ProcessedRegions} from '../types';
+import {ProcessedData, ProcessedRegions, ComponentProps} from '../types';
 
 import {Region} from './Region';
 
-export interface RegionsProps {
-    componentRegistry: ComponentRegistry;
-    regions: ProcessedRegions;
-    common?: ProcessedProps;
-}
-
 export function Regions({
-    componentRegistry,
     common,
-    regions
-}: RegionsProps) {
+    component,
+    meta
+}: ComponentProps) {
     // console.debug('Regions regions:', regions);
+    let regions: ProcessedRegions;
+    if ('regions' in component) {
+        regions = component.regions as ProcessedRegions;
+    } else {
+        console.warn(`Regions: component type "${component.type}" is not supported. Expected "layout" or "page".`);
+        return null;
+    }
+
     return Object.keys(regions).map((name, i) =>
         <Region
             data={regions[name].components as ProcessedData[]}
             common={common}
-            componentRegistry={componentRegistry}
+            meta={meta}
             key={`region-${i}-${name}`}
             name={name}
         />
