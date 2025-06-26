@@ -5,10 +5,7 @@
 // * which is used by the 'html-react-parser' node module,
 // * which is used by RichText.
 export type {
-	PartProps,
-	LayoutProps,
-	PageProps,
-	ContentTypeProps,
+	ComponentProps,
 	ProcessedProps,
 	ContentUri,
 	ProcessedData,

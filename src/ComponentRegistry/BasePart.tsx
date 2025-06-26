@@ -1,30 +1,24 @@
-import type {ComponentRegistry, ProcessedPart, ProcessedProps} from '../types';
+import type {ProcessedPart, ProcessedProps, ComponentProps, MetaData} from '../types';
 
 // import { toStr } from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 import {Message} from '../Common/Message';
 import {XP_REQUEST_MODE} from '../constants';
-import {ContentTypeProps} from './BaseContentType';
-
-export interface PartProps extends ContentTypeProps {
-}
 
 export function BasePart({
+    component,
     data,
     common,
-    componentRegistry
+    meta
 }: {
-    data: ProcessedPart
+    component: ProcessedPart
     common?: ProcessedProps
-    componentRegistry: ComponentRegistry
+    data?: ProcessedProps
+    meta: MetaData
 }): JSX.Element | undefined {
 
-    const {
-        descriptor,
-        mode,
-        props,
-        warning
-    } = data;
+    const {descriptor, warning} = component;
+    const {mode, componentRegistry} = meta;
 
     if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
         return (
@@ -39,7 +33,7 @@ export function BasePart({
         return;
     }
 
-    const partDefinition = componentRegistry.getPart<PartProps>(descriptor);
+    const partDefinition = componentRegistry.getPart<ComponentProps>(descriptor);
 
     if (!partDefinition) {
         return (
@@ -60,16 +54,7 @@ export function BasePart({
         );
     }
 
-    if (!props) {
-        /*        return (
-                    <Message {...{
-                        children: `Part component missing props: ${descriptor}!`,
-                        mode
-                    }}/>
-                );*/
-    }
-
     return (
-        <PartView data={props} common={common}/>
+        <PartView component={component} data={data} common={common} meta={meta}/>
     );
 }

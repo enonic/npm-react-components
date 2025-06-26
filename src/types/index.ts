@@ -1,17 +1,6 @@
 // There is a difference between the core enonic types and what Guillotine returns:
-import type {
-	Content,
-	Layout,
-	LayoutComponent,
-	LiteralUnion,
-	Part,
-	PartComponent,
-	Page,
-	PageComponent,
-	RequestMode
-} from '@enonic-types/core';
-import type {ComponentRegistry} from './ComponentRegistry';
-import type {TextBaseProps} from './TextBaseProps';
+import type {Content, Layout, LayoutComponent, Part, PartComponent, Page, PageComponent} from '@enonic-types/core';
+import {MetaData, ProcessedProps, ProcessedComponent} from './ProcessedData';
 
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
@@ -23,6 +12,8 @@ export type {
 	ComponentRegistry,
 } from './ComponentRegistry';
 export type {
+	MetaData,
+	ProcessedComponent,
 	ProcessedProps,
 	ProcessedData,
 	ProcessedRegions,
@@ -60,19 +51,6 @@ export type {
 	RichTextParams,
 } from './RichText';
 
-export type {
-	PartProps
-} from '../ComponentRegistry/BasePart';
-export type {
-	LayoutProps
-} from '../ComponentRegistry/BaseLayout';
-export type {
-	PageProps
-} from '../ComponentRegistry/BasePage';
-export type {
-	ContentTypeProps
-} from '../ComponentRegistry/BaseContentType';
-
 export type ContentUri = `content://${string}`;
 
 
@@ -93,7 +71,9 @@ export type PageContent<
 	Component
 >
 
-export interface TextProps extends TextBaseProps {
-	componentRegistry: ComponentRegistry;
-	mode: LiteralUnion<RequestMode>
+export interface ComponentProps {
+	meta: MetaData;
+	component: ProcessedComponent;
+	data?: ProcessedProps;
+	common?: ProcessedProps;
 }

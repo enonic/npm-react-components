@@ -1,4 +1,5 @@
 export {
+	ProcessedComponent,
 	ProcessedProps,
 	ProcessedData,
 	ProcessedContentType,
