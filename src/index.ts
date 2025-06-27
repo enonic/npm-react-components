@@ -8,6 +8,8 @@ export type {
 	ComponentProps,
 	ProcessedProps,
 	ContentUri,
+	MetaData,
+	ProcessedComponent,
 	ProcessedData,
 	ProcessedLayout,
 	ProcessedPage,
