@@ -8,7 +8,7 @@ export const IMG_ATTR = 'data-image-ref';
 export const LINK_ATTR = 'data-link-ref';
 export const MACRO_ATTR = 'data-macro-ref';
 
-export enum PROCESSED_DATA_TYPE {
+export enum COMPONENT_DATA_TYPE {
 	CONTENT_TYPE = 'contentType',
 	ERROR = 'error',
 	FRAGMENT = 'fragment',
@@ -16,7 +16,6 @@ export enum PROCESSED_DATA_TYPE {
 	PAGE = 'page',
 	PART = 'part',
 	TEXT = 'text',
-	WARNING = 'warning',
 }
 
 export enum XP_REQUEST_MODE {

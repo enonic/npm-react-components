@@ -1,9 +1,9 @@
-import {XP_REQUEST_MODE, PROCESSED_DATA_TYPE} from '../constants';
+import {XP_REQUEST_MODE, COMPONENT_DATA_TYPE} from '../constants';
 import {RequestMode, type LiteralUnion} from '@enonic-types/core';
 import * as React from 'react';
 import {ReactNode} from 'react';
 
-type ProcessedDataType = `${PROCESSED_DATA_TYPE}`;
+type ProcessedDataType = `${COMPONENT_DATA_TYPE}`;
 
 export interface ComponentWrapperProps {
     children: ReactNode | undefined;
@@ -22,10 +22,10 @@ export const ComponentWrapper = ({
         return children;
     }
 
-    const isComponent = type === PROCESSED_DATA_TYPE.PART ||
-        type === PROCESSED_DATA_TYPE.TEXT ||
-        type === PROCESSED_DATA_TYPE.LAYOUT ||
-        type === PROCESSED_DATA_TYPE.PAGE;
+    const isComponent = type === COMPONENT_DATA_TYPE.PART ||
+        type === COMPONENT_DATA_TYPE.TEXT ||
+        type === COMPONENT_DATA_TYPE.LAYOUT ||
+        type === COMPONENT_DATA_TYPE.PAGE;
 
     const attrs: Record<string, string> = {}
     if (isComponent) {

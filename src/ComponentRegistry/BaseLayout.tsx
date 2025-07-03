@@ -1,34 +1,19 @@
-// import type {PartComponent} from '@enonic-types/core';
-import {ProcessedLayout, type ProcessedProps, MetaData, ComponentProps} from '../types';
+import {LayoutData, ComponentProps} from '../types';
 
 import * as React from 'react';
 import {Message} from '../Common/Message';
-import {XP_REQUEST_MODE} from '../constants';
 
 export function BaseLayout({
     component,
     data,
     common,
     meta
-}: {
-    component: ProcessedLayout,
-    data?: ProcessedProps,
-    common?: ProcessedProps,
-    meta: MetaData
-}): JSX.Element | undefined {
+}: ComponentProps<LayoutData>): JSX.Element | undefined {
 
-    const {descriptor, warning} = component;
+    const {descriptor} = component;
     const {mode, componentRegistry} = meta;
 
-    if (warning && (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.ADMIN)) {
-        return (
-            <Message mode={mode}>
-                {warning}
-            </Message>
-        );
-    }
-
-    if (!warning && !descriptor) {
+    if (!descriptor) {
         // The layout is not initialized yet, so we return nothing for CS to render a placeholder
         return;
     }

@@ -6,18 +6,17 @@
 // * which is used by RichText.
 export type {
 	ComponentProps,
-	ProcessedProps,
 	ContentUri,
 	MetaData,
-	ProcessedComponent,
-	ProcessedData,
-	ProcessedLayout,
-	ProcessedPage,
-	ProcessedPart,
-	ProcessedText,
-	ProcessedRegions,
-	ProcessedRegion,
-	ProcessedError,
+	ComponentData,
+	ComponentDataAndProps,
+	LayoutData,
+	PageData,
+	PartData,
+	TextData,
+	RegionsData,
+	RegionData,
+	ErrorData,
 	ImageComponent,
 	ImageComponentParams,
 	ImageContent,
@@ -42,7 +41,6 @@ export type {
 
 export { ErrorComponent } from './Common/ErrorComponent';
 export { HtmlComment } from './Common/HtmlComment';
-export { Warning } from './Common/Warning';
 
 export { BaseComponent } from './ComponentRegistry/BaseComponent';
 export { BaseContentType } from './ComponentRegistry/BaseContentType';

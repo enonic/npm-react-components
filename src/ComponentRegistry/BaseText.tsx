@@ -1,4 +1,4 @@
-import type {ProcessedText, ProcessedProps, MetaData} from '../types';
+import type {TextData, ComponentProps, RichTextData} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
@@ -6,19 +6,21 @@ import {Message} from '../Common/Message';
 import {XpFallback} from './XpFallback';
 import {XP_REQUEST_MODE} from '../constants';
 import {RichText} from '../RichText/RichText';
-import {TextBaseProps} from '../types/TextBaseProps';
+import type {LiteralUnion} from '@enonic-types/core';
+import type {ClassValue} from 'clsx';
+
+interface BaseTextProps extends Record<string, unknown> {
+    as?: LiteralUnion<keyof JSX.IntrinsicElements>;
+    className?: ClassValue;
+    data: RichTextData;
+}
 
 export const BaseText = ({
     component,
     data,
     common,
     meta
-}: {
-    component: ProcessedText,
-    common?: ProcessedProps,
-    data?: ProcessedProps,
-    meta: MetaData
-}): JSX.Element => {
+}: ComponentProps<TextData>): JSX.Element => {
 
     const {mode, componentRegistry} = meta;
 
@@ -37,12 +39,12 @@ export const BaseText = ({
         return <XpFallback data={component}/>
     }
 
-    const textProps = (data as unknown) as TextBaseProps;
+    const {as, data: textData} = data as BaseTextProps;
 
     return <RichText
-        tag={textProps.as}
+        tag={as}
         componentRegistry={componentRegistry}
-        data={textProps.data}
+        data={textData}
         mode={mode}
     />;
 }
