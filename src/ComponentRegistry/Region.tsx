@@ -1,14 +1,14 @@
 import type {ClassValue} from 'clsx';
 import cx from 'clsx';
-import type {ProcessedData, ProcessedProps, MetaData} from '../types';
+import type {ComponentDataAndProps, MetaData} from '../types';
 import {BaseComponent} from './BaseComponent';
 
 
 export interface RegionProps {
     as?: string
     className?: ClassValue
-    data: ProcessedData[]
-    common?: ProcessedProps
+    data: ComponentDataAndProps[]
+    common?: Record<string, unknown>
 	meta: MetaData
     name: string
 }

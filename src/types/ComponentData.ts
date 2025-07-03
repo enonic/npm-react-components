@@ -4,60 +4,48 @@ import {ComponentRegistry} from './ComponentRegistry';
 
 export type XpRunMode = 'development' | 'production';
 
-export type ProcessedProps = Record<string, unknown>;
-
-export interface ProcessedContentType {
+export interface ContentTypeData {
 	contentType: string;
 	type: 'contentType';
 }
 
-export interface ProcessedError {
+export interface ErrorData {
 	html: string;
 	path: string;
 	type: 'error';
 }
 
-export interface ProcessedRegion {
+export interface RegionData {
 	name: string;
-	components: ProcessedData[];
+	components: ComponentDataAndProps[];
 }
 
-export type ProcessedRegions = Record<string, ProcessedRegion>;
+export type RegionsData = Record<string, RegionData>;
 
-export interface ProcessedLayout {
+export interface LayoutData {
 	// config: never
 	descriptor: ComponentDescriptor;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
-	regions: ProcessedRegions;
+	regions: RegionsData;
 	type: 'layout'
-	warning?: string;
 }
 
-export interface ProcessedPage {
+export interface PageData {
 	// config: never;
 	descriptor: ComponentDescriptor;
-	error?: string;
 	path: '/';
-	regions: ProcessedRegions;
+	regions: RegionsData;
 	type: 'page';
-	warning?: string;
 }
 
-export interface ProcessedPart {
+export interface PartData {
 	// config: never
 	descriptor: ComponentDescriptor;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	type: 'part'
-	warning?: string;
 }
 
-export interface ProcessedWarning {
-	html: string;
-	path: string;
-	type: 'warning';
-}
-
-export type ProcessedText = TextComponent;
+export type TextData = TextComponent;
 
 export type MetaData = {
 	type: string;
@@ -67,16 +55,15 @@ export type MetaData = {
 	componentRegistry: ComponentRegistry;
 }
 
-export type ProcessedData = {
-	data?: ProcessedProps;
-	component: ProcessedComponent;
+export type ComponentDataAndProps<T extends ComponentData = ComponentData> = {
+	data?: Record<string, unknown>;
+	component: T;
 }
 
-export type ProcessedComponent =
-	| ProcessedContentType
-	| ProcessedLayout
-	| ProcessedPage
-	| ProcessedPart
-	| ProcessedText
-	| ProcessedError
-	| ProcessedWarning;
+export type ComponentData =
+	| ContentTypeData
+	| LayoutData
+	| PageData
+	| PartData
+	| TextData
+	| ErrorData;

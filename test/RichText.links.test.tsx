@@ -1,26 +1,14 @@
-import type {
-	LinkComponent,
-	RichTextData,
-} from '../src/types';
+import type {LinkComponent, RichTextData} from '../src/types';
 
 
-import {
-	beforeAll,
-	afterAll,
-	describe,
-	expect,
-	test as it
-} from '@jest/globals';
+import {beforeAll, afterAll, describe, expect, test as it} from '@jest/globals';
 import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
 import {Link} from '../src/RichText/Link';
 // import {print} from 'q-i';
-import {
-	ERROR_STYLE,
-	WARNING_STYLE
-} from './testdata';
+import {ERROR_STYLE} from './testdata';
 
 const IMG_ID = 'e9b1f92b-fa46-4e58-b41f-87dc9f1999e8'
 const IMG_VERSION_KEY = '9abf6cc6c7f565515175b33c08155b3495dcdf47';
@@ -114,7 +102,8 @@ describe('RichText', () => {
 			Link={LinkThatThrows}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><div style="${WARNING_STYLE}">Failed to build href!</div></section></div></body>`);
+		expect(html.outerHTML).toBe(
+			`<body><div><section class="myclass"><div style="${ERROR_STYLE}">Failed to build href!</div></section></div></body>`);
 	});
 
 	it('should handle links', () => {

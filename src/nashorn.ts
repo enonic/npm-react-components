@@ -1,19 +1,17 @@
 export {
-	ProcessedComponent,
-	ProcessedProps,
-	ProcessedData,
-	ProcessedContentType,
-	ProcessedError,
-	ProcessedLayout,
-	ProcessedPage,
-	ProcessedPart,
-	ProcessedText,
-	ProcessedRegions,
-	ProcessedRegion,
-	ProcessedWarning,
+	ComponentData,
+	ComponentDataAndProps,
+	ContentTypeData,
+	ErrorData,
+	LayoutData,
+	PageData,
+	PartData,
+	TextData,
+	RegionsData,
+	RegionData,
 	XpRunMode,
-} from './types/ProcessedData';
+} from './types/ComponentData';
 export {
-	PROCESSED_DATA_TYPE,
+	COMPONENT_DATA_TYPE,
 	XP_REQUEST_MODE,
 } from './constants';

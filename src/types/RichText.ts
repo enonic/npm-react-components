@@ -1,11 +1,5 @@
-import type {
-	LiteralUnion,
-	RequestMode,
-} from '@enonic-types/core';
-import type {
-	DOMNode,
-	Element
-} from 'html-react-parser';
+import type {LiteralUnion, RequestMode} from '@enonic-types/core';
+import type {DOMNode, Element} from 'html-react-parser';
 import type {ReactNode, JSX} from 'react';
 import type {ComponentRegistry} from './ComponentRegistry';
 
@@ -67,7 +61,7 @@ export interface LinkDataMedia {
 	intent: 'inline' | 'download';
 }
 
-export type MacroConfig = Record<string, any>;
+export type MacroConfig = Record<string, unknown>;
 
 export interface MacroData {
 	ref: string;

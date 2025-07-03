@@ -4,9 +4,7 @@ import type {ComponentProps} from '../types';
 import {toStr} from '@enonic/js-utils/value/toStr';
 import * as React from 'react';
 
-import {PROCESSED_DATA_TYPE, XP_REQUEST_MODE} from '../constants';
-import {ErrorComponent} from '../Common/ErrorComponent';
-import {Warning} from '../Common/Warning';
+import {COMPONENT_DATA_TYPE} from '../constants';
 import {BaseLayout} from './BaseLayout';
 import {BasePage} from './BasePage';
 import {BasePart} from './BasePart';
@@ -14,6 +12,7 @@ import {BaseText} from './BaseText';
 import {BaseContentType} from './BaseContentType';
 import {XpFallback} from './XpFallback';
 import {ComponentWrapper} from './ComponentWrapper';
+import {Message} from '../Common/Message';
 
 
 export function BaseComponent({
@@ -33,7 +32,7 @@ export function BaseComponent({
     }
 
     const type = component.type;
-    if (!type || !Object.values<string>(PROCESSED_DATA_TYPE).includes(type)) {
+    if (!type || !Object.values<string>(COMPONENT_DATA_TYPE).includes(type)) {
         console.error('BaseComponent unknown component type:', toStr(component));
         return (
             <XpFallback data={component as Component}/>
@@ -44,38 +43,24 @@ export function BaseComponent({
     let componentView: JSX.Element | undefined;
 
     switch (type) {
-        case PROCESSED_DATA_TYPE.PART:
+        case COMPONENT_DATA_TYPE.PART:
             componentView = <BasePart {...{data, component, common, meta}}/>
             break;
-        case PROCESSED_DATA_TYPE.LAYOUT:
+        case COMPONENT_DATA_TYPE.LAYOUT:
             componentView = <BaseLayout {...{data, component, common, meta}}/>
             break;
-        case PROCESSED_DATA_TYPE.PAGE:
+        case COMPONENT_DATA_TYPE.PAGE:
             componentView = <BasePage {...{data, component, common, meta}}/>
             break;
-        case PROCESSED_DATA_TYPE.CONTENT_TYPE:
+        case COMPONENT_DATA_TYPE.CONTENT_TYPE:
             componentView = <BaseContentType {...{data, component, common, meta}}/>
             break;
-        case PROCESSED_DATA_TYPE.TEXT: {
+        case COMPONENT_DATA_TYPE.TEXT: {
             componentView = <BaseText {...{data, component, common, meta}}/>
             break;
         }
-        case PROCESSED_DATA_TYPE.ERROR: {
-            const {
-                html
-            } = component;
-            if (shouldRenderError(mode)) {
-                componentView = <ErrorComponent html={html}/>
-            }
-            break;
-        }
-        case PROCESSED_DATA_TYPE.WARNING: {
-            const {
-                html
-            } = component;
-            if (shouldRenderWarning(mode)) {
-                componentView = <Warning html={html}/>
-            }
+        case COMPONENT_DATA_TYPE.ERROR: {
+            componentView = <Message mode={mode} html={component.html}></Message>
             break;
         }
     } // switch
@@ -90,11 +75,3 @@ export function BaseComponent({
     );
 
 } // BaseComponent
-
-function shouldRenderWarning(mode: string | undefined): boolean {
-    return mode !== XP_REQUEST_MODE.LIVE;
-}
-
-function shouldRenderError(mode: string | undefined): boolean {
-    return mode !== XP_REQUEST_MODE.LIVE;
-}

@@ -1,12 +1,8 @@
-import type {
-	LiteralUnion,
-	RequestMode,
-} from '@enonic-types/core';
+import type {LiteralUnion, RequestMode} from '@enonic-types/core';
 import type {ReactNode} from 'react';
 
-import { ErrorComponent } from './ErrorComponent';
-import { Warning } from './Warning';
-import { XP_REQUEST_MODE } from '../constants';
+import {ErrorComponent} from './ErrorComponent';
+import {XP_REQUEST_MODE} from '../constants';
 
 
 export const Message = ({
@@ -14,8 +10,9 @@ export const Message = ({
 	mode,
 	...extraProps
 }: {
-	children: ReactNode,
+	children?: ReactNode,
 	mode?: LiteralUnion<RequestMode>
+	[keys: string]: any;
 }): JSX.Element | null => {
 
 	// Log, but don't render errors in live and preview mode.
@@ -24,13 +21,7 @@ export const Message = ({
 		return null;
 	}
 
-	if (mode === XP_REQUEST_MODE.INLINE) {
-		return (
-			<Warning {...extraProps} children={children}/>
-		);
-	}
-
-	if (mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.ADMIN) {
+	if (mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.ADMIN) {
 		return (
 			<ErrorComponent {...extraProps} children={children}/>
 		);

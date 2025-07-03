@@ -1,6 +1,6 @@
 // There is a difference between the core enonic types and what Guillotine returns:
 import type {Content, Layout, LayoutComponent, Part, PartComponent, Page, PageComponent} from '@enonic-types/core';
-import {MetaData, ProcessedProps, ProcessedComponent} from './ProcessedData';
+import {MetaData, ComponentData} from './ComponentData';
 
 // The Guillotine types are similar, but uses complex types:
 // import type {Content} from '@enonic-types/guillotine/advanced';
@@ -13,20 +13,18 @@ export type {
 } from './ComponentRegistry';
 export type {
 	MetaData,
-	ProcessedComponent,
-	ProcessedProps,
-	ProcessedData,
-	ProcessedRegions,
-	ProcessedRegion,
-	ProcessedError,
-	ProcessedContentType,
-	ProcessedLayout,
-	ProcessedPage,
-	ProcessedPart,
-	ProcessedText,
-	ProcessedWarning,
+	ComponentData,
+	ComponentDataAndProps,
+	RegionsData,
+	RegionData,
+	ErrorData,
+	ContentTypeData,
+	LayoutData,
+	PageData,
+	PartData,
+	TextData,
 	XpRunMode,
-} from './ProcessedData';
+} from './ComponentData';
 export type {
 	CreateReplacerParams,
 	ImageComponent,
@@ -71,9 +69,9 @@ export type PageContent<
 	Component
 >
 
-export interface ComponentProps {
+export interface ComponentProps<T extends ComponentData = ComponentData> {
 	meta: MetaData;
-	component: ProcessedComponent;
-	data?: ProcessedProps;
-	common?: ProcessedProps;
+	component: T;
+	data?: Record<string, unknown>;
+	common?: Record<string, unknown>;
 }
