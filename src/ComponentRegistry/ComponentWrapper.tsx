@@ -23,6 +23,7 @@ export const ComponentWrapper = ({
     }
 
     const isComponent = type === COMPONENT_DATA_TYPE.PART ||
+        type === COMPONENT_DATA_TYPE.FRAGMENT ||
         type === COMPONENT_DATA_TYPE.TEXT ||
         type === COMPONENT_DATA_TYPE.LAYOUT ||
         type === COMPONENT_DATA_TYPE.PAGE;

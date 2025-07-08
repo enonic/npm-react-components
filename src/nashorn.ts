@@ -9,6 +9,7 @@ export {
 	TextData,
 	RegionsData,
 	RegionData,
+	FragmentData,
 	XpRunMode,
 } from './types/ComponentData';
 export {
