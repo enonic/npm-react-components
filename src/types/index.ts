@@ -23,6 +23,7 @@ export type {
 	PageData,
 	PartData,
 	TextData,
+	FragmentData,
 	XpRunMode,
 } from './ComponentData';
 export type {

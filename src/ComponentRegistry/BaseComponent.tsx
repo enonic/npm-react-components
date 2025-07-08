@@ -63,6 +63,11 @@ export function BaseComponent({
             componentView = <Message mode={mode} html={component.html}></Message>
             break;
         }
+        case COMPONENT_DATA_TYPE.FRAGMENT: {
+            // Initialized fragments are always resolved
+            // Uninitialized fragments are not resolved and have type: 'fragment',
+            // but there is nothing to render in that case
+        }
     } // switch
 
 

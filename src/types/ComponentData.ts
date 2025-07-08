@@ -45,6 +45,13 @@ export interface PartData {
 	type: 'part'
 }
 
+export interface FragmentData {
+	// config: never
+	key?: string;
+	path?: string;
+	type: 'fragment';
+}
+
 export type TextData = TextComponent;
 
 export type MetaData = {
@@ -66,4 +73,5 @@ export type ComponentData =
 	| PageData
 	| PartData
 	| TextData
+	| FragmentData
 	| ErrorData;
