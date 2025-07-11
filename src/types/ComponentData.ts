@@ -52,6 +52,14 @@ export interface FragmentData {
 	type: 'fragment';
 }
 
+export interface MacroComponentData {
+	// config: never
+	descriptor: string;
+	name: string;
+	ref?: string;
+	type: 'macro';
+}
+
 export type TextData = TextComponent;
 
 export type MetaData = {
@@ -74,4 +82,5 @@ export type ComponentData =
 	| PartData
 	| TextData
 	| FragmentData
+	| MacroComponentData
 	| ErrorData;

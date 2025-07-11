@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { RichText } from '../../src/RichText/RichText';
+import {RichText} from '../../src/RichText/RichText';
+import type {ComponentProps, RichTextData} from '../../src/types';
 
-export function ExamplePart(props) {
+export function ExamplePart(props: ComponentProps) {
 	// console.debug('ExamplePart props', props);
 
 	const {
-		componentRegistry,
+		common,
+		component,
+		meta,
 		data,
 	} = props;
 	// console.debug('ExamplePart data', data);
@@ -13,8 +16,10 @@ export function ExamplePart(props) {
 	return (
 		<div>
 			<RichText
-				componentRegistry={componentRegistry}
-				data={data}
+				meta={meta}
+				common={common}
+				component={component}
+				data={data as RichTextData}
 			/>
 		</div>
 	);

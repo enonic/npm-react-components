@@ -22,7 +22,7 @@ export const BaseText = ({
     meta
 }: ComponentProps<TextData>): JSX.Element => {
 
-    const {mode, componentRegistry} = meta;
+    const {mode} = meta;
 
     const dataPortalComponentType = mode === XP_REQUEST_MODE.EDIT ? 'text' : undefined;
 
@@ -43,8 +43,9 @@ export const BaseText = ({
 
     return <RichText
         tag={as}
-        componentRegistry={componentRegistry}
         data={textData}
-        mode={mode}
+        meta={meta}
+        component={component}
+        common={common}
     />;
 }
