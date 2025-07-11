@@ -67,6 +67,7 @@ export function BaseComponent({
             // Initialized fragments are always resolved
             // Uninitialized fragments are not resolved and have type: 'fragment',
             // but there is nothing to render in that case
+            break;
         }
     } // switch
 

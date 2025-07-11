@@ -1,16 +1,13 @@
 import {ElementType} from 'domelementtype';
-import type {RichTextData} from '../src/types';
+import {RichTextData} from '../src/types';
 
 
-import {
-	describe,
-	expect,
-	test as it
-} from '@jest/globals';
+import {describe, expect, test as it} from '@jest/globals';
 import {render} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
+import {METADATA, COMPONENT} from './RichText.test';
 // import {print} from 'q-i';
 
 
@@ -23,7 +20,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			mode='edit'
+			meta={METADATA}
+			component={COMPONENT}
 			replacer={({
 				el,
 				data,

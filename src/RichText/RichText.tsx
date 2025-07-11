@@ -1,4 +1,4 @@
-import type {RichTextParams} from '../types'
+import {RichTextParams} from '../types'
 
 
 // Converts an HTML string to one or more React elements
@@ -10,42 +10,36 @@ import {createReplacer} from './createReplacer';
 
 import {Image as ImageFallback} from './Image';
 import {Link as LinkFallback} from './Link';
-import { BaseMacro } from '../ComponentRegistry/BaseMacro';
+import {BaseMacro} from '../ComponentRegistry/BaseMacro';
 
 
 export function RichText<RestProps = Record<string, unknown>>({
-	className,
-	componentRegistry,
-	data,
-	Image = ImageFallback,
-	Link = LinkFallback,
-	Macro = BaseMacro,
-	mode,
-	replacer,
-	tag,
-	...restProps
+    tag,
+    className,
+    Image = ImageFallback,
+    Link = LinkFallback,
+    Macro = BaseMacro,
+    data,
+    ...restProps
 }: RichTextParams<RestProps>) {
-	// console.info('RichText', {data, Macro, tag, ...restProps});
-	const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
-	return <CustomTag className={className}>
-		{
-			data.processedHtml
-				/* try parser.default.default first because import is wrapped with __toesm() in cjs files
-				 * for node compatibility, which adds default export resulting in parser.default.default */
-				? (((parser.default as any).default as typeof parser.default) || parser.default)(data.processedHtml, {
-					replace: createReplacer<RestProps>({
-						...restProps,
-						// These should be last, so they can't be overridden:
-						componentRegistry,
-						data,
-						Image,
-						Link,
-						Macro,
-						mode,
-						replacer,
-					}),
-				})
-				: ''
-		}
-	</CustomTag>;
+    // console.info('RichText', {data, Macro, tag, ...restProps});
+    const CustomTag = tag as keyof JSX.IntrinsicElements || 'section';
+    return <CustomTag className={className}>
+        {
+            data.processedHtml
+                /* try parser.default.default first because import is wrapped with __toesm() in cjs files
+                 * for node compatibility, which adds default export resulting in parser.default.default */
+                ? (((parser.default as any).default as typeof parser.default) || parser.default)(data.processedHtml, {
+                    replace: createReplacer<RestProps>({
+                        ...restProps,
+                        // These should be last, so they can't be overridden:
+                        data,
+                        Image,
+                        Link,
+                        Macro
+                    })
+                })
+                : ''
+        }
+    </CustomTag>;
 }

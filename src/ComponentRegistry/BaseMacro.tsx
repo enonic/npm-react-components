@@ -1,39 +1,46 @@
-import type { MacroComponentParams } from '../types';
+import type {MacroComponentParams} from '../types';
 
-import { Message } from '../Common/Message';
+import {Message} from '../Common/Message';
+import * as React from 'react';
 
-export function BaseMacro({
-	children,
-	componentRegistry,
-	config,
-	descriptor,
-	mode,
-}: MacroComponentParams) {
-	let msg = 'No Macro component provided to RichText.';
 
-	if (componentRegistry) {
-		const macroName = descriptor.includes(':') ? descriptor.split(':')[1] : descriptor;
+export function BaseMacro<RestProps = Record<string, unknown>>({
+    children,
+    meta,
+    data,
+    common,
+    component,
+    ...restProps
+}: MacroComponentParams<RestProps>) {
+    const {name, descriptor} = component;
+    const {mode} = meta;
 
-		const MacroComponentDefinition = componentRegistry.getMacro<{
-			children?: string | React.JSX.Element | React.JSX.Element[]
-		}>(macroName);
+    const componentRegistry = meta.componentRegistry;
 
-		if (MacroComponentDefinition) {
-			const MacroComponent = MacroComponentDefinition.View;
-			return (
-				<MacroComponent {...config}>{children}</MacroComponent>
-			);
-		} else {
-			msg = `Component Registry doesn't have a macro named: ${macroName}!`;
-		}
-	}
+    if (!componentRegistry) {
+        return (
+            <Message mode={mode}>
+                {`Can't render macro "${descriptor}". Macro component or componentRegistry should be provided to RichText.`}
+            </Message>
+        );
+    }
 
-	return (
-		<Message
-			mode={mode}
-		>
-			{msg} Can't render {descriptor}{" "}
-			with config {JSON.stringify(config, null, 4)}
-		</Message>
-	);
+    const macroDefinition = componentRegistry.getMacro<MacroComponentParams>(name);
+    if (!macroDefinition) {
+        return (
+            <Message mode={mode}>{`Macro "${descriptor}" is not registered in ComponentRegistry!`}</Message>
+        );
+    }
+
+    const {View: MacroView} = macroDefinition;
+    if (!MacroView) {
+        return (
+            <Message mode={mode}>{`No View found for macro "${descriptor}" in ComponentRegistry!`}</Message>
+        );
+    }
+
+    return (
+        <MacroView {...restProps} meta={meta} component={component} data={data} common={common}>{children}</MacroView>
+    );
+
 }
