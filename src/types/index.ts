@@ -23,6 +23,8 @@ export type {
 	PageData,
 	PartData,
 	TextData,
+	FragmentData,
+	MacroComponentData,
 	XpRunMode,
 } from './ComponentData';
 export type {
@@ -40,13 +42,15 @@ export type {
 	MacroComponentParams,
 	MacroConfig,
 	MacroData,
-	MacroDescriptor,
-	ReplaceMacroParams,
+	ReplaceMacroImageLinkParams,
 	Replacer,
 	ReplacerResult,
 	RichtextContent,
 	RichTextData,
+	ExtendedRichTextData,
 	RichTextParams,
+	RichTextMetaData,
+	RichTextComponentProps
 } from './RichText';
 
 export type ContentUri = `content://${string}`;

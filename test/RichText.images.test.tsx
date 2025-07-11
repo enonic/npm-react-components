@@ -1,4 +1,4 @@
-import type {ImageComponent, ImageContent, RichTextData} from '../src/types';
+import {ImageComponent, ImageContent, RichTextData} from '../src/types';
 
 
 import {beforeAll, afterAll, describe, expect, test as it} from '@jest/globals';
@@ -9,6 +9,7 @@ import {RichText} from '../src';
 import {Image} from '../src/RichText/Image';
 // import {print} from 'q-i';
 import {ERROR_STYLE} from './testdata';
+import {METADATA, COMPONENT} from './RichText.test';
 
 
 const IMG_REF = '59b78b11-3abf-4b7e-b16e-a5b1e90efcb0';
@@ -70,6 +71,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={Image}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -95,8 +98,9 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={ImageThatThrows}
-			mode='inline'
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(html.outerHTML).toBe(
@@ -126,6 +130,8 @@ describe('RichText', () => {
 		}
 		const html = render(<RichText
 			data={dataWithSrcSet}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={Image}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -172,6 +178,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithSrcSet}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={Image}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -210,6 +218,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={ImageThatThrows}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -251,6 +261,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={ImageThatThrows}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -291,6 +303,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Image={ImageThatThrows}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });

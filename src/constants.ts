@@ -16,6 +16,7 @@ export enum COMPONENT_DATA_TYPE {
 	PAGE = 'page',
 	PART = 'part',
 	TEXT = 'text',
+    MACRO = 'macro',
 }
 
 export enum XP_REQUEST_MODE {

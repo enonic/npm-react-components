@@ -1,4 +1,4 @@
-import type {MacroDescriptor, RichTextData} from '../src/types';
+import type {RichTextData} from '../src/types';
 
 
 import {beforeAll, afterAll, describe, expect, test as it} from '@jest/globals';
@@ -8,6 +8,7 @@ import React from 'react';
 import {RichText} from '../src';
 import {Macro} from './RichText/Macro';
 import {ERROR_STYLE} from './testdata';
+import {METADATA, COMPONENT} from './RichText.test';
 // import {print} from 'q-i';
 
 
@@ -60,10 +61,13 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
+			meta={METADATA}
+			component={COMPONENT}
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i>&lt;strong&gt;Iha&lt;/strong&gt;Jubalong</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(
+			`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i></div></p></section></div></body>`);
 	});
 
 	it('should show an ErrorComponent when the Macro component throws', () => {
@@ -87,7 +91,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			mode='inline'
+			meta={METADATA}
+			component={COMPONENT}
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -105,7 +110,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			mode='edit'
+			meta={METADATA}
+			component={COMPONENT}
 			Macro={Macro}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Can't replace macro, when there are no macros in the data object!</div></p></section></div></body>`);
@@ -119,7 +125,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			mode='edit'
+			meta={METADATA}
+			component={COMPONENT}
 			Macro={Macro}
 		/>).baseElement;
 		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Macro element has no data-macro-ref attribute!</div></p></section></div></body>`);
@@ -144,7 +151,8 @@ describe('RichText', () => {
 		}
 		const html = render(<RichText
 			data={dataWithMacros}
-			mode='edit'
+			meta={METADATA}
+			component={COMPONENT}
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -171,7 +179,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={dataWithMacros}
-			mode='inline'
+			meta={METADATA}
+			component={COMPONENT}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
@@ -180,11 +189,7 @@ describe('RichText', () => {
     <section class="myclass">
       <p>
         <div style="${ERROR_STYLE}">
-          No Macro component provided to RichText. Can't render com.enonic.app.panelmacros:success-macro with config {
-    "__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
-    "header": "Iha",
-    "body": "Jubalong"
-}
+          Can't render macro "com.enonic.app.panelmacros:success-macro". Macro component or componentRegistry should be provided to RichText.
         </div>
       </p>
     </section>
@@ -214,6 +219,8 @@ describe('RichText', () => {
 			className='myclass'
 			contentId='d1e641c7-aa94-4310-b0f0-df47d60fafc6'
 			data={dataWithMacros}
+			meta={METADATA}
+			component={COMPONENT}
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -237,14 +244,17 @@ describe('RichText', () => {
 			  }],
 			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
-		const html = render(<RichText<{descriptor: MacroDescriptor}>
+		const html = render(<RichText<{ descriptor: string }>
 			className='myclass'
 			descriptor='shouldBe:ignored'
 			data={dataWithMacros}
+			meta={METADATA}
+			component={COMPONENT}
 			// @ts-ignore RichText should not have a descriptor prop, even though it's in the generic
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i>&lt;strong&gt;Iha&lt;/strong&gt;Jubalong</div></p></section></div></body>`);
+		expect(html.outerHTML).toBe(
+			`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i></div></p></section></div></body>`);
 	});
 }); // describe RichText

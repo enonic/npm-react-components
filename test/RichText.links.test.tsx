@@ -1,4 +1,4 @@
-import type {LinkComponent, RichTextData} from '../src/types';
+import {LinkComponent, RichTextData} from '../src/types';
 
 
 import {beforeAll, afterAll, describe, expect, test as it} from '@jest/globals';
@@ -9,6 +9,7 @@ import {RichText} from '../src';
 import {Link} from '../src/RichText/Link';
 // import {print} from 'q-i';
 import {ERROR_STYLE} from './testdata';
+import {METADATA, COMPONENT} from './RichText.test';
 
 const IMG_ID = 'e9b1f92b-fa46-4e58-b41f-87dc9f1999e8'
 const IMG_VERSION_KEY = '9abf6cc6c7f565515175b33c08155b3495dcdf47';
@@ -67,6 +68,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -98,6 +101,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			mode='inline'
 			Link={LinkThatThrows}
 		/>).baseElement;
@@ -125,6 +130,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -151,6 +158,8 @@ describe('RichText', () => {
 		}
 		const html = render(<RichText
 			data={data}
+			meta={METADATA}
+			component={COMPONENT}
 			Link={Link}
 		/>).baseElement;
 		expect(toDiffableHtml(html.outerHTML)).toBe(`
@@ -175,7 +184,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			mode='edit'
+			meta={METADATA}
+			component={COMPONENT}
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
@@ -201,7 +211,8 @@ describe('RichText', () => {
 		const html = render(<RichText
 			className='myclass'
 			data={data}
-			mode='edit'
+			meta={METADATA}
+			component={COMPONENT}
 			Link={Link}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });

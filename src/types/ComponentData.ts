@@ -45,6 +45,21 @@ export interface PartData {
 	type: 'part'
 }
 
+export interface FragmentData {
+	// config: never
+	key?: string;
+	path?: string;
+	type: 'fragment';
+}
+
+export interface MacroComponentData {
+	// config: never
+	descriptor: string;
+	name: string;
+	ref?: string;
+	type: 'macro';
+}
+
 export type TextData = TextComponent;
 
 export type MetaData = {
@@ -66,4 +81,6 @@ export type ComponentData =
 	| PageData
 	| PartData
 	| TextData
+	| FragmentData
+	| MacroComponentData
 	| ErrorData;
