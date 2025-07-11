@@ -30,13 +30,14 @@ export type {
     MacroComponent,
     MacroComponentParams,
     MacroConfig,
-    MacroData,
-    MacroDescriptor,
+    MacroComponentData,
     MediaUri,
     Replacer,
     ReplacerResult,
     RichtextContent,
     RichTextData,
+    ExtendedRichTextData,
+    MacroData,
     RichTextParams
 } from './types';
 
@@ -62,7 +63,6 @@ export {XpFallback} from './ComponentRegistry/XpFallback';
 
 export {Image} from './RichText/Image';
 export {Link} from './RichText/Link';
-export {Macro} from './RichText/Macro';
 export {RichText} from './RichText/RichText';
 export {cssToReactStyle} from './RichText/cssToReactStyle';
 export {sanitizeGraphqlName} from './utils/sanitizeGraphqlName';

@@ -23,7 +23,6 @@ export interface RegionData {
 export type RegionsData = Record<string, RegionData>;
 
 export interface LayoutData {
-	// config: never
 	descriptor: ComponentDescriptor;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	regions: RegionsData;
@@ -31,7 +30,6 @@ export interface LayoutData {
 }
 
 export interface PageData {
-	// config: never;
 	descriptor: ComponentDescriptor;
 	path: '/';
 	regions: RegionsData;
@@ -39,17 +37,22 @@ export interface PageData {
 }
 
 export interface PartData {
-	// config: never
 	descriptor: ComponentDescriptor;
 	path?: string // Missing in fragmentPreview https://github.com/enonic/xp/issues/10116
 	type: 'part'
 }
 
 export interface FragmentData {
-	// config: never
 	key?: string;
 	path?: string;
 	type: 'fragment';
+}
+
+export interface MacroComponentData {
+	descriptor: string;
+	name: string;
+	ref?: string;
+	type: 'macro';
 }
 
 export type TextData = TextComponent;
@@ -74,4 +77,5 @@ export type ComponentData =
 	| PartData
 	| TextData
 	| FragmentData
+	| MacroComponentData
 	| ErrorData;
