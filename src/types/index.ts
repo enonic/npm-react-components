@@ -2,15 +2,13 @@
 import type {Content, Layout, LayoutComponent, Part, PartComponent, Page, PageComponent} from '@enonic-types/core';
 import {MetaData, ComponentData} from './ComponentData';
 
-// The Guillotine types are similar, but uses complex types:
-// import type {Content} from '@enonic-types/guillotine/advanced';
-
 export type {
 	ComponentDefinition,
 	ComponentDefinitionParams,
 	ComponentDictionary,
 	ComponentRegistry,
 } from './ComponentRegistry';
+
 export type {
 	MetaData,
 	ComponentData,
@@ -27,6 +25,7 @@ export type {
 	MacroComponentData,
 	XpRunMode,
 } from './ComponentData';
+
 export type {
 	CreateReplacerParams,
 	ImageComponent,
