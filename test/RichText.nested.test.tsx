@@ -9,7 +9,6 @@ import {RichText} from '../src';
 import {Image} from '../src/RichText/Image';
 import {Link} from '../src/RichText/Link';
 import {METADATA, COMPONENT} from './RichText.test';
-// import {print} from 'q-i';
 
 
 describe('RichText', () => {

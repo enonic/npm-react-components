@@ -1,4 +1,3 @@
-// import type {Element} from 'domhandler';
 import type {DOMNode} from 'html-react-parser';
 import * as htmlReactParser from 'html-react-parser';
 import type {MacroComponentParams, ReplaceMacroImageLinkParams, MacroComponentData} from '../types';

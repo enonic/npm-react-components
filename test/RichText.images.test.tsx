@@ -7,7 +7,6 @@ import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
 import {Image} from '../src/RichText/Image';
-// import {print} from 'q-i';
 import {ERROR_STYLE} from './testdata';
 import {METADATA, COMPONENT} from './RichText.test';
 

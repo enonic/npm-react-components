@@ -9,7 +9,6 @@ import {RichText} from '../src';
 import {Macro} from './RichText/Macro';
 import {ERROR_STYLE} from './testdata';
 import {METADATA, COMPONENT} from './RichText.test';
-// import {print} from 'q-i';
 
 
 const originalError = console.error
