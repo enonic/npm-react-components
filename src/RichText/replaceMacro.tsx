@@ -6,6 +6,7 @@ import {MACRO_ATTR} from '../constants';
 import {ErrorComponent} from '../Common/ErrorComponent';
 // import {type createReplacer as CreateReplacer} from './createReplacer';
 import {ErrorBoundaryWrapper} from './ErrorBoundary/ErrorBoundaryWrapper';
+import {sanitizeGraphqlName} from '../utils/sanitizeGraphqlName';
 
 
 export function replaceMacro<RestProps = Record<string, unknown>>(props: ReplaceMacroImageLinkParams<RestProps>) {
@@ -60,7 +61,8 @@ export function replaceMacro<RestProps = Record<string, unknown>>(props: Replace
             name: macroData.name,
             type: 'macro'
         };
-        // data is undefined for legacy macros
+        // copy config as data by default for legacy macros
+        data = macroData.config[sanitizeGraphqlName(macroData.name)];
     }
 
     // config and descriptor should be last, so they can't be overridden

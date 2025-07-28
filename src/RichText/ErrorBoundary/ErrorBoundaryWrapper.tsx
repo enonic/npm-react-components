@@ -16,7 +16,9 @@ export function ErrorBoundaryWrapper({
         const ErrorBoundaryClient =
             React.lazy(() => import('./ErrorBoundary.client'));
 
-        return <ErrorBoundaryClient mode={mode}>{children}</ErrorBoundaryClient>;
+        return <React.Suspense fallback={null}>
+            <ErrorBoundaryClient mode={mode}>{children}</ErrorBoundaryClient>
+        </React.Suspense>
     }
 }
 

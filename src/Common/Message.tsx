@@ -22,9 +22,7 @@ export const Message = ({
 	}
 
 	if (mode === XP_REQUEST_MODE.INLINE || mode === XP_REQUEST_MODE.EDIT || mode === XP_REQUEST_MODE.ADMIN) {
-		return (
-			<ErrorComponent {...extraProps} children={children}/>
-		);
+		return <ErrorComponent {...extraProps} children={children}/>;
 	}
 
 	if (mode) {

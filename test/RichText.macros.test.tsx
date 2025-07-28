@@ -2,7 +2,7 @@ import type {RichTextData} from '../src/types';
 
 
 import {beforeAll, afterAll, describe, expect, test as it} from '@jest/globals';
-import {render} from '@testing-library/react'
+import {render, waitFor} from '@testing-library/react'
 import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
@@ -28,7 +28,7 @@ beforeAll((done) => {
 		) {
 			return;
 		}
-		console.debug(args[0].detail.message); // For some this line makes an error go away!?!
+
 		originalError(...args)
 	}
 	done();
@@ -40,7 +40,7 @@ afterAll((done) => {
 });
 
 describe('RichText', () => {
-	it('should handle macros', () => {
+	it('should handle macros', async () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const dataWithMacros: RichTextData = {
 			macros: [{
@@ -65,11 +65,14 @@ describe('RichText', () => {
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(
-			`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i></div></p></section></div></body>`);
+
+		await waitFor(() => {
+			expect(html.outerHTML).toBe(
+				`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i><strong> + Iha + </strong>Jubalong</div></p></section></div></body>`)
+		});
 	});
 
-	it('should show an ErrorComponent when the Macro component throws', () => {
+	it('should show an ErrorComponent when the Macro component throws', async () => {
 		const FAILURE_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const MACRO_NAME = 'failure';
 		const dataWithMacros: RichTextData = {
@@ -95,8 +98,10 @@ describe('RichText', () => {
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(
-			`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}">Macro not found: com.enonic.app.panelmacros:failure</div></p></section></div></body>`);
+		await waitFor(() => {
+			expect(html.outerHTML).toBe(
+				`<body><div><section class="myclass"><p><div style="${ERROR_STYLE}"><h2>Error rendering component</h2><p>Macro not found: com.enonic.app.panelmacros:failure</p></div></p></section></div></body>`);
+		});
 	});
 
 	it('should show an ErrorComponent when the macros array is missing or empty', () => {
@@ -158,7 +163,7 @@ describe('RichText', () => {
 		expect(html.outerHTML).toBe(`<body><div><section><p><div style="${ERROR_STYLE}">Unable to find macro with ref ${SUCCESS_REF} in macros object!</div></p></section></div></body>`);
 	});
 
-	it("should render a fallback Macro component, when it's not provided", () => {
+	it("should render a fallback Macro component, when it's not provided", async () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const dataWithMacros: RichTextData = {
 			macros: [{
@@ -167,12 +172,12 @@ describe('RichText', () => {
 				"descriptor": "com.enonic.app.panelmacros:success-macro",
 				"config": {
 					"success_macro": {
-					"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
-					"header": "Iha",
-					"body": "Jubalong"
-				  }
+						"__nodeId": "d30c4572-0720-44cb-8137-7c830722b056",
+						"header": "Iha",
+						"body": "Jubalong"
+					}
 				}
-			  }],
+			}],
 			processedHtml: `<p><editor-macro data-macro-name=\"success-macro\" data-macro-ref=\"${SUCCESS_REF}\">Jubalong</editor-macro></p>`
 		}
 		const html = render(<RichText
@@ -182,7 +187,8 @@ describe('RichText', () => {
 			component={COMPONENT}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(toDiffableHtml(html.outerHTML)).toBe(`
+		await waitFor(() => {
+			expect(toDiffableHtml(html.outerHTML)).toBe(`
 <body>
   <div>
     <section class="myclass">
@@ -195,9 +201,10 @@ describe('RichText', () => {
   </div>
 </body>
 `);
+		});
 	});
 
-	it('should handle rest props', () => {
+	it('should handle rest props', async () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const dataWithMacros: RichTextData = {
 			macros: [{
@@ -223,10 +230,13 @@ describe('RichText', () => {
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><div>Extra info: {\"prop\":\"value\"}</div></p></section></div></body>`);
+		await waitFor(() => {
+			expect(html.outerHTML).toBe(
+				`<body><div><section class="myclass"><p><div>Extra info: {\"prop\":\"value\"}</div></p></section></div></body>`);
+		});
 	});
 
-	it('should not override descriptor', () => {
+	it('should not override descriptor', async () => {
 		const SUCCESS_REF = 'aa398f96-98d9-4ce1-a224-db732a57a68c';
 		const dataWithMacros: RichTextData = {
 			macros: [{
@@ -253,7 +263,9 @@ describe('RichText', () => {
 			Macro={Macro}
 		/>).baseElement;
 		// print(html.outerHTML, { maxItems: Infinity });
-		expect(html.outerHTML).toBe(
-			`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i></div></p></section></div></body>`);
+		await waitFor(() => {
+			expect(html.outerHTML).toBe(
+				`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i><strong> + Iha + </strong>Jubalong</div></p></section></div></body>`);
+		});
 	});
 }); // describe RichText
