@@ -9,7 +9,7 @@ export function ErrorBoundaryWrapper({
     children: React.ReactNode
     mode?: LiteralUnion<RequestMode>
 }) {
-    if (typeof window === 'undefined') {
+    if (typeof document === 'undefined') {
         return <ErrorBoundaryServer mode={mode}>{children}</ErrorBoundaryServer>;
     } else {
         // Dynamic import for client component to avoid SSR issues

@@ -3,7 +3,7 @@ import {defineConfig} from 'tsup';
 import fg from 'fast-glob';
 import {basename} from 'path';
 
-const clientEntries = fg.sync(['src/**/*.client.ts', 'src/**/*.client.tsx'], {
+const clientEntries = fg.sync(['src/**/*.client.{ts,tsx}'], {
     absolute: true, // Returns full paths
     onlyFiles: true, // Ensures only files are returned
     unique: true // Ensures unique entries
@@ -29,8 +29,14 @@ function commonConfig(options: Options): Options {
         outDir: './dist',
         external,
         noExternal,
-        outExtension({format}) {
-            return format === 'esm' ? {js: '.mjs'} : {js: '.cjs'};
+        esbuildOptions(options, {format}) {
+            let isEsm = format === 'esm';
+            options.alias = {
+                "html-dom-parser": isEsm ?
+                    "./node_modules/html-dom-parser/esm/server/html-to-dom.mjs" :
+                    "./node_modules/html-dom-parser/lib/server/html-to-dom.js"
+            }
+            options.outExtension = isEsm ? {'.js': '.mjs'} : {'.js': '.cjs'};
         },
         dts: true,
         platform: 'neutral',
@@ -45,8 +51,9 @@ function commonConfig(options: Options): Options {
 }
 
 export default defineConfig((options: Options) => {
+    const common = commonConfig(options);
     return [{
-        ...commonConfig(options),
+        ...common,
         entry: [
             'src/index.ts',
             'src/nashorn.ts'
@@ -55,16 +62,17 @@ export default defineConfig((options: Options) => {
             {
                 name: 'rewrite-client-imports',
                 setup(build) {
-                    // Match client files with extensions `.client.ts` or `.client.tsx`
+                    const ext = build.initialOptions.outExtension?.['.js'] || '';
+                    // Treat .client.ts(x) components as external to keep in separate files and guarantee 'use client'
                     build.onResolve({filter: /\.client(\.tsx?)?$/}, (args) => ({
-                        path: `./${basename(args.path)}`,   // client components will always be bundled at the root of the dist folder
-                        external: true // Treat as external to avoid server-side inclusion
+                        path: `./${basename(args.path)}${ext}`,
+                        external: true
                     }));
                 }
             }
         ]
     }, {
-        ...commonConfig(options),
+        ...common,
         entry: clientEntries
     }];
 });
