@@ -1,12 +1,9 @@
 'use client';
 
-import type {
-	LiteralUnion,
-	RequestMode,
-} from '@enonic-types/core';
+import type {LiteralUnion, RequestMode} from '@enonic-types/core';
 
 import React, {Component, ReactNode} from 'react';
-import {Message} from '../../Common/Message';
+import {getFallback} from './ErrorBoundaryFallback';
 
 interface ErrorBoundaryProps {
     children: ReactNode
@@ -45,7 +42,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 }
 
-export function ErrorBoundaryClient({
+export default function ErrorBoundaryClient({
 	children,
 	mode,
 }: {
@@ -53,7 +50,7 @@ export function ErrorBoundaryClient({
 	mode?: LiteralUnion<RequestMode>
 }) {
     return (
-        <ErrorBoundary Fallback={({error}) => <Message mode={mode}>{error.message}</Message>}>
+        <ErrorBoundary Fallback={getFallback(mode)}>
             {children}
         </ErrorBoundary>
     );
