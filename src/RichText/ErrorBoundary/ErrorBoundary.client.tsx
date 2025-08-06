@@ -1,9 +1,6 @@
 'use client';
 
-import type {
-	LiteralUnion,
-	RequestMode,
-} from '@enonic-types/core';
+import type {LiteralUnion, RequestMode} from '@enonic-types/core';
 
 import React, {Component, ReactNode} from 'react';
 import {Message} from '../../Common/Message';
@@ -45,7 +42,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 }
 
-export function ErrorBoundaryClient({
+export default function ErrorBoundaryClient({
 	children,
 	mode,
 }: {
