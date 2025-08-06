@@ -8,8 +8,6 @@ import toDiffableHtml from 'diffable-html';
 import React from 'react';
 import {RichText} from '../src';
 import {METADATA, COMPONENT} from './RichText.test';
-// import {print} from 'q-i';
-
 
 
 describe('RichText', () => {
