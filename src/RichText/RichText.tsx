@@ -2,7 +2,7 @@ import {RichTextParams} from '../types'
 
 
 // Converts an HTML string to one or more React elements
-import * as parser from 'html-react-parser';
+import parser from 'html-react-parser/lib/index';
 import * as React from 'react';
 
 // Replaces "matching" domNodes
@@ -29,7 +29,7 @@ export function RichText<RestProps = Record<string, unknown>>({
             data.processedHtml
                 /* try parser.default.default first because import is wrapped with __toesm() in cjs files
                  * for node compatibility, which adds default export resulting in parser.default.default */
-                ? (((parser.default as any).default as typeof parser.default) || parser.default)(data.processedHtml, {
+                ? (((parser as any).default as typeof parser) || parser)(data.processedHtml, {
                     replace: createReplacer<RestProps>({
                         ...restProps,
                         // These should be last, so they can't be overridden:

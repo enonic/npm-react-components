@@ -1,6 +1,6 @@
 // import type {Element} from 'domhandler';
 import type {DOMNode} from 'html-react-parser';
-import * as htmlReactParser from 'html-react-parser';
+import {domToReact} from 'html-react-parser/lib/index';
 import type {MacroComponentParams, ReplaceMacroImageLinkParams, MacroComponentData} from '../types';
 
 import {MACRO_ATTR} from '../constants';
@@ -73,7 +73,7 @@ export function replaceMacro<RestProps = Record<string, unknown>>(props: Replace
         data
     } as MacroComponentParams<RestProps>;
 
-    const children = htmlReactParser.domToReact(el.children as DOMNode[], {
+    const children = domToReact(el.children as DOMNode[], {
         replace: createReplacer(createReplacerProps)
     });
 
