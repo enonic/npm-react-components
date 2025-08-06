@@ -1,5 +1,5 @@
 import type {DOMNode} from 'html-react-parser';
-import * as htmlReactParser from 'html-react-parser';
+import {domToReact} from 'html-react-parser/lib/index';
 import type {LinkComponentParams, ReplaceMacroImageLinkParams} from '../types';
 import {LINK_ATTR} from '../constants';
 import {ErrorComponent} from '../Common/ErrorComponent';
@@ -63,7 +63,7 @@ export function replaceLink<RestProps = Record<string, unknown>>({
         uri
     } as LinkComponentParams<RestProps>;
 
-    const children = htmlReactParser.domToReact(el.children as DOMNode[], {
+    const children = domToReact(el.children as DOMNode[], {
         replace: createReplacer({
             ...restProps,
             // These should be last, so they can't be overridden
