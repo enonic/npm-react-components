@@ -68,7 +68,7 @@ describe('RichText', () => {
 
         await waitFor(() => {
             expect(html.outerHTML).toBe(
-                `<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i><strong> + Iha + </strong>Jubalong</div></p></section></div></body>`)
+				`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i><strong>Iha</strong>Jubalong</div></p></section></div></body>`)
         });
 	});
 
@@ -265,7 +265,7 @@ describe('RichText', () => {
 		// print(html.outerHTML, { maxItems: Infinity });
         await waitFor(() => {
             expect(html.outerHTML).toBe(
-                `<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i><strong> + Iha + </strong>Jubalong</div></p></section></div></body>`);
+				`<body><div><section class="myclass"><p><div class=\"macro-panel macro-panel-success macro-panel-styled\"><i class=\"icon\"></i><strong>Iha</strong>Jubalong</div></p></section></div></body>`);
         });
 	});
 }); // describe RichText

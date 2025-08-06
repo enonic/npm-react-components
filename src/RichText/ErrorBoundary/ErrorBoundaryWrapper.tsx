@@ -10,7 +10,9 @@ export function ErrorBoundaryWrapper({
     mode?: LiteralUnion<RequestMode>
 }) {
     if (typeof document === 'undefined') {
-        return <ErrorBoundaryServer mode={mode}>{children}</ErrorBoundaryServer>;
+        return <React.Suspense fallback={null}>
+            <ErrorBoundaryServer mode={mode}>{children}</ErrorBoundaryServer>
+        </React.Suspense>;
     } else {
         // Dynamic import for client component to avoid SSR issues
         const ErrorBoundaryClient =
@@ -18,7 +20,7 @@ export function ErrorBoundaryWrapper({
 
         return <React.Suspense fallback={null}>
             <ErrorBoundaryClient mode={mode}>{children}</ErrorBoundaryClient>
-        </React.Suspense>
+        </React.Suspense>;
     }
 }
 
