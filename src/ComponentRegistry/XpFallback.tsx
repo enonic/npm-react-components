@@ -1,5 +1,6 @@
 import type {Component} from '@enonic-types/core';
 import {HtmlComment} from '../Common/HtmlComment';
+import type {JSX} from 'react';
 
 export function XpFallback({
 	data

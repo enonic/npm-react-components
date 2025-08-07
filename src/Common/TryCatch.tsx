@@ -1,12 +1,7 @@
-import type {
-	LiteralUnion,
-	RequestMode,
-} from '@enonic-types/core';
-import type {ReactNode} from 'react';
-
-import * as React from 'react';
-import { Message } from './Message';
-import { XP_REQUEST_MODE } from '../constants';
+import type {LiteralUnion, RequestMode} from '@enonic-types/core';
+import type {ReactNode, JSX} from 'react';
+import {Message} from './Message';
+import {XP_REQUEST_MODE} from '../constants';
 
 export const TryCatch = ({
 	children,

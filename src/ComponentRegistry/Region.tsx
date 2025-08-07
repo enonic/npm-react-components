@@ -1,5 +1,6 @@
 import type {ClassValue} from 'clsx';
 import cx from 'clsx';
+import type {JSX} from 'react';
 import type {ComponentDataAndProps, MetaData} from '../types';
 import {BaseComponent} from './BaseComponent';
 

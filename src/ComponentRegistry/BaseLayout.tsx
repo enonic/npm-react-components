@@ -1,6 +1,6 @@
 import {LayoutData, ComponentProps} from '../types';
 
-import * as React from 'react';
+import type {JSX} from 'react';
 import {Message} from '../Common/Message';
 
 export function BaseLayout({

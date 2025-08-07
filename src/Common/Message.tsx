@@ -1,5 +1,5 @@
 import type {LiteralUnion, RequestMode} from '@enonic-types/core';
-import type {ReactNode} from 'react';
+import type {ReactNode, JSX} from 'react';
 
 import {ErrorComponent} from './ErrorComponent';
 import {XP_REQUEST_MODE} from '../constants';

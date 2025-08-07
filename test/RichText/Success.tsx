@@ -10,7 +10,7 @@ export function Success({
 }) {
     return <div className="macro-panel macro-panel-success macro-panel-styled">
         <i className="icon"></i>
-        {header && header.trim().length > 0 ? (<strong>{header}</strong>) : ''}
+        {header?.trim().length ? (<strong>{header}</strong>) : ''}
         {body}
     </div>;
 }

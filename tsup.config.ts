@@ -1,10 +1,6 @@
 import type {Options} from 'tsup';
 import {defineConfig} from 'tsup';
 
-interface MyOptions extends Options {
-    d?: string
-}
-
 const ENTRY = [
     'src/index.ts',
     'src/nashorn.ts',
@@ -27,42 +23,36 @@ const noExternal = [
     'domelementtype'
 ];
 
-export default defineConfig((options: MyOptions) => {
-    if (Array.isArray(options.format) && options.format[0] === 'cjs') {
-        return {
-            bundle: true,
-            d: 'dist',
-            dts: false,
-            entry: ENTRY,
-            minify: false,
-            external,
-            noExternal,
-            platform: 'neutral',
-            target: 'es5',
-            sourcemap: false,
-            splitting: true,
-            tsconfig: './tsconfig.json'
-        };
-    } else if (Array.isArray(options.format) && options.format[0] === 'esm') {
-        return {
-            bundle: true,
-            d: 'dist',
-            dts: false,
-            entry: ENTRY,
-            minify: false,
-            external,
-            noExternal,
-            outExtension() {
-                return {
-                    js: '.mjs'
-                }
-            },
-            platform: 'neutral',
-            target: 'es2015',
-            splitting: true,
-            sourcemap: false,
-            tsconfig: './tsconfig.json'
-        };
+const commonConfig = (isProd?: boolean): Options => {
+    return {
+        entry: ENTRY,
+        external,
+        noExternal,
+        outDir: 'dist',
+        platform: 'neutral',
+        minify: isProd,
+        sourcemap: !isProd,
+        dts: true,
+        bundle: true,
+        clean: false,
+        splitting: true,
+        tsconfig: './tsconfig.json'
     }
-    throw new Error(`Unsupported format:${options.format}!`)
+}
+
+export default defineConfig((globalOptions: Options) => {
+    const isProd = globalOptions.env?.BUILD_ENV === 'prod';
+    console.log(`\nBuilding for environment: ${isProd ? 'production' : 'development'}\n\n`);
+    return [{
+        ...commonConfig(isProd),
+        format: 'cjs',
+        target: 'es5'
+    }, {
+        ...commonConfig(isProd),
+        outExtension: () => ({
+            js: '.mjs'
+        }),
+        format: 'esm',
+        target: 'es2015'
+    }] as Options[];
 });

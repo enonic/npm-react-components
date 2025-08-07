@@ -1,6 +1,6 @@
 import type {ContentTypeData, ComponentProps} from '../types';
 
-import * as React from 'react';
+import type {JSX} from 'react';
 import {Message} from '../Common/Message';
 
 // import { XP_REQUEST_MODE } from '../constants';

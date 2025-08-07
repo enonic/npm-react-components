@@ -3,7 +3,7 @@ import {RichTextParams} from '../types'
 
 // Converts an HTML string to one or more React elements
 import parser from 'html-react-parser/lib/index';
-import * as React from 'react';
+import type {JSX} from 'react';
 
 // Replaces "matching" domNodes
 import {createReplacer} from './createReplacer';

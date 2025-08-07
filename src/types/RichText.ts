@@ -1,5 +1,5 @@
 import type {DOMNode, Element} from 'html-react-parser';
-import type {ReactNode, JSX} from 'react';
+import type {ReactNode, JSX, CSSProperties} from 'react';
 import type {ComponentRegistry} from './ComponentRegistry';
 import {ComponentProps, MetaData, MacroComponentData, ComponentDataAndProps} from './index';
 
@@ -80,7 +80,7 @@ export type ReplacerResult = JSX.Element | object | void | undefined | null | fa
 
 export type ImageComponent<
     RestProps = Record<string, unknown>
-> = (params: ImageComponentParams<RestProps>) => React.JSX.Element | null;
+> = (params: ImageComponentParams<RestProps>) => JSX.Element | null;
 
 export type ImageComponentParams<
     RestProps = Record<string, unknown>
@@ -91,7 +91,7 @@ export type ImageComponentParams<
     sizes?: string;
     src: string;
     srcSet?: string;
-    style?: React.CSSProperties;
+    style?: CSSProperties;
 } & RestProps;
 
 export type ReplacerParams<RestProps = Record<string, unknown>> = RichTextComponentProps & {
@@ -105,7 +105,7 @@ export type Replacer<
 
 export type LinkComponent<
     RestProps = Record<string, unknown>
-> = (params: LinkComponentParams<RestProps>) => React.JSX.Element | null;
+> = (params: LinkComponentParams<RestProps>) => JSX.Element | null;
 
 export type LinkComponentParams<
     RestProps = Record<string, unknown>
@@ -121,12 +121,12 @@ export type LinkComponentParams<
 
 export type MacroComponent<
     RestProps = Record<string, unknown>
-> = (params: MacroComponentParams<RestProps>) => React.JSX.Element | null;
+> = (params: MacroComponentParams<RestProps>) => JSX.Element | null;
 
 export type MacroComponentParams<
     RestProps = Record<string, unknown>
 > = ComponentProps<MacroComponentData> & {
-    children: string | React.JSX.Element | React.JSX.Element[];
+    children: string | JSX.Element | JSX.Element[];
 } & RestProps;
 
 export interface ReplaceMacroImageLinkParams<RestProps = Record<string, unknown>> extends CreateReplacerParams<RestProps> {
