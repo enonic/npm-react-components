@@ -1,7 +1,7 @@
 import type {TextData, ComponentProps, RichTextData} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
-import * as React from 'react';
+import type {JSX} from 'react';
 import {Message} from '../Common/Message';
 import {XpFallback} from './XpFallback';
 import {XP_REQUEST_MODE} from '../constants';

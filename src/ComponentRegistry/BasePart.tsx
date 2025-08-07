@@ -1,7 +1,7 @@
 import type {PartData, ComponentProps} from '../types';
 
 // import { toStr } from '@enonic/js-utils/value/toStr';
-import * as React from 'react';
+import type {JSX} from 'react';
 import {Message} from '../Common/Message';
 
 export function BasePart({

@@ -2,7 +2,7 @@ import type {Component} from '@enonic-types/core';
 import type {ComponentProps} from '../types';
 
 import {toStr} from '@enonic/js-utils/value/toStr';
-import * as React from 'react';
+import type {JSX} from 'react';
 
 import {COMPONENT_DATA_TYPE} from '../constants';
 import {BaseLayout} from './BaseLayout';
