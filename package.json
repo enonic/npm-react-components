@@ -19,7 +19,7 @@
     "@testing-library/react": "^16.0.1",
     "@types/diffable-html": "^5.0.2",
     "clsx": "^2.1.1",
-    "del-cli": "^6.0.0",
+    "del-cli": "^7.0.0",
     "diffable-html": "^5.0.0",
     "domelementtype": "^2.3.0",
     "jest": "^30.0.2",
