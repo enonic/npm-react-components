@@ -17,20 +17,18 @@ export const ComponentWrapper = ({
     type,
     children
 }: ComponentWrapperProps) => {
-
-    if (mode != XP_REQUEST_MODE.EDIT) {
-        return children;
-    }
-
-    const isComponent = type === COMPONENT_DATA_TYPE.PART ||
-        type === COMPONENT_DATA_TYPE.FRAGMENT ||
-        type === COMPONENT_DATA_TYPE.TEXT ||
-        type === COMPONENT_DATA_TYPE.LAYOUT ||
-        type === COMPONENT_DATA_TYPE.PAGE;
-
     const attrs: Record<string, string> = {}
-    if (isComponent) {
-        attrs['data-portal-component-type'] = type;
+
+    if (mode === XP_REQUEST_MODE.EDIT) {
+		const isComponent = type === COMPONENT_DATA_TYPE.PART ||
+							type === COMPONENT_DATA_TYPE.FRAGMENT ||
+							type === COMPONENT_DATA_TYPE.TEXT ||
+							type === COMPONENT_DATA_TYPE.LAYOUT ||
+							type === COMPONENT_DATA_TYPE.PAGE;
+
+		if (isComponent) {
+			attrs['data-portal-component-type'] = type;
+		}
     }
 
     if (children) {
@@ -38,7 +36,7 @@ export const ComponentWrapper = ({
         return <div {...attrs}>
             {children}
         </div>
-    } else {
-        return <div {...attrs} />;
     }
+
+    return <div {...attrs} />;
 }
