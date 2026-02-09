@@ -1,9 +1,10 @@
 {
-  "author": "Espen Norderud",
+  "author": "Enonic",
   "bugs": {
     "url": "https://github.com/enonic/npm-react-components/issues"
   },
   "contributors": [
+    "Espen Norderud",
     "Christian Andreas Westgaard",
     "Pavel Milkevich"
   ],
