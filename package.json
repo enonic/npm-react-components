@@ -28,7 +28,7 @@
     "jest-environment-jsdom": "^30.0.4",
     "ts-jest": "^29.2.5",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "uri-js": "^4.4.1"
   },
   "exports": {
