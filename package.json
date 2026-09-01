@@ -71,7 +71,7 @@
     "@enonic-types/lib-portal": "^7.15.0",
     "@enonic-types/lib-schema": "^7.15.0",
     "@types/react": "^18 || ^19",
-    "html-react-parser": "^5",
+    "html-react-parser": ">=5.2.0 <5.2.2",
     "prop-types": "*",
     "react": "^18 || ^19"
   },
