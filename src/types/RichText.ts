@@ -1,5 +1,6 @@
 import type {DOMNode, Element} from 'html-react-parser';
-import type {ReactNode, JSX, CSSProperties} from 'react';
+import type {ReactNode, JSX, CSSProperties, ElementType} from 'react';
+import type {LiteralUnion} from '@enonic-types/core';
 import type {ComponentRegistry} from './ComponentRegistry';
 import {ComponentProps, MetaData, MacroComponentData, ComponentDataAndProps} from './index';
 
@@ -178,7 +179,9 @@ export type RichtextContent<
 export type RichTextParams<
     RestProps = Record<string, unknown>
 > = RichTextComponentProps & {
-    tag?: string;
+    // ElementType covers components and Fragment, LiteralUnion keeps plain strings
+    // (custom elements, string variables) assignable while autocompleting known tags.
+    tag?: ElementType | LiteralUnion<keyof JSX.IntrinsicElements>;
     className?: string;
     Image?: ImageComponent<RestProps>;
     Macro?: MacroComponent<RestProps>;

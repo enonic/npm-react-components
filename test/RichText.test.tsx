@@ -33,6 +33,36 @@ describe('RichText', () => {
 		expect(html.outerHTML).toBe(`<body><div><article><p>Some text</p></article></div></body>`);
 	});
 
+	it('should support Fragment as tag', () => {
+		const data: RichTextData = {
+			processedHtml: `<p>Some text</p>`
+		}
+		const html = render(<RichText
+			data={data}
+			meta={METADATA}
+			component={COMPONENT}
+			className='ignored'
+			tag={React.Fragment}
+		/>).baseElement;
+		expect(html.outerHTML).toBe(`<body><div><p>Some text</p></div></body>`);
+	});
+
+	it('should support a component as tag', () => {
+		const Wrapper = ({className, children}: {className?: string, children?: React.ReactNode}) =>
+			<div data-wrapper className={className}>{children}</div>;
+		const data: RichTextData = {
+			processedHtml: `<p>Some text</p>`
+		}
+		const html = render(<RichText
+			data={data}
+			meta={METADATA}
+			component={COMPONENT}
+			className='rich'
+			tag={Wrapper}
+		/>).baseElement;
+		expect(html.outerHTML).toBe(`<body><div><div data-wrapper="true" class="rich"><p>Some text</p></div></div></body>`);
+	});
+
 	it('should return an empty element when processedHtml is missing or empty', () => {
 		// @ts-expect-error
 		const data: RichTextData = {};
