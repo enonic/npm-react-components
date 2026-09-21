@@ -164,6 +164,9 @@ const MyImage: ImageComponent = ({alt, src, srcSet, sizes, style}) => {
 const MyLink: LinkComponent = ({content, media, uri, ...aProps}) => {
   return <a {...aProps} />;
 };
+// Link is called for every <a> with an href. For content and media links, `content`/`media`
+// hold the resolved data and `uri` is the XP uri. For external links (https, mailto, anchors)
+// `content` and `media` are undefined and `uri` equals `href`.
 
 interface RestProps {
   myCustomProp: string;

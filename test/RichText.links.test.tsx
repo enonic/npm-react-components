@@ -34,7 +34,7 @@ beforeAll((done) => {
         ) {
             return;
         }
-        console.debug(args[0].detail.message); // For some this line makes an error go away!?!
+        console.debug(args[0]?.detail?.message); // For some this line makes an error go away!?!
         originalError(...args)
     }
     done();
@@ -46,7 +46,7 @@ afterAll((done) => {
 });
 
 describe('RichText', () => {
-    it('should remove data-link-ref from links to open or download media', () => {
+    it('should remove data-link-ref from links to open or download media', async () => {
         const LINK_REF1 = '7c68ab3a-689b-45d0-9043-10067598af0c';
         const LINK_REF2 = 'fc7ef744-02b8-4518-b3bb-50c021a54ac5';
         const data: RichTextData = {
@@ -72,7 +72,7 @@ describe('RichText', () => {
             Link={Link}
         />).baseElement;
         // print(html.outerHTML, { maxItems: Infinity });
-        waitFor(() => {
+        await waitFor(() => {
             expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p>
 	<a href=\"/admin/site/preview/richproject/draft/_/attachment/inline/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"open file tooltip\">open file text</a>
 	<a href=\"/admin/site/preview/richproject/draft/_/attachment/download/${IMG_ID}:${IMG_VERSION_KEY}/example.jpg\" title=\"download file tooltip\">download file text</a>
@@ -80,7 +80,7 @@ describe('RichText', () => {
         });
     });
 
-    it('should show an ErrorComponent when the Link component throws', () => {
+    it('should show an ErrorComponent when the Link component throws', async () => {
         const LinkThatThrows: LinkComponent = () => {
             throw new Error('Failed to build href!');
         }
@@ -109,13 +109,13 @@ describe('RichText', () => {
         />).baseElement;
         // print(html.outerHTML, { maxItems: Infinity });
 
-        waitFor(() => {
+        await waitFor(() => {
             expect(html.outerHTML).toBe(
-                `<body><div><section class="myclass"><div style="${ERROR_STYLE}">Failed to build href!</div></section></div></body>`);
+                `<body><div><section class="myclass"><div style="${ERROR_STYLE}"><h2>Error rendering component</h2><p>Failed to build href!</p></div></section></div></body>`);
         });
     });
 
-    it('should handle links', () => {
+    it('should handle links', async () => {
         const data: RichTextData = {
             links: [{
                 content: {
@@ -139,14 +139,14 @@ describe('RichText', () => {
             Link={Link}
         />).baseElement;
         // print(html.outerHTML, { maxItems: Infinity });
-        waitFor(() => {
+        await waitFor(() => {
             expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="/admin/site/preview/richproject/draft/mysite/myfolder?key=value#anchor" target="_blank" title="link tooltip">link text</a></p>
 <p><a href="mailto:email@example.com?subject=Subject" title="Tooltip">Text</a></p>
 <p><a href="https://www.example.com" target="_blank" title="Tooltip">Text</a></p></section></div></body>`);
         });
     });
 
-    it('should show an ErrorComponent when the link element has data-link-ref but no href', () => {
+    it('should show an ErrorComponent when the link element has data-link-ref but no href', async () => {
         const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
         const data: RichTextData = {
             links: [{
@@ -169,7 +169,7 @@ describe('RichText', () => {
             Link={Link}
         />).baseElement;
 
-        waitFor(() => {
+        await waitFor(() => {
             expect(toDiffableHtml(html.outerHTML)).toBe(`
 <body>
   <div>
@@ -184,7 +184,7 @@ describe('RichText', () => {
         });
     });
 
-    it('should show an ErrorComponent when the links object is missing or empty', () => {
+    it('should show an ErrorComponent when the links object is missing or empty', async () => {
         const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
         const data: RichTextData = {
             // links: [], // Should be missing or empty, in this test :)
@@ -198,13 +198,13 @@ describe('RichText', () => {
             Link={Link}
         />).baseElement;
         // print(html.outerHTML, { maxItems: Infinity });
-        waitFor(() => {
+        await waitFor(() => {
             expect(html.outerHTML).toBe(
                 `<body><div><section class="myclass"><div style="${ERROR_STYLE}">Can't replace link, when there are no links in the data object!</div></section></div></body>`);
         });
     });
 
-    it("should show an ErrorComponent when the linkRef can't be found in the links object", () => {
+    it("should show an ErrorComponent when the linkRef can't be found in the links object", async () => {
         const linkRef = '33a61455-d4b0-4ed0-bae3-d707d00d35f2';
         const data: RichTextData = {
             links: [{
@@ -228,9 +228,96 @@ describe('RichText', () => {
             Link={Link}
         />).baseElement;
         // print(html.outerHTML, { maxItems: Infinity });
-        waitFor(() => {
+        await waitFor(() => {
             expect(html.outerHTML).toBe(
                 `<body><div><section class="myclass"><div style="${ERROR_STYLE}">Unable to find link with ref ${linkRef} in links object!</div></section></div></body>`);
         });
+    });
+
+    it('should call the Link component for links without data-link-ref', async () => {
+        const calls: Record<string, Record<string, unknown>> = {};
+        const CustomLink: LinkComponent = ({children, content, media, uri, ...aProps}) => {
+            calls[aProps.href] = {content, media, uri};
+            return <a {...aProps} data-custom="true">{children}</a>;
+        };
+        const data: RichTextData = {
+            processedHtml: `<p><a href=\"https://www.example.com\" target=\"_blank\" title=\"Tooltip\">External</a></p>
+<p><a href=\"mailto:email@example.com\">Mail</a></p>
+<p><a href=\"#top\">Anchor</a></p>`
+        }
+        const html = render(<RichText
+            className="myclass"
+            data={data}
+            meta={METADATA}
+            component={COMPONENT}
+            Link={CustomLink}
+        />).baseElement;
+        await waitFor(() => {
+            expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="https://www.example.com" target="_blank" title="Tooltip" data-custom="true">External</a></p>
+<p><a href="mailto:email@example.com" data-custom="true">Mail</a></p>
+<p><a href="#top" data-custom="true">Anchor</a></p></section></div></body>`);
+        });
+        expect(calls).toEqual({
+            'https://www.example.com': {content: undefined, media: undefined, uri: 'https://www.example.com'},
+            'mailto:email@example.com': {content: undefined, media: undefined, uri: 'mailto:email@example.com'},
+            '#top': {content: undefined, media: undefined, uri: '#top'},
+        });
+    });
+
+    it('should render links without data-link-ref unchanged with the default Link component', async () => {
+        const data: RichTextData = {
+            processedHtml: `<p><a href=\"https://www.example.com\" target=\"_blank\" title=\"Tooltip\" class=\"external\" rel=\"noopener\" id=\"ext\">Text</a></p>`
+        }
+        const html = render(<RichText
+            className="myclass"
+            data={data}
+            meta={METADATA}
+            component={COMPONENT}
+            Link={Link}
+        />).baseElement;
+        await waitFor(() => {
+            expect(html.outerHTML).toBe(`<body><div><section class="myclass"><p><a href="https://www.example.com" target="_blank" title="Tooltip" class="external" rel="noopener" id="ext">Text</a></p></section></div></body>`);
+        });
+    });
+
+    it('should forward extra attributes of content links to the Link component', async () => {
+        const data: RichTextData = {
+            links: [{
+                content: {
+                    _id: FOLDER_ID,
+                    _name: 'myfolder',
+                    _path: '/mysite/myfolder',
+                    type: 'base:folder'
+                },
+                ref: FOLDER_REF,
+                uri: `content://${FOLDER_ID}`
+            }],
+            processedHtml: `<a href=\"/mysite/myfolder\" class=\"internal\" data-link-ref=\"${FOLDER_REF}\">link text</a>`
+        }
+        const html = render(<RichText
+            className="myclass"
+            data={data}
+            meta={METADATA}
+            component={COMPONENT}
+            Link={Link}
+        />).baseElement;
+        await waitFor(() => {
+            expect(html.outerHTML).toBe(`<body><div><section class="myclass"><a href="/mysite/myfolder" class="internal">link text</a></section></div></body>`);
+        });
+    });
+
+    it('should not call the Link component for anchor elements without href', async () => {
+        const CustomLink: LinkComponent = () => <a data-custom="true">should not render</a>;
+        const data: RichTextData = {
+            processedHtml: `<a id=\"top\"></a><a name=\"legacy\">named</a>`
+        }
+        const html = render(<RichText
+            className="myclass"
+            data={data}
+            meta={METADATA}
+            component={COMPONENT}
+            Link={CustomLink}
+        />).baseElement;
+        expect(html.outerHTML).toBe(`<body><div><section class="myclass"><a id="top"></a><a name="legacy">named</a></section></div></body>`);
     });
 }); // describe RichText
