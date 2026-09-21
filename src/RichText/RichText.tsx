@@ -3,7 +3,7 @@ import {RichTextParams} from '../types'
 
 // Converts an HTML string to one or more React elements
 import parser from 'html-react-parser/lib/index';
-import type {ElementType} from 'react';
+import {Fragment, type ElementType} from 'react';
 
 // Replaces "matching" domNodes
 import {createReplacer} from './createReplacer';
@@ -24,7 +24,7 @@ export function RichText<RestProps = Record<string, unknown>>({
 }: RichTextParams<RestProps>) {
     // console.info('RichText', {data, Macro, tag, ...restProps});
     const CustomTag = (tag || 'section') as ElementType;
-    return <CustomTag className={className}>
+    return <CustomTag {...(CustomTag === Fragment ? {} : {className})}>
         {
             data.processedHtml
                 /* try parser.default.default first because import is wrapped with __toesm() in cjs files
