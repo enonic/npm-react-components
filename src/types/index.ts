@@ -1,9 +1,5 @@
-// There is a difference between the core enonic types and what Guillotine returns:
 import type {Content, Layout, LayoutComponent, Part, PartComponent, Page, PageComponent} from '@enonic-types/core';
 import {MetaData, ComponentData} from './ComponentData';
-
-// The Guillotine types are similar, but uses complex types:
-// import type {Content} from '@enonic-types/guillotine/advanced';
 
 export type {
 	ComponentDefinition,
@@ -33,6 +29,7 @@ export type {
 	ImageComponentParams,
 	ImageContent,
 	ImageData,
+	ImageSource,
 	ImageStyle,
 	LinkComponent,
 	LinkComponentParams,
@@ -52,6 +49,8 @@ export type {
 	RichTextMetaData,
 	RichTextComponentProps
 } from './RichText';
+
+export type {UrlParts, UrlValue} from './RichText';
 
 export type ContentUri = `content://${string}`;
 

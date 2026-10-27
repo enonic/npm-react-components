@@ -36,9 +36,7 @@ export function replaceLink<RestProps = Record<string, unknown>>({
         return <ErrorComponent>Link element has no href attribute!</ErrorComponent>
     }
 
-    let content: LinkComponentParams['content'];
-    let media: LinkComponentParams['media'];
-    let uri = href; // non-content links like mailto and external links.
+    let linkData: LinkComponentParams['data'];
 
     if (linkRef) {
         const {links} = data;
@@ -46,21 +44,22 @@ export function replaceLink<RestProps = Record<string, unknown>>({
             return <ErrorComponent>Can't replace link, when there are no links in the data object!</ErrorComponent>
         }
 
-        const linkData = links.find(data => data.ref === linkRef);
+        linkData = links.find(data => data.ref === linkRef);
         if (!linkData) {
             return <ErrorComponent>Unable to find link with ref {linkRef} in links object!</ErrorComponent>
         }
 
-        ({content, media, uri} = linkData);
     }
 
     const linkProps = {
         ...restProps,
         href,
         ...attributesToProps(restAttribs),
-        content,
-        media,
-        uri
+        data: linkData,
+        // TODO: Remove deprecated content, media and uri aliases in the next major release; use data instead.
+        content: linkData?.content,
+        media: linkData?.media,
+        uri: linkData ? linkData.uri : href
     } as LinkComponentParams<RestProps>;
 
     const children = domToReact(el.children as DOMNode[], {

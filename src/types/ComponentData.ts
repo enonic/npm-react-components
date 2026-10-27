@@ -1,4 +1,3 @@
-// There is a difference between the core enonic types and what Guillotine returns:
 import type {ComponentDescriptor, LiteralUnion, RequestMode, TextComponent} from '@enonic-types/core';
 import {ComponentRegistry} from './ComponentRegistry';
 
