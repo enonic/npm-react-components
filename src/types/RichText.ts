@@ -6,6 +6,15 @@ import {ComponentProps, MetaData, MacroComponentData, ComponentDataAndProps} fro
 
 // RichText data types and interfaces
 
+/** URL components supplied by a data source; their interpretation belongs to the consumer. */
+export interface UrlParts {
+    path: string;
+    queryString?: string;
+    baseUrl?: string | null;
+}
+
+export type UrlValue = string | UrlParts;
+
 export interface RichTextData extends Record<string, unknown> {
     processedHtml: string;
     links?: LinkData[];
@@ -21,13 +30,14 @@ export interface LinkData {
     ref: string;
     content?: Partial<RichtextContent> | null;
     media?: LinkDataMedia | null;
+    pageUrl?: UrlValue | null;
+    fragment?: string;
     uri: string;
 }
 
 export interface LinkDataMedia {
-    content: Partial<RichtextContent> & {
-        mediaUrl?: string;
-    }
+    content: Partial<RichtextContent> | null;
+    mediaUrl?: UrlValue | null;
     intent: 'inline' | 'download';
 }
 
@@ -44,13 +54,21 @@ export type ImageContent = Partial<RichtextContent> & {
     imageUrl?: string;
 }
 
+export interface ImageSource {
+    width: number;
+    imageUrl: UrlValue;
+}
+
 export interface ImageData {
     ref: string;
-    image: ImageContent;
+    image: ImageContent | null;
+    src?: UrlValue | null;
+    srcset?: ImageSource[];
     style?: ImageStyle | null;
 }
 
 export interface ImageStyle {
+    application?: string;
     name: string;
     aspectRatio: string;
     filter: string;
@@ -87,7 +105,11 @@ export type ImageComponentParams<
     RestProps = Record<string, unknown>
 > = {
     alt?: string;
-    image: ImageContent;
+    /** The original reference entry, including any structured URL values. */
+    data?: ImageData;
+    /** @deprecated Use data.image instead. */
+    image: ImageData['image'];
+    /** @deprecated Use data.style instead. */
     imageStyle?: ImageStyle | null;
     sizes?: string;
     src: string;
@@ -112,12 +134,17 @@ export type LinkComponentParams<
     RestProps = Record<string, unknown>
 > = {
     children: ReactNode;
-    content?: Partial<RichtextContent> | null;
+    /** Present for a referenced link; absent for ordinary HTML links. */
+    data?: LinkData;
+    /** @deprecated Use data.content instead. */
+    content?: LinkData['content'];
+    /** @deprecated Use data.media instead. */
+    media?: LinkData['media'];
+    /** @deprecated Use data.uri for referenced links, or href for ordinary HTML links. */
+    uri: string;
     href: string;
-    media?: LinkDataMedia | null;
     target?: string;
     title?: string;
-    uri: string;
 } & RestProps;
 
 export type MacroComponent<

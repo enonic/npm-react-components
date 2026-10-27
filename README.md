@@ -161,12 +161,12 @@ const MyImage: ImageComponent = ({alt, src, srcSet, sizes, style}) => {
   return <img alt={alt} src={src} srcSet={srcSet} sizes={sizes} style={style} />;
 };
 
-const MyLink: LinkComponent = ({content, media, uri, ...aProps}) => {
-  return <a {...aProps} />;
+const MyLink: LinkComponent = ({href, target, title, children}) => {
+  return <a href={href} target={target} title={title}>{children}</a>;
 };
-// Link is called for every <a> with an href. For content and media links, `content`/`media`
-// hold the resolved data and `uri` is the XP uri. For external links (https, mailto, anchors)
-// `content` and `media` are undefined and `uri` equals `href`.
+// Link is called for every <a> with an href. Referenced links have `data`,
+// including `data.content`, `data.media` and `data.uri`.
+// Ordinary HTML links (https, mailto, anchors) have `data: undefined`.
 
 interface RestProps {
   myCustomProp: string;
@@ -186,6 +186,31 @@ const MyMacro: MacroComponent<RestProps> = ({component, meta, children, myCustom
   myCustomProp="value"
 />
 ```
+
+Like macros, custom image and link components receive their payload through `data`.
+For images, this is the original `ImageData` entry; for referenced links, it is the original `LinkData` entry.
+Ordinary HTML links have `data: undefined`.
+These entries can carry URL strings or `UrlParts` objects (`path`, optional `queryString` and `baseUrl`),
+responsive image candidates, and link fragments.
+The library forwards these values unchanged: custom components decide how to resolve them for their application.
+The existing `href`, `src` and `srcSet` props still come from the HTML, and the default components continue to render those HTML attributes.
+
+The existing top-level reference props remain available as deprecated aliases:
+
+| Deprecated prop | Preferred replacement |
+| --- | --- |
+| Image `image` | `data.image` |
+| Image `imageStyle` | `data.style` |
+| Link `content` | `data.content` |
+| Link `media` | `data.media` |
+| Link `uri` | `data.uri` for referenced links; `href` for ordinary HTML links |
+
+The aliases preserve the original values; an ordinary HTML link still receives `uri: href`.
+Both APIs are supplied together, so existing renderers can migrate incrementally.
+Reference content may be null for unresolved entries; custom renderers must handle that case.
+The top-level image `style` prop remains the element's CSS, not the image-processing metadata in `data.style`.
+When spreading props onto an HTML element, exclude both `data` and the deprecated reference props.
+The default components already do this.
 
 ### Custom replacer
 

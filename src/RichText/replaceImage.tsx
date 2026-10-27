@@ -47,12 +47,18 @@ export function replaceImage<RestProps = Record<string, unknown>>({
 
     const style = cssToReactStyle(styleStr);
 
-    const {
-        image,
-        style: imageStyle
-    } = imageData;
-
-    const imgProps = {...restProps, alt, image, imageStyle, sizes, src, srcSet, style} as ImageComponentParams<RestProps>;
+    const imgProps = {
+        ...restProps,
+        alt,
+        data: imageData,
+        // TODO: Remove deprecated image and imageStyle aliases in the next major release; use data instead.
+        image: imageData.image,
+        imageStyle: imageData.style,
+        sizes,
+        src,
+        srcSet,
+        style
+    } as ImageComponentParams<RestProps>;
 
     return <ErrorBoundaryWrapper mode={mode}>
         <Image {...imgProps} />

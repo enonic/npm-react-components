@@ -24,6 +24,7 @@ export type {
     ImageComponentParams,
     ImageContent,
     ImageData,
+    ImageSource,
     ImageStyle,
     LinkComponent,
     LinkComponentParams,
@@ -43,6 +44,8 @@ export type {
     MacroData,
     RichTextParams
 } from './types';
+
+export type {UrlParts, UrlValue} from './types';
 
 export {COMPONENT_DATA_TYPE, XP_REQUEST_MODE} from './constants';
 

@@ -235,9 +235,9 @@ describe('RichText', () => {
     });
 
     it('should call the Link component for links without data-link-ref', async () => {
-        const calls: Record<string, Record<string, unknown>> = {};
-        const CustomLink: LinkComponent = ({children, content, media, uri, ...aProps}) => {
-            calls[aProps.href] = {content, media, uri};
+        const calls: Record<string, unknown> = {};
+        const CustomLink: LinkComponent = ({children, data, content, media, uri, ...aProps}) => {
+            calls[aProps.href] = {data, content, media, uri};
             return <a {...aProps} data-custom="true">{children}</a>;
         };
         const data: RichTextData = {
@@ -258,9 +258,9 @@ describe('RichText', () => {
 <p><a href="#top" data-custom="true">Anchor</a></p></section></div></body>`);
         });
         expect(calls).toEqual({
-            'https://www.example.com': {content: undefined, media: undefined, uri: 'https://www.example.com'},
-            'mailto:email@example.com': {content: undefined, media: undefined, uri: 'mailto:email@example.com'},
-            '#top': {content: undefined, media: undefined, uri: '#top'},
+            'https://www.example.com': {data: undefined, content: undefined, media: undefined, uri: 'https://www.example.com'},
+            'mailto:email@example.com': {data: undefined, content: undefined, media: undefined, uri: 'mailto:email@example.com'},
+            '#top': {data: undefined, content: undefined, media: undefined, uri: '#top'},
         });
     });
 
