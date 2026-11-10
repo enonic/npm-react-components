@@ -16,6 +16,10 @@ export default {
 	testMatch: [
 		`<rootDir>/test/${AND_BELOW}/${TEST_FILES}`,
 	],
+	// Parser v6's DOM dependencies are ESM-only; compile them for Jest's CommonJS runtime.
+	transformIgnorePatterns: [
+		'/node_modules/(?!(domhandler|domelementtype|entities|htmlparser2|domutils|dom-serializer)/)'
+	],
 	transform: {
 		"^.+\\.(ts|js)x?$": [
 			'ts-jest',
