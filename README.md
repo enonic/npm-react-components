@@ -8,6 +8,21 @@ Library of React components for handling Enonic XP data.
 npm install --save @enonic/react-components
 ```
 
+### Compatibility
+
+Version 7.1 supports the following peer dependencies:
+
+| Dependency | Supported versions |
+| --- | --- |
+| `react` and `@types/react` | 18 or 19 |
+| `html-react-parser` | 5 or 6 |
+| `@enonic-types/core`, `@enonic-types/lib-portal`, `@enonic-types/lib-schema` | `^7.15.0` or `^8` |
+| `prop-types` | Any version |
+
+Use a matching version of `react-dom` for your React installation. When using `html-react-parser` 6, its DOM dependencies require Node.js 20.19 or later. Applications using parser 5 do not need to upgrade the parser to use this library.
+
+The package provides ESM and CommonJS builds. Import rendering components from `@enonic/react-components`. The `@enonic/react-components/nashorn` entry point provides the Nashorn-compatible subset; do not import the main rendering entry point into Nashorn.
+
 ## ComponentRegistry
 
 The `ComponentRegistry` is used to register View components for parts, layouts, pages, macros, and content types. Registered components are then resolved and rendered by the corresponding `Base*` components.
@@ -145,6 +160,16 @@ const data: RichTextData = {
 />
 ```
 
+The default wrapper is `section`. To render without a wrapper, pass React's `Fragment`:
+
+```tsx
+import {Fragment} from 'react';
+
+<RichText data={data} meta={meta} component={component} tag={Fragment} />
+```
+
+`tag` also accepts a custom React component. It receives the parsed content as `children` and the supplied `className`. `className` has no effect when the wrapper is `Fragment`.
+
 ### Custom Image, Link, and Macro components
 
 You can override the default Image, Link, and Macro components. Extra props are forwarded to the custom components via the generic `RestProps` type parameter.
@@ -227,3 +252,31 @@ const myReplacer: Replacer = ({el, data, component, meta}) => {
 
 <RichText data={data} meta={meta} component={component} replacer={myReplacer} />
 ```
+
+## Upgrading to 7.1
+
+### Custom link rendering applies to all links
+
+In 7.0, custom `Link` components were only called for links carrying `data-link-ref`. In 7.1, every `<a>` with an `href` goes through the custom `Link`, including external URLs, `mailto:` links and fragment links. Anchor elements without an `href` or reference continue to pass through unchanged.
+
+For ordinary HTML links, `data`, `content` and `media` are undefined, and `uri` equals `href`. Custom link renderers must not assume that every invocation has a content reference. Additional HTML attributes, such as `class`, `rel` and `data-*`, are also forwarded to the custom renderer using React-compatible attribute names.
+
+### Reference content can be null
+
+`ImageData.image`, the deprecated image renderer prop `image`, and `LinkDataMedia.content` now explicitly allow `null` for unresolved references. TypeScript consumers using strict null checking may need to add guards. The presence of an image or media reference does not guarantee that its content is available.
+
+```tsx
+import type {ImageComponent, LinkComponent} from '@enonic/react-components';
+
+const MyImage: ImageComponent = ({image, alt, src, srcSet, sizes, style}) => (
+  <img alt={alt ?? image?.displayName ?? ''} src={src} srcSet={srcSet} sizes={sizes} style={style} />
+);
+
+const MyLink: LinkComponent = ({media, href, children}) => (
+  <a href={href} data-media-id={media?.content?._id}>{children}</a>
+);
+```
+
+The new `data` prop exposes the original reference, including structured URL values. It does not automatically resolve those values into HTML URLs. Continue using the HTML-derived `href`, `src` and `srcSet` props, or resolve `data` URLs explicitly for your application's routing and media configuration. For example, with Guillotine 9, the media URL is available on the reference as `data.media.mediaUrl`; older payloads may instead contain a URL string in `data.media.content.mediaUrl`.
+
+The deprecated top-level reference props remain available in 7.1, but their presence does not remove the need to handle null reference content.
